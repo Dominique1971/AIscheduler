@@ -253,7 +253,17 @@
           node("small",`${example.summary.task_count} tasks · ${example.summary.total_estimate_minutes} min effort · ${example.summary.critical_path_estimate_minutes} min critical path`));
         catalog.append(card);
       }
-    } catch(error) {catalog.replaceChildren(node("p",error.message,"intake-error"));}
+    } catch(error) {
+      if (error.status === 401) {
+        const connect = node("button","Connect to view packaged examples");
+        connect.type = "button";
+        connect.addEventListener("click",()=>{
+          $("token").value = token;
+          if (!$("auth-dialog").open) $("auth-dialog").showModal();
+        });
+        catalog.replaceChildren(node("p","This tab needs the local token to load packaged examples."),connect);
+      } else catalog.replaceChildren(node("p",error.message,"intake-error"));
+    }
   }
   function showIntakeResult(draft, source, diff) {
     const target = $("intake-result"); target.replaceChildren();
@@ -344,7 +354,7 @@
   });
   $("credentials").addEventListener("click",()=>{ $("token").value=token; $("auth-dialog").showModal(); });
   $("auth-cancel").addEventListener("click",()=>$("auth-dialog").close());
-  $("auth-form").addEventListener("submit",event=>{event.preventDefault(); token=$("token").value.trim(); try {sessionStorage.setItem("scheduler-token",token);} catch (_) {} $("token").value=""; $("auth-dialog").close(); refresh();});
+  $("auth-form").addEventListener("submit",event=>{event.preventDefault(); token=$("token").value.trim(); try {sessionStorage.setItem("scheduler-token",token);} catch (_) {} $("token").value=""; $("auth-dialog").close(); refresh(); if ($("intake-dialog").open) loadExamples();});
   $("close-details").addEventListener("click",()=>$("details").close());
   $("zoom").addEventListener("change",()=>{hours=Number($("zoom").value);if(snapshot)render();});
   $("earlier").addEventListener("click",()=>{offset-=hours*3600000/2;if(snapshot)render();});
