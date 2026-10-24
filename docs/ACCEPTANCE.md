@@ -86,6 +86,9 @@ evidence for the simulation product; it is not real generator acceptance.
   idle monitoring. First batch completed. This is not sustained inference load.
   Source changes, host sleep, process termination or reboot may invalidate it.
   Require the actual final report and hash verification before claiming pass.
+  The intake/API/worktree source changed during this run on October 24. Its
+  eventual report remains evidence for the original captured code, not A12
+  acceptance for the current `master`; repeat the soak after the code stabilizes.
 - Fresh local HTTP intake review/import run `20261024T185515Z-37fd708b`
   passed through the normal loopback API with a disposable simulation project.
   Anonymous access and stale previews were rejected; the exact reviewed plan
