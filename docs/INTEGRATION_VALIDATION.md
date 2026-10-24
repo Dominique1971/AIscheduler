@@ -217,6 +217,15 @@ visitor request omits the ID. Source after version 1 now supports exact
 platform-authenticated owner email as a fallback; that new source needs its own
 normal build and deployment before it can count as hosted evidence.
 
+The email-fallback source was pushed to the Sites source repository at
+`b25a40742c7fcbf214d57948ee6b81b4dab4f4b9`, saved as version 2, and
+privately deployed as `appgdep_6adcbd1b74a081918f622125908f8910` with the
+same environment revision and controls disabled. This version adds a harmless
+diagnostic landing page so an authenticated owner does not encounter the
+unconfigured dashboard's 503. A fresh anonymous `GET /` returned HTTP 401.
+No owner-signed-in response or successful service-token request has yet been
+captured on version 2; hosted identity and bridge acceptance remain unrun/red.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
