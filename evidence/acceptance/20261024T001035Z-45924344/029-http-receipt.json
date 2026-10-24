@@ -1,0 +1,1 @@
+{"path": "/projects/demo-weather/allocate", "body": {"max_workers": 4}, "status": 200, "role": "controller", "idempotency_key": "c437c4ce-8d48-4581-a95a-f733d92391ea", "response_sha256": "fdfe83b503032a15bede739dd3ebc7df3c66566a38e03a71065b2ec025c9abaa", "at": 1792800641.143148}

@@ -1,0 +1,118 @@
+- banner:
+  - text: AUTONOMOUS SCHEDULER
+  - heading "Mission control" [level=1]
+  - status: Control · daemon healthy at update
+  - button "↻ Refresh now"
+  - button "Connect"
+- main:
+  - region "Current scheduler metrics":
+    - article:
+      - generic: Workers busy / target
+      - strong: 0 / 6
+      - generic: 6 global slots unoccupied
+    - article:
+      - generic: Ready queue
+      - strong: "0"
+      - generic: 0 dependency blocked
+    - article:
+      - generic: Simulation completed
+      - strong: 12 / 12
+      - generic: 100% complete
+    - article:
+      - generic: Utilization
+      - strong: 0%
+      - generic: 0 tasks need attention
+  - heading "Project activity" [level=2]
+  - text: Last 8 hours · New York time
+  - generic: Project focus
+  - combobox "Project focus":
+    - option "All projects" [selected]
+    - option "Demo Inventory"
+    - option "Demo Weather"
+  - button "Pan earlier": ←
+  - generic: Timeline range
+  - combobox "Timeline range":
+    - option "1 hour"
+    - option "8 hours" [selected]
+    - option "24 hours"
+    - option "7 days"
+  - button "Pan later": →
+  - button "Now"
+  - generic "Task states":
+    - generic: ● Running
+    - generic: ◇ Ready / queued
+    - generic: ✓ Completed
+    - generic: ⊘ Blocked
+    - generic: ↻ Retrying
+    - generic: "! Failed"
+    - generic: Ⅱ Paused
+  - article:
+    - button "Demo Inventory"
+    - generic: ● Dispatch enabled · 0 busy / 4 cap · 6 tasks
+    - button "Pause"
+    - spinbutton "Demo Inventory maximum workers": "4"
+    - button "Set cap"
+    - generic: 12:06 PM
+    - generic: 2:06 PM
+    - generic: 4:06 PM
+    - generic: 6:06 PM
+    - generic: 8:06 PM
+    - generic "Parallel lane 1":
+      - 'button "source: Source dummy data · completed Started Oct 23, 8:04:43 PM NY Ended Oct 23, 8:04:43 PM NY Dependencies: none"': ✓ Source dummy data · completed
+      - 'button "audit: Audit dummy data · completed Started Oct 23, 8:04:43 PM NY Ended Oct 23, 8:04:43 PM NY Dependencies: source"': ✓ Audit dummy data · completed
+      - 'button "summary: Summary dummy data · completed Started Oct 23, 8:04:44 PM NY Ended Oct 23, 8:04:44 PM NY Dependencies: transform"': ✓ Summary dummy data · completed
+      - 'button "review: Review dummy data · completed Started Oct 23, 8:04:44 PM NY Ended Oct 23, 8:04:45 PM NY Dependencies: audit, summary"': ✓ Review dummy data · completed
+      - 'button "publish: Publish dummy data · completed Started Oct 23, 8:04:45 PM NY Ended Oct 23, 8:04:45 PM NY Dependencies: review"': ✓ Publish dummy data · completed
+    - generic "Parallel lane 2":
+      - 'button "transform: Transform dummy data · completed Started Oct 23, 8:04:43 PM NY Ended Oct 23, 8:04:44 PM NY Dependencies: source"': ✓ Transform dummy data · completed
+    - button "✓ Audit dummy data · completed"
+    - button "✓ Publish dummy data · completed"
+    - button "✓ Review dummy data · completed"
+    - button "✓ Source dummy data · completed"
+    - button "✓ Summary dummy data · completed"
+    - button "✓ Transform dummy data · completed"
+  - article:
+    - button "Demo Weather"
+    - generic: ● Dispatch enabled · 0 busy / 4 cap · 6 tasks
+    - button "Pause"
+    - spinbutton "Demo Weather maximum workers": "4"
+    - button "Set cap"
+    - generic: 12:06 PM
+    - generic: 2:06 PM
+    - generic: 4:06 PM
+    - generic: 6:06 PM
+    - generic: 8:06 PM
+    - generic "Parallel lane 1":
+      - 'button "source: Source dummy data · completed Started Oct 23, 8:04:43 PM NY Ended Oct 23, 8:04:43 PM NY Dependencies: none"': ✓ Source dummy data · completed
+      - 'button "audit: Audit dummy data · completed Started Oct 23, 8:04:43 PM NY Ended Oct 23, 8:04:43 PM NY Dependencies: source"': ✓ Audit dummy data · completed
+      - 'button "summary: Summary dummy data · completed Started Oct 23, 8:04:44 PM NY Ended Oct 23, 8:04:44 PM NY Dependencies: transform"': ✓ Summary dummy data · completed
+      - 'button "review: Review dummy data · completed Started Oct 23, 8:04:44 PM NY Ended Oct 23, 8:04:45 PM NY Dependencies: audit, summary"': ✓ Review dummy data · completed
+      - 'button "publish: Publish dummy data · completed Started Oct 23, 8:04:45 PM NY Ended Oct 23, 8:04:45 PM NY Dependencies: review"': ✓ Publish dummy data · completed
+    - generic "Parallel lane 2":
+      - 'button "transform: Transform dummy data · completed Started Oct 23, 8:04:43 PM NY Ended Oct 23, 8:04:44 PM NY Dependencies: source"': ✓ Transform dummy data · completed
+    - button "✓ Audit dummy data · completed"
+    - button "✓ Publish dummy data · completed"
+    - button "✓ Review dummy data · completed"
+    - button "✓ Source dummy data · completed"
+    - button "✓ Summary dummy data · completed"
+    - button "✓ Transform dummy data · completed"
+  - region "Progress trends":
+    - article:
+      - heading "Completion history" [level=2]
+      - img "Completed tasks over the visible time window"
+      - text: Cumulative completions from current task timestamps
+    - article:
+      - heading "Work duration" [level=2]
+      - generic: Estimated
+      - generic: 36.0m
+      - generic: Actual
+      - generic: 0.1m
+      - text: 12 completed tasks · elapsed duration, including waits
+    - article:
+      - heading "Operational status" [level=2]
+      - paragraph: Daemon lease healthy. Simulation results do not verify arbitrary task acceptance criteria. 0 projects paused · 0 awaiting review. Historical utilization unavailable.
+      - text: Worker monitoring runs independently of this page.
+- contentinfo:
+  - generic: "Source: Oct 23, 8:06:43 PM NY · 30s old"
+  - generic: Refresh every 300 seconds
+  - button "Emergency stop…"

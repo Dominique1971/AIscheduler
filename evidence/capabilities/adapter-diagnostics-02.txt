@@ -1,0 +1,12 @@
+test_changed_evidence_rejected (test_codex_adapter.CodexBoundaryTests.test_changed_evidence_rejected) ... ok
+test_disabled_by_default (test_codex_adapter.CodexBoundaryTests.test_disabled_by_default) ... ok
+test_documented_synthetic_events (test_codex_adapter.CodexBoundaryTests.test_documented_synthetic_events) ... ok
+test_incomplete_and_error_streams_are_not_success (test_codex_adapter.CodexBoundaryTests.test_incomplete_and_error_streams_are_not_success) ... ok
+test_malformed_and_conflicting_events_rejected (test_codex_adapter.CodexBoundaryTests.test_malformed_and_conflicting_events_rejected) ... ok
+test_second_turn_must_also_complete (test_codex_adapter.CodexBoundaryTests.test_second_turn_must_also_complete) ... ok
+test_stdin_and_argv_preserve_literal_prompt (test_codex_adapter.CodexBoundaryTests.test_stdin_and_argv_preserve_literal_prompt) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.005s
+
+OK

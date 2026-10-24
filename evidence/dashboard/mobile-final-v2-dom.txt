@@ -1,0 +1,75 @@
+- banner:
+  - text: AUTONOMOUS SCHEDULER
+  - heading "Mission control" [level=1]
+  - status: Read only · daemon healthy at update
+  - button "↻ Refresh now"
+  - button "Connect"
+- main:
+  - region "Current scheduler metrics":
+    - article:
+      - generic: Workers busy / target
+      - strong: 0 / 6
+      - generic: 6 global slots unoccupied
+    - article:
+      - generic: Ready queue
+      - strong: "0"
+      - generic: 0 dependency blocked
+    - article:
+      - generic: Simulation completed
+      - strong: 12 / 12
+      - generic: 100% complete
+    - article:
+      - generic: Utilization
+      - strong: 0%
+      - generic: 0 tasks need attention
+  - heading "Project activity" [level=2]
+  - text: Last 8 hours · New York time
+  - generic: Project focus
+  - combobox "Project focus":
+    - option "All projects" [selected]
+    - option "Demo Inventory"
+    - option "Demo Weather"
+  - button "Pan earlier": ←
+  - generic: Timeline range
+  - combobox "Timeline range":
+    - option "1 hour"
+    - option "8 hours" [selected]
+    - option "24 hours"
+    - option "7 days"
+  - button "Pan later": →
+  - button "Now"
+  - generic "Task states":
+    - generic: ● Running
+    - generic: ◇ Ready / queued
+    - generic: ✓ Completed
+    - generic: ⊘ Blocked
+    - generic: ↻ Retrying
+    - generic: "! Failed"
+    - generic: Ⅱ Paused
+  - article:
+    - button "Demo Inventory →"
+    - generic: ● Dispatch enabled · 0 busy / 4 cap · 6 tasks
+    - button "Pause"
+    - spinbutton "Demo Inventory maximum workers": "4"
+    - button "Set cap"
+  - article:
+    - button "Demo Weather →"
+    - generic: ● Dispatch enabled · 0 busy / 4 cap · 6 tasks
+    - button "Pause"
+    - spinbutton "Demo Weather maximum workers": "4"
+    - button "Set cap"
+  - region "Progress trends":
+    - article:
+      - heading "Completion history" [level=2]
+      - img "Completed tasks over the visible time window"
+      - text: Cumulative completions from current task timestamps
+    - article:
+      - heading "Work duration" [level=2]
+      - generic: Estimated
+      - generic: 36.0m
+      - generic: Actual
+      - generic: 0.1m
+      - text: 12 completed tasks · elapsed duration, including waits
+- contentinfo:
+  - generic: "Source: Oct 23, 8:07:53 PM NY · 0s old"
+  - button "Emergency stop…"

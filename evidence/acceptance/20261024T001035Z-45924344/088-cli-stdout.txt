@@ -1,0 +1,7 @@
+{
+  "valid": true,
+  "attempts": 22,
+  "revisions": 4,
+  "checked_at_epoch": 1792800644.6016095,
+  "limitation": "hashes establish byte consistency, not semantic correctness or tamper-proof storage"
+}

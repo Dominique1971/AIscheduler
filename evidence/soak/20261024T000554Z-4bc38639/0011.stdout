@@ -1,0 +1,1957 @@
+{
+  "updated_at": "2026-10-24T00:05:56.424880+00:00",
+  "max_workers": 6,
+  "workers": 2,
+  "projects": [
+    {
+      "project_id": "demo-inventory-soak-000",
+      "display_name": "Demo Inventory",
+      "revision": 1,
+      "paused": false,
+      "max_workers": 4,
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "audit.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Audit deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 0.01,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 70,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/audit: deterministic simulated result",
+            "stall_seconds": 0.15
+          },
+          "task_id": "audit",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Audit dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:54.822037+00:00",
+          "ended_at": "2026-10-24T00:05:55.078059+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "publish.receipt.json"
+          ],
+          "depends_on": [
+            "review"
+          ],
+          "description": "Publish deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 6,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 55,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/publish: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "publish",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Publish dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "running",
+          "started_at": "2026-10-24T00:05:56.354347+00:00",
+          "ended_at": null,
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "review.receipt.json"
+          ],
+          "depends_on": [
+            "audit",
+            "summary"
+          ],
+          "description": "Review deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 5,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 60,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/review: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "review",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Review dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:56.099792+00:00",
+          "ended_at": "2026-10-24T00:05:56.354347+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "source.receipt.json"
+          ],
+          "depends_on": [],
+          "description": "Source deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 1,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 80,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/source: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "source",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Source dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:54.565469+00:00",
+          "ended_at": "2026-10-24T00:05:54.822037+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "summary.receipt.json"
+          ],
+          "depends_on": [
+            "transform"
+          ],
+          "description": "Summary deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 4,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 65,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/summary: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "summary",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Summary dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:55.843658+00:00",
+          "ended_at": "2026-10-24T00:05:56.099792+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "transform.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Transform deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 2,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 75,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 1,
+            "output": "demo-inventory/transform: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "transform",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Transform dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:54.822037+00:00",
+          "ended_at": "2026-10-24T00:05:55.843658+00:00",
+          "attempt_count": 2,
+          "error": null,
+          "tokens": null,
+          "held": false
+        }
+      ]
+    },
+    {
+      "project_id": "demo-weather-soak-000",
+      "display_name": "Demo Weather",
+      "revision": 1,
+      "paused": false,
+      "max_workers": 4,
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "audit.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Audit deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 0.01,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 70,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/audit: deterministic simulated result",
+            "stall_seconds": 0.15
+          },
+          "task_id": "audit",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Audit dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:54.822037+00:00",
+          "ended_at": "2026-10-24T00:05:55.078059+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "publish.receipt.json"
+          ],
+          "depends_on": [
+            "review"
+          ],
+          "description": "Publish deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 6,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 55,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/publish: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "publish",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Publish dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "running",
+          "started_at": "2026-10-24T00:05:56.354347+00:00",
+          "ended_at": null,
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "review.receipt.json"
+          ],
+          "depends_on": [
+            "audit",
+            "summary"
+          ],
+          "description": "Review deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 5,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 60,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/review: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "review",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Review dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:56.099792+00:00",
+          "ended_at": "2026-10-24T00:05:56.354347+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "source.receipt.json"
+          ],
+          "depends_on": [],
+          "description": "Source deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 1,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 80,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/source: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "source",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Source dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:54.565469+00:00",
+          "ended_at": "2026-10-24T00:05:54.822037+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "summary.receipt.json"
+          ],
+          "depends_on": [
+            "transform"
+          ],
+          "description": "Summary deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 4,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 65,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/summary: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "summary",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Summary dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:55.843658+00:00",
+          "ended_at": "2026-10-24T00:05:56.099792+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "transform.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Transform deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 2,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 75,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 1,
+            "output": "demo-weather/transform: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "transform",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Transform dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T00:05:54.822037+00:00",
+          "ended_at": "2026-10-24T00:05:55.843658+00:00",
+          "attempt_count": 2,
+          "error": null,
+          "tokens": null,
+          "held": false
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "seq": 105,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "publish",
+      "detail": {
+        "attempt_id": "1abcc649-ab97-41a1-a26a-0e8593ea7077",
+        "fence": 1,
+        "input_hash": "55ddcc40d05de61d48a8dcf0a8708140a3f35b3ee4f23ee2552eca14dc03c3b4",
+        "number": 1
+      }
+    },
+    {
+      "seq": 104,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 103,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 102,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "publish",
+      "detail": {
+        "attempt_id": "51757186-f71b-4425-93f2-8b636433e85a",
+        "fence": 1,
+        "input_hash": "95908c5f8675a9d44d4c4f0a1e864196cc38880866a4941c49df32c31b57b3aa",
+        "number": 1
+      }
+    },
+    {
+      "seq": 101,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 100,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 99,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 98,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 97,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "attempt_id": "f8fdf6a7-5abb-4403-b5b7-9cd1b3b62753",
+        "cost": 0,
+        "output_hash": "469cdec7a0dc34d52bdac617c6a6083576c163f35bf2f37d173b3f0ef55f8987",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 96,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 95,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 94,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "attempt_id": "ffb2e764-febd-460f-9895-58f5b9328a88",
+        "cost": 0,
+        "output_hash": "01152d175236667783685b801e21b747a510d6f8b4f0438606df3294488f60ef",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 93,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 92,
+      "at": "2026-10-24T00:05:56.357353+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 91,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "attempt_id": "f8fdf6a7-5abb-4403-b5b7-9cd1b3b62753",
+        "fence": 1,
+        "input_hash": "7b26935e2685b91bc2ad2f588c2b68807b4f1ddb6e3f3830bb787cce62345556",
+        "number": 1
+      }
+    },
+    {
+      "seq": 90,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 89,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 88,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "attempt_id": "ffb2e764-febd-460f-9895-58f5b9328a88",
+        "fence": 1,
+        "input_hash": "27d2bdb4ec52380ad2b9f3efcce2800a606379e96633a0d3c0189f370d49767b",
+        "number": 1
+      }
+    },
+    {
+      "seq": 87,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 86,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 85,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 84,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 83,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "attempt_id": "a67bec84-4ef5-426b-a3d3-b4ad85e7d431",
+        "cost": 0,
+        "output_hash": "6e4b7adf416f1a02da0e83474d6f430cff6ccf9cf3387f5603310e8f0011d183",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 82,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 81,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 80,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "attempt_id": "421c204c-8982-46fe-bc61-49a634ea6fce",
+        "cost": 0,
+        "output_hash": "a9831ac418e1e903719feadd1c0cc9024ee2d07082702e37d98f205aff3cc9b2",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 79,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 78,
+      "at": "2026-10-24T00:05:56.100798+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 77,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "attempt_id": "a67bec84-4ef5-426b-a3d3-b4ad85e7d431",
+        "fence": 1,
+        "input_hash": "043fa6b3e4235c9b08fa60d0070f70a7dbe32becda30e4e8507a688d6d8943d3",
+        "number": 1
+      }
+    },
+    {
+      "seq": 76,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 75,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 74,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "attempt_id": "421c204c-8982-46fe-bc61-49a634ea6fce",
+        "fence": 1,
+        "input_hash": "008ea4bd0f40745cd3ec6913b1897998a14b27094e53e64ac86aeb13953827f4",
+        "number": 1
+      }
+    },
+    {
+      "seq": 73,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 72,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 71,
+      "at": "2026-10-24T00:05:55.845664+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 70,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 69,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "3266c186-de20-4ad2-8848-00a7118ca10c",
+        "cost": 0,
+        "output_hash": "b606b9c22b5d337fbbbce4d4b84f07794d8b4ea5ada16d933c275122f7a0c161",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 68,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 67,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 66,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "dfb09738-8827-4419-a3ac-643ffe24a3b6",
+        "cost": 0,
+        "output_hash": "1c27b6266e7267bf911730bb7671ce4fe5922b1417e7621565a0c904ab9394d5",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 65,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 64,
+      "at": "2026-10-24T00:05:55.844663+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 63,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "3266c186-de20-4ad2-8848-00a7118ca10c",
+        "fence": 1,
+        "input_hash": "99349d2b5bc2500620e4ddc58d6318867c735e3b5150d64c23cbac0ed44b9bb3",
+        "number": 2
+      }
+    },
+    {
+      "seq": 62,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 61,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 60,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "dfb09738-8827-4419-a3ac-643ffe24a3b6",
+        "fence": 1,
+        "input_hash": "92a96058aad70aebc8482b1c82101fcd4a140c2f99b67adad3e0111cb73ca079",
+        "number": 2
+      }
+    },
+    {
+      "seq": 59,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 58,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 57,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "retrying",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 56,
+      "at": "2026-10-24T00:05:55.588586+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "retrying",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 55,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "attempt_id": "a45de878-9325-4b8b-8cb1-013a3e201caa",
+        "cost": 0,
+        "output_hash": "184f457df1b0299037adb923b24c93a99c763e1932c2935cf6fac20413091969",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 54,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 53,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 52,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "attempt_id": "68c92756-807b-47c7-b7d1-58106c3ff95e",
+        "cost": 0,
+        "output_hash": "6006fcded57b52f1cc9f852ffe52d71d35f5e9039dc61155defac267fdc270dc",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 51,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 50,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 49,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "e5ce2aa7-30c1-449e-9b51-95704589ca73",
+        "cost": 0,
+        "output_hash": "60a183627d066682241fe38eca0995c5f57056d6a6beaa0ced80651dd513e05e",
+        "state": "failed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 48,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "validating",
+        "state": "retrying"
+      }
+    },
+    {
+      "seq": 47,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 46,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "715b403b-c7c2-4765-ba12-90634407fb16",
+        "cost": 0,
+        "output_hash": "0b2258d5d19bbe78cd2a194599052aea25d481517b1476c0a41d325308d2498b",
+        "state": "failed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 45,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "validating",
+        "state": "retrying"
+      }
+    },
+    {
+      "seq": 44,
+      "at": "2026-10-24T00:05:55.079065+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 43,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "attempt_id": "a45de878-9325-4b8b-8cb1-013a3e201caa",
+        "fence": 1,
+        "input_hash": "6a6925d55516d472edf65d6393f8f4de6aad52fcf09ccb85e462e957db917c34",
+        "number": 1
+      }
+    },
+    {
+      "seq": 42,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 41,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 40,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "attempt_id": "68c92756-807b-47c7-b7d1-58106c3ff95e",
+        "fence": 1,
+        "input_hash": "fec52f9ec2913199da09cbadad43e9448e439d3a47f74c61dd23d3e046d978bd",
+        "number": 1
+      }
+    },
+    {
+      "seq": 39,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 38,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 37,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "e5ce2aa7-30c1-449e-9b51-95704589ca73",
+        "fence": 1,
+        "input_hash": "99349d2b5bc2500620e4ddc58d6318867c735e3b5150d64c23cbac0ed44b9bb3",
+        "number": 1
+      }
+    },
+    {
+      "seq": 36,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 35,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 34,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "attempt_id": "715b403b-c7c2-4765-ba12-90634407fb16",
+        "fence": 1,
+        "input_hash": "92a96058aad70aebc8482b1c82101fcd4a140c2f99b67adad3e0111cb73ca079",
+        "number": 1
+      }
+    },
+    {
+      "seq": 33,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 32,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 31,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 30,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 29,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 28,
+      "at": "2026-10-24T00:05:54.823547+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 27,
+      "at": "2026-10-24T00:05:54.822542+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "attempt_id": "b855f0c9-e0c7-4f0e-8e96-bbaf04ca7f09",
+        "cost": 0,
+        "output_hash": "21d2e9d1b6fd43635aa0babd8dcde6eb66b8ae4904b092c9dbb6cd6cec6d5ca8",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 26,
+      "at": "2026-10-24T00:05:54.822542+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 25,
+      "at": "2026-10-24T00:05:54.822542+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 24,
+      "at": "2026-10-24T00:05:54.822542+00:00",
+      "kind": "attempt.finished",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "attempt_id": "56060bb0-169d-455f-9e37-9a9686e55fb8",
+        "cost": 0,
+        "output_hash": "899d5918924bc1c6c063a371ae1a90fc5a433311705630bfd859413b672564d3",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 23,
+      "at": "2026-10-24T00:05:54.822542+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 22,
+      "at": "2026-10-24T00:05:54.822542+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 21,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "attempt_id": "b855f0c9-e0c7-4f0e-8e96-bbaf04ca7f09",
+        "fence": 1,
+        "input_hash": "8e938dc0d359924045e9d4632eec53856a02997fadfdcf44efc6bcf490297c94",
+        "number": 1
+      }
+    },
+    {
+      "seq": 20,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 19,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 18,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "attempt_id": "56060bb0-169d-455f-9e37-9a9686e55fb8",
+        "fence": 1,
+        "input_hash": "1494f7a9b89785c90293d8a502e9c7a3e196db2e257ff7789071d6e12215ba17",
+        "number": 1
+      }
+    },
+    {
+      "seq": 17,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 16,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 15,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 14,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 13,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "queued",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 12,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 11,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 10,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 9,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 8,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 7,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "queued",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 6,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 5,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 4,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 3,
+      "at": "2026-10-24T00:05:54.493959+00:00",
+      "kind": "plan.applied",
+      "project": "demo-inventory-soak-000",
+      "task": null,
+      "detail": {
+        "approved": false,
+        "diff": {
+          "added": [
+            "audit",
+            "publish",
+            "review",
+            "source",
+            "summary",
+            "transform"
+          ],
+          "from_revision": null,
+          "modified": [],
+          "project_id": "demo-inventory-soak-000",
+          "removed": [],
+          "requires_approval": false,
+          "risk": "initial-dummy-import",
+          "to_revision": 1
+        },
+        "hash": "a17be8545d4154c22e78d0e2ccb5677f09920fc5835b89df4fdf03558423d5a5",
+        "revision": 1
+      }
+    },
+    {
+      "seq": 2,
+      "at": "2026-10-24T00:05:54.344915+00:00",
+      "kind": "plan.applied",
+      "project": "demo-weather-soak-000",
+      "task": null,
+      "detail": {
+        "approved": false,
+        "diff": {
+          "added": [
+            "audit",
+            "publish",
+            "review",
+            "source",
+            "summary",
+            "transform"
+          ],
+          "from_revision": null,
+          "modified": [],
+          "project_id": "demo-weather-soak-000",
+          "removed": [],
+          "requires_approval": false,
+          "risk": "initial-dummy-import",
+          "to_revision": 1
+        },
+        "hash": "8e3882e7e2a6337687fc8e7fa39a9247dbcfe2ce25680d162804bf0c1517de98",
+        "revision": 1
+      }
+    },
+    {
+      "seq": 1,
+      "at": "2026-10-24T00:05:54.313916+00:00",
+      "kind": "daemon.acquired",
+      "project": null,
+      "task": null,
+      "detail": {
+        "fence": 1,
+        "owner": "1f8203d8-85da-4912-ac15-922f64ecf2c0",
+        "simulation_reconciliation": "retained persisted attempts"
+      }
+    }
+  ],
+  "stopped": false,
+  "daemon": {
+    "healthy": true,
+    "lease_expires_at": "2026-10-24T00:05:59.354347+00:00"
+  },
+  "metrics": {
+    "busy": 2,
+    "idle": 4,
+    "total": 12,
+    "completed": 10,
+    "ready": 0,
+    "warnings": 0,
+    "utilization": 0.3333333333333333,
+    "token_accounting": "unavailable",
+    "forecast_confidence": "simulation-only"
+  }
+}

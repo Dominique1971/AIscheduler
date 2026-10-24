@@ -1,0 +1,1 @@
+{"path": "/system/workers", "body": {"max_workers": 6}, "status": 200, "role": "controller", "idempotency_key": "b559cb56-0bdf-4e10-a16e-7b3df38fe014", "response_sha256": "2bf304d5154b7ccf941f21e863f71f0c7c7679573fe323d91b2d85a2c0fd06cf", "at": 1792800830.802271}

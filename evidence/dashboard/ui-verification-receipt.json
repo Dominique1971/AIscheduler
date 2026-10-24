@@ -1,0 +1,114 @@
+{
+  "recorded_at": "2026-10-24T00:08:15.074380+00:00",
+  "entry_point": "http://127.0.0.1:8765/",
+  "pipeline": "CLI serve -> authenticated normal Connect UI -> live snapshot -> unchanged rendered screenshots",
+  "scope": "two imported dummy plans; simulation-only executor; local Chrome extension browser",
+  "final_source": [
+    {
+      "path": "scheduler/static/index.html",
+      "sha256": "b51099cef74488519f7193d7368add527b84928ca4256834d75cecbcd9c6cfd3",
+      "bytes": 4343
+    },
+    {
+      "path": "scheduler/static/dashboard.js",
+      "sha256": "7306e6c82c899a2ee00646aae9e737ee7a6b1a47114c27e8f518a43fdaadc781",
+      "bytes": 15915
+    },
+    {
+      "path": "scheduler/static/style.css",
+      "sha256": "9cd13e93f399f3d7a818bbda9616cd11416c7a9f251376e7794efe4443a632bb",
+      "bytes": 7477
+    }
+  ],
+  "final_evidence": [
+    {
+      "path": "evidence/dashboard/desktop-live-final-v4-1280x720.png",
+      "sha256": "7c9437ed3fb9f942a49e4808efe1b8368cd7ffb0bafc2c75f832ed95dde363fc",
+      "bytes": 57549
+    },
+    {
+      "path": "evidence/dashboard/mobile-live-final-v2-390x844.png",
+      "sha256": "9c325a2782e15cf37a4401ebaedb078024478866de809ae5e8a919c3c007adfa",
+      "bytes": 40325
+    },
+    {
+      "path": "evidence/dashboard/desktop-final-v4-dom.txt",
+      "sha256": "742df7c964da15a2ac6c2b06bbd75a0dc6327feeab11d9e9b26da9224be63f83",
+      "bytes": 4387
+    },
+    {
+      "path": "evidence/dashboard/mobile-final-v2-dom.txt",
+      "sha256": "d24728fb8db67de331b765d3c080f85c3db693043f1e63944c047864fd38d15f",
+      "bytes": 2314
+    },
+    {
+      "path": "evidence/dashboard/layout-bounds.json",
+      "sha256": "606457b7d1730b4df0e6fa60dae8c036816396b71a5a45a187a6bdb983a1d1ba",
+      "bytes": 362
+    }
+  ],
+  "other_evidence": [
+    {
+      "path": "evidence/dashboard/desktop-disconnected-diagnostic.png",
+      "sha256": "d8f0bebb00c3ad7832fbf230114d1bd8d30ad78009716847f1d746d813a030ff",
+      "bytes": 52239
+    },
+    {
+      "path": "evidence/dashboard/desktop-live-before-label-fix.png",
+      "sha256": "685b3d1bdf700111a013befcd83bd0f6585dacde6402137d18b7584d1a121779",
+      "bytes": 95348
+    },
+    {
+      "path": "evidence/dashboard/desktop-live-final-v2-1280x720.png",
+      "sha256": "36c8c84a5a432119d5fb89fbe1e031837c8a585af9d18de7dfa63b6b4a6262a9",
+      "bytes": 76868
+    },
+    {
+      "path": "evidence/dashboard/desktop-live-final-v3-1280x720.png",
+      "sha256": "0ae3718525f31b7f6a1ace99dc5dfda2f839868acf09058f73c89b1753d658bb",
+      "bytes": 61794
+    },
+    {
+      "path": "evidence/dashboard/desktop-live-final.png",
+      "sha256": "f5b4adbd46e3da9a988d1b6b866dc395cb5daaaab21e5285c7d5690dbb929895",
+      "bytes": 78655
+    },
+    {
+      "path": "evidence/dashboard/desktop-live-paused-cap2.png",
+      "sha256": "a8ee08745d7f0888b04f242b6c2afd4250c3bd7e8f5c6ee31933f3067bb2271f",
+      "bytes": 117689
+    },
+    {
+      "path": "evidence/dashboard/mobile-before-overview-fix-diagnostic.png",
+      "sha256": "1e264afa79b381363a8d8c930eefd86dbea98490c7c9a4fee7e8e1683e5d40b8",
+      "bytes": 43822
+    },
+    {
+      "path": "evidence/dashboard/mobile-live-final-390x844.png",
+      "sha256": "710280d15e144318b4356a466b4ccb4507b9fd397df48644907cb7ce17ff917d",
+      "bytes": 40290
+    },
+    {
+      "path": "evidence/dashboard/mobile-task-details.png",
+      "sha256": "924ec0a269d79c6e6d1afef2810d2101bfa868495f5436996d72f7402c033386",
+      "bytes": 28504
+    }
+  ],
+  "observations": [
+    "Read token authenticated snapshot; attempting Pause returned explicit permission denial.",
+    "Control token: dummy inventory Pause -> paused; cap 4 -> 2; Resume -> enabled; cap restored 4.",
+    "Final overview at 1280x720: body 720/720 and project area 323/323 scrollHeight/clientHeight.",
+    "Final overview at 390x844: body 844/844 and project area 272/272 scrollHeight/clientHeight.",
+    "Phone project focus and task detail dialog opened through normal controls.",
+    "Initial compact desktop and phone layouts failed readability/full overview; source fixes rerun through normal page reload. Prior screenshots retained as diagnostic history."
+  ],
+  "limitations": [
+    "Browser viewport emulation is not physical Android or cellular verification.",
+    "At compact desktop heights trend panels and full task chips are hidden; choose project focus for task labels.",
+    "Subsecond simulation task bars overlap naturally on an 8 hour scale; inspect focus labels/details.",
+    "5-minute timer configured in source; no 300-second elapsed UI refresh acceptance test performed.",
+    "Emergency-stop UI confirmation inspected in source; emergency command not invoked in this UI run.",
+    "Only two dummy projects and completed tasks observed; additional project counts and active-state UI require fresh tests."
+  ],
+  "cost": "No external service or model invocation during dashboard verification."
+}

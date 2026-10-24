@@ -1,0 +1,15 @@
+{
+  "directory": "C:\\dev-codex\\scheduler\\evidence\\acceptance\\20261024T001035Z-45924344",
+  "integrity_passed": false,
+  "checked_files": 224,
+  "failures": [
+    {
+      "path": "scheduler.db-shm",
+      "error": "missing; evidence rejected"
+    },
+    {
+      "path": "scheduler.db-wal",
+      "error": "missing; evidence rejected"
+    }
+  ]
+}

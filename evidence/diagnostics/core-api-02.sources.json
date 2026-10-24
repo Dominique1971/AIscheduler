@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-10-24T00:02:05.3073278Z",
+  "classification": "diagnostic source/input snapshot after core-api-02; concurrent implementation edits may follow",
+  "files": [
+    {
+      "path": "tests/test_core.py",
+      "sha256": "bfa489b2a69f6564c1c9fcd83eb287c7335750d23e195e133abdaab79a790c6d"
+    },
+    {
+      "path": "tests/test_api.py",
+      "sha256": "4382f1b65d4fdc1e83b74a261efba4379c1d23571130b63e99cebe990d2a6731"
+    },
+    {
+      "path": "scheduler/core.py",
+      "sha256": "5494939d20c19fe68d5c341334759a7be15698baf14525783fcf712fa97c6efa"
+    },
+    {
+      "path": "scheduler/api.py",
+      "sha256": "82c6b3c68b8062fc5d6e137645870af27c800f09299123e5340aae3bfe1df9a9"
+    },
+    {
+      "path": "scheduler/contracts.py",
+      "sha256": "02cd4aa7c77596ef4b19d7199d4615df8196c7431ce8f52d56d5016639eafcd4"
+    },
+    {
+      "path": "schemas/plan-1.0.schema.json",
+      "sha256": "d53186c6719efcf51399b1aff3980f3eb5a3887623256a5d7019c2e53ea85bbd"
+    },
+    {
+      "path": "examples/demo-weather.yaml",
+      "sha256": "aa588de95ad36ebac7a5e07a2b8bf316deef430a3f029201e9cf632708c399f4"
+    },
+    {
+      "path": "examples/demo-inventory.yaml",
+      "sha256": "88bde3539a88486139cd0ca0cd564bbbae0e44ca3126ffaa6628286849298e91"
+    }
+  ]
+}

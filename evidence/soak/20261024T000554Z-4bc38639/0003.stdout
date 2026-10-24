@@ -1,0 +1,961 @@
+{
+  "updated_at": "2026-10-24T00:05:54.618985+00:00",
+  "max_workers": 6,
+  "workers": 2,
+  "projects": [
+    {
+      "project_id": "demo-inventory-soak-000",
+      "display_name": "Demo Inventory",
+      "revision": 1,
+      "paused": false,
+      "max_workers": 4,
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "audit.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Audit deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 0.01,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 70,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/audit: deterministic simulated result",
+            "stall_seconds": 0.15
+          },
+          "task_id": "audit",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Audit dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "publish.receipt.json"
+          ],
+          "depends_on": [
+            "review"
+          ],
+          "description": "Publish deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 6,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 55,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/publish: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "publish",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Publish dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "review.receipt.json"
+          ],
+          "depends_on": [
+            "audit",
+            "summary"
+          ],
+          "description": "Review deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 5,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 60,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/review: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "review",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Review dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "source.receipt.json"
+          ],
+          "depends_on": [],
+          "description": "Source deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 1,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 80,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/source: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "source",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Source dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "running",
+          "started_at": "2026-10-24T00:05:54.565469+00:00",
+          "ended_at": null,
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "summary.receipt.json"
+          ],
+          "depends_on": [
+            "transform"
+          ],
+          "description": "Summary deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 4,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 65,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-inventory/summary: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "summary",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Summary dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "transform.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Transform deterministic sample data for demo-inventory; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 2,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 75,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 1,
+            "output": "demo-inventory/transform: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "transform",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Transform dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        }
+      ]
+    },
+    {
+      "project_id": "demo-weather-soak-000",
+      "display_name": "Demo Weather",
+      "revision": 1,
+      "paused": false,
+      "max_workers": 4,
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "audit.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Audit deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 0.01,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 70,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/audit: deterministic simulated result",
+            "stall_seconds": 0.15
+          },
+          "task_id": "audit",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Audit dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "publish.receipt.json"
+          ],
+          "depends_on": [
+            "review"
+          ],
+          "description": "Publish deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 6,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 55,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/publish: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "publish",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Publish dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "review.receipt.json"
+          ],
+          "depends_on": [
+            "audit",
+            "summary"
+          ],
+          "description": "Review deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 5,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 60,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/review: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "review",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Review dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "source.receipt.json"
+          ],
+          "depends_on": [],
+          "description": "Source deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 1,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 80,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/source: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "source",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Source dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "running",
+          "started_at": "2026-10-24T00:05:54.565469+00:00",
+          "ended_at": null,
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "summary.receipt.json"
+          ],
+          "depends_on": [
+            "transform"
+          ],
+          "description": "Summary deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 4,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 65,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 0,
+            "output": "demo-weather/summary: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "summary",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Summary dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Simulator emits a recorded success receipt after configured delay"
+          ],
+          "allowed_operations": [
+            "read",
+            "write",
+            "test"
+          ],
+          "artifact_outputs": [
+            "transform.receipt.json"
+          ],
+          "depends_on": [
+            "source"
+          ],
+          "description": "Transform deterministic sample data for demo-weather; no real project or network access.",
+          "escalation_conditions": [
+            "Retry budget exhausted",
+            "Execution exceeds timeout without progress"
+          ],
+          "estimate_minutes": 2,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 75,
+          "resources": {
+            "memory_mb": 16,
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "fail_attempts": 1,
+            "output": "demo-weather/transform: deterministic simulated result",
+            "stall_seconds": 0
+          },
+          "task_id": "transform",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 10,
+            "max_retries": 2,
+            "warning_multiplier": 2
+          },
+          "title": "Transform dummy data",
+          "validation_profile": "simulation-receipt",
+          "state": "dependency-blocked",
+          "started_at": null,
+          "ended_at": null,
+          "attempt_count": 0,
+          "error": null,
+          "tokens": null,
+          "held": false
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "seq": 21,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "attempt.started",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "attempt_id": "b855f0c9-e0c7-4f0e-8e96-bbaf04ca7f09",
+        "fence": 1,
+        "input_hash": "8e938dc0d359924045e9d4632eec53856a02997fadfdcf44efc6bcf490297c94",
+        "number": 1
+      }
+    },
+    {
+      "seq": 20,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 19,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 18,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "attempt.started",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "attempt_id": "56060bb0-169d-455f-9e37-9a9686e55fb8",
+        "fence": 1,
+        "input_hash": "1494f7a9b89785c90293d8a502e9c7a3e196db2e257ff7789071d6e12215ba17",
+        "number": 1
+      }
+    },
+    {
+      "seq": 17,
+      "at": "2026-10-24T00:05:54.567475+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 16,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 15,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 14,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 13,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "queued",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 12,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 11,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 10,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-inventory-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 9,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "transform",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 8,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "summary",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 7,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "source",
+      "detail": {
+        "previous": "queued",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 6,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "review",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 5,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "publish",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 4,
+      "at": "2026-10-24T00:05:54.566474+00:00",
+      "kind": "transition",
+      "project": "demo-weather-soak-000",
+      "task": "audit",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 3,
+      "at": "2026-10-24T00:05:54.493959+00:00",
+      "kind": "plan.applied",
+      "project": "demo-inventory-soak-000",
+      "task": null,
+      "detail": {
+        "approved": false,
+        "diff": {
+          "added": [
+            "audit",
+            "publish",
+            "review",
+            "source",
+            "summary",
+            "transform"
+          ],
+          "from_revision": null,
+          "modified": [],
+          "project_id": "demo-inventory-soak-000",
+          "removed": [],
+          "requires_approval": false,
+          "risk": "initial-dummy-import",
+          "to_revision": 1
+        },
+        "hash": "a17be8545d4154c22e78d0e2ccb5677f09920fc5835b89df4fdf03558423d5a5",
+        "revision": 1
+      }
+    },
+    {
+      "seq": 2,
+      "at": "2026-10-24T00:05:54.344915+00:00",
+      "kind": "plan.applied",
+      "project": "demo-weather-soak-000",
+      "task": null,
+      "detail": {
+        "approved": false,
+        "diff": {
+          "added": [
+            "audit",
+            "publish",
+            "review",
+            "source",
+            "summary",
+            "transform"
+          ],
+          "from_revision": null,
+          "modified": [],
+          "project_id": "demo-weather-soak-000",
+          "removed": [],
+          "requires_approval": false,
+          "risk": "initial-dummy-import",
+          "to_revision": 1
+        },
+        "hash": "8e3882e7e2a6337687fc8e7fa39a9247dbcfe2ce25680d162804bf0c1517de98",
+        "revision": 1
+      }
+    },
+    {
+      "seq": 1,
+      "at": "2026-10-24T00:05:54.313916+00:00",
+      "kind": "daemon.acquired",
+      "project": null,
+      "task": null,
+      "detail": {
+        "fence": 1,
+        "owner": "1f8203d8-85da-4912-ac15-922f64ecf2c0",
+        "simulation_reconciliation": "retained persisted attempts"
+      }
+    }
+  ],
+  "stopped": false,
+  "daemon": {
+    "healthy": true,
+    "lease_expires_at": "2026-10-24T00:05:57.565469+00:00"
+  },
+  "metrics": {
+    "busy": 2,
+    "idle": 4,
+    "total": 12,
+    "completed": 0,
+    "ready": 0,
+    "warnings": 0,
+    "utilization": 0.3333333333333333,
+    "token_accounting": "unavailable",
+    "forecast_confidence": "simulation-only"
+  }
+}

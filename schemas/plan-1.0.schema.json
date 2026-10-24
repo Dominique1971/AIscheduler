@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "../scheduler/schemas/plan-1.0.schema.json",
+  "description": "Repository convenience reference. Canonical schema is packaged in scheduler/schemas; edit only that file."
+}

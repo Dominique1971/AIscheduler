@@ -1,0 +1,66 @@
+[
+  {
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "arguments": [
+      "--version"
+    ],
+    "name": "version",
+    "exit_code": 0,
+    "sha256": "15c4b38869d9a574d3793f7d0f47c2ab1cc5aeaf4ef05661744823807f5161e3",
+    "started_at": "2026-10-23T23:56:56.4656241Z",
+    "finished_at": "2026-10-23T23:56:56.6113991Z",
+    "output": "evidence/capabilities/version.txt"
+  },
+  {
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "arguments": [
+      "--help"
+    ],
+    "name": "help",
+    "exit_code": 0,
+    "sha256": "708da408d3457d10a3a2ecbab8ed92af3b4695c6589101f3cd84a173f09e3d64",
+    "started_at": "2026-10-23T23:56:56.6220189Z",
+    "finished_at": "2026-10-23T23:56:56.7164096Z",
+    "output": "evidence/capabilities/help.txt"
+  },
+  {
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "arguments": [
+      "exec",
+      "--help"
+    ],
+    "name": "exec-help",
+    "exit_code": 1,
+    "sha256": "5e1fbb8efa6e7ac5a67c1c83c0fcb4e0e8f98421d8dc45101b6b7889e03b6ad2",
+    "started_at": "2026-10-23T23:56:56.7167219Z",
+    "finished_at": "2026-10-23T23:56:56.8287034Z",
+    "output": "evidence/capabilities/exec-help.txt"
+  },
+  {
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "arguments": [
+      "exec",
+      "resume",
+      "--help"
+    ],
+    "name": "resume-help",
+    "exit_code": 1,
+    "sha256": "5e1fbb8efa6e7ac5a67c1c83c0fcb4e0e8f98421d8dc45101b6b7889e03b6ad2",
+    "started_at": "2026-10-23T23:56:56.8289707Z",
+    "finished_at": "2026-10-23T23:56:56.9313138Z",
+    "output": "evidence/capabilities/resume-help.txt"
+  },
+  {
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "arguments": [
+      "app-server",
+      "--help"
+    ],
+    "name": "app-server-help",
+    "exit_code": 1,
+    "sha256": "5e1fbb8efa6e7ac5a67c1c83c0fcb4e0e8f98421d8dc45101b6b7889e03b6ad2",
+    "started_at": "2026-10-23T23:56:56.9315714Z",
+    "finished_at": "2026-10-23T23:56:57.0371621Z",
+    "output": "evidence/capabilities/app-server-help.txt"
+  }
+]

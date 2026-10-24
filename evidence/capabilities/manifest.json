@@ -1,0 +1,92 @@
+[
+  {
+    "finished_at": "2026-10-23T23:57:08.8892344Z",
+    "arguments": [
+      "--version"
+    ],
+    "exit_code": 0,
+    "sha256": "15c4b38869d9a574d3793f7d0f47c2ab1cc5aeaf4ef05661744823807f5161e3",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:08.7596098Z",
+    "name": "version",
+    "output": "evidence/capabilities/version.txt"
+  },
+  {
+    "finished_at": "2026-10-23T23:57:08.9937824Z",
+    "arguments": [
+      "--help"
+    ],
+    "exit_code": 0,
+    "sha256": "708da408d3457d10a3a2ecbab8ed92af3b4695c6589101f3cd84a173f09e3d64",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:08.8953262Z",
+    "name": "help",
+    "output": "evidence/capabilities/help.txt"
+  },
+  {
+    "finished_at": "2026-10-23T23:57:09.0911592Z",
+    "arguments": [
+      "exec",
+      "--help"
+    ],
+    "exit_code": 0,
+    "sha256": "7c8aa2eecaee6b7967809b808115b3c342df81d51d680fe7039203a5656c14ae",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:08.9941802Z",
+    "name": "exec-help",
+    "output": "evidence/capabilities/exec-help.txt"
+  },
+  {
+    "finished_at": "2026-10-23T23:57:09.1890301Z",
+    "arguments": [
+      "exec",
+      "resume",
+      "--help"
+    ],
+    "exit_code": 0,
+    "sha256": "3a84d64c4b7b7677991557191e9d62b48cbd440a36335bc979b0f561ababc361",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:09.0914679Z",
+    "name": "resume-help",
+    "output": "evidence/capabilities/resume-help.txt"
+  },
+  {
+    "finished_at": "2026-10-23T23:57:09.2808449Z",
+    "arguments": [
+      "app-server",
+      "--help"
+    ],
+    "exit_code": 0,
+    "sha256": "5199eb0a2a7f270fed22602704f6289548c0c992f24a19d44436056f6727fc34",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:09.1893124Z",
+    "name": "app-server-help",
+    "output": "evidence/capabilities/app-server-help.txt"
+  },
+  {
+    "finished_at": "2026-10-23T23:57:09.3705371Z",
+    "arguments": [
+      "agents",
+      "--help"
+    ],
+    "exit_code": 0,
+    "sha256": "5f866798c6f4a6021ef5c2000509efe32cb76f3559d4bbf92279e7e4c9e3f3c4",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:09.2811212Z",
+    "name": "agents-help",
+    "output": "evidence/capabilities/agents-help.txt"
+  },
+  {
+    "finished_at": "2026-10-23T23:57:09.4708830Z",
+    "arguments": [
+      "queue",
+      "--help"
+    ],
+    "exit_code": 0,
+    "sha256": "546aa3cf4aa920e3cf3a799e46dbbb36b5510c65744ff4361f79fb86a02747aa",
+    "executable": "C:\\Users\\domin\\AppData\\Roaming\\npm\\codex.ps1",
+    "started_at": "2026-10-23T23:57:09.3708190Z",
+    "name": "queue-help",
+    "output": "evidence/capabilities/queue-help.txt"
+  }
+]

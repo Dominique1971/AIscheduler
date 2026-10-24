@@ -1,0 +1,407 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_branch": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "base_branch"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "path"
+          ]
+        },
+        {
+          "required": [
+            "url"
+          ]
+        }
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_workers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9223372036854775807
+        },
+        "min_workers": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "target_workers": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "merge": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "feature-batch"
+          ]
+        },
+        "full_regression": {
+          "type": "string",
+          "enum": [
+            "daily",
+            "manual"
+          ]
+        },
+        "reserved_slots": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        }
+      },
+      "required": [
+        "max_workers",
+        "merge",
+        "full_regression"
+      ]
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acceptance_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "estimate_minutes": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "executor": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "codex-cli"
+            ]
+          },
+          "model": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "preference": {
+                "type": "string",
+                "enum": [
+                  "default"
+                ]
+              },
+              "override": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reasoning_effort": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "minimal",
+                  "low",
+                  "medium",
+                  "high",
+                  "xhigh",
+                  "max",
+                  "ultra"
+                ]
+              }
+            },
+            "required": [
+              "preference"
+            ]
+          },
+          "resources": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "slots": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9223372036854775807
+              },
+              "memory_mb": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9223372036854775807
+              }
+            },
+            "required": [
+              "slots"
+            ]
+          },
+          "risk_class": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "allowed_operations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "test",
+                "git-commit",
+                "git-merge",
+                "network",
+                "deploy",
+                "delete"
+              ]
+            },
+            "minItems": 0
+          },
+          "validation_profile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_outputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "timeout_policy": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "execution_seconds": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "max_retries": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9223372036854775807
+              },
+              "warning_multiplier": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "escalation_multiplier": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "execution_seconds",
+              "max_retries",
+              "warning_multiplier",
+              "escalation_multiplier"
+            ]
+          },
+          "escalation_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "simulation": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "duration_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "fail_attempts": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9223372036854775807
+              },
+              "stall_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "output": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": []
+          },
+          "group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "milestone": {
+            "type": "string",
+            "minLength": 1
+          },
+          "due_date": {
+            "type": "string",
+            "minLength": 1
+          },
+          "concurrency_cap": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "skill_requirements": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "token_budget": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          }
+        },
+        "required": [
+          "task_id",
+          "title",
+          "description",
+          "acceptance_criteria",
+          "depends_on",
+          "estimate_minutes",
+          "priority",
+          "executor",
+          "model",
+          "resources",
+          "risk_class",
+          "allowed_operations",
+          "validation_profile",
+          "artifact_outputs",
+          "timeout_policy",
+          "escalation_conditions"
+        ]
+      },
+      "minItems": 1
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "due_date": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skill_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "token_budget": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "display_name",
+    "revision",
+    "goal",
+    "repository",
+    "policy",
+    "tasks"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.scheduler.invalid/schemas/plan-1.0.schema.json",
+  "title": "Autonomous scheduler canonical plan 1.0",
+  "description": "Normative structural contract. Runtime validation additionally enforces DAG, capacity and experimentally verified executor capabilities."
+}

@@ -1,0 +1,53 @@
+{
+  "run_id": "20261024T001345Z-dd456acd",
+  "entry_point": "python -m scheduler CLI + loopback REST + independent daemon processes",
+  "kind": "fresh black-box simulation acceptance",
+  "passed": true,
+  "checks": {
+    "RBAC": true,
+    "four_workers": true,
+    "active_split_revision": true,
+    "active_contract_rejected": true,
+    "allocation_and_idempotency": true,
+    "six_worker_capacity_and_restart": true,
+    "no_duplicate_attempts": true,
+    "dag_precedence": true,
+    "bounded_failure_and_blocking": true,
+    "receipt_integrity": true,
+    "completed_receipts_preserved": true,
+    "online_backup_restore_preserves_receipts": true,
+    "emergency_confirmation": true
+  },
+  "error": null,
+  "source_sha256": {
+    "scheduler\\api.py": "0d8d0d352e45e4ec53f76ec1fbff8065d47aff360b1ffd50d037f51be4682d3d",
+    "scheduler\\codex_adapter.py": "4f080aeb2ebc8b5c6e7e75dff74534f4c2a935d5fed85f5964e65a450a9ffdea",
+    "scheduler\\contracts.py": "02cd4aa7c77596ef4b19d7199d4615df8196c7431ce8f52d56d5016639eafcd4",
+    "scheduler\\core.py": "8b41fb00b53711c431c3a9f13c2c328b7d766a2cff9f7344c3041c96d5829eb6",
+    "scheduler\\maintenance.py": "206f9df59cb2be3d68ae2a369dabb0b0673c136c4acc22d54bd9c08dde726776",
+    "scheduler\\__init__.py": "540e048abf15bf451196e6f8a5ed530a01c211669637950e8a697d91484c7285",
+    "scheduler\\__main__.py": "d5f46eda5ce762e9ec4cc731ce8274ae8221213e859e7ff7c8c428620a1ec884",
+    "scheduler\\schemas\\plan-1.0.schema.json": "18d42c248c8fb877da74cd3434f445a0b99e8c803d8e947f70610e741da6e397",
+    "scheduler\\static\\dashboard.js": "7306e6c82c899a2ee00646aae9e737ee7a6b1a47114c27e8f518a43fdaadc781",
+    "scheduler\\static\\index.html": "b51099cef74488519f7193d7368add527b84928ca4256834d75cecbcd9c6cfd3",
+    "scheduler\\static\\style.css": "9cd13e93f399f3d7a818bbda9616cd11416c7a9f251376e7794efe4443a632bb",
+    "schemas\\plan-1.0.schema.json": "d53186c6719efcf51399b1aff3980f3eb5a3887623256a5d7019c2e53ea85bbd",
+    "examples\\demo-inventory.yaml": "88bde3539a88486139cd0ca0cd564bbbae0e44ca3126ffaa6628286849298e91",
+    "examples\\demo-weather.yaml": "aa588de95ad36ebac7a5e07a2b8bf316deef430a3f029201e9cf632708c399f4",
+    "tests/acceptance_simulation.py": "c370f028acd8f6cfec832d195a0e4ebaf5b86c052c6aadf0d1a4716e2626e435"
+  },
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "model": null,
+  "cost": 0,
+  "tokens": null,
+  "real_generator_acceptance": "UNRUN",
+  "remote_cellular": "UNRUN",
+  "soak_24h": "UNRUN",
+  "limitations": [
+    "synthetic receipts only",
+    "four workers observed; six capacity verified, six concurrent workers not required by this fixture",
+    "host reboot unrun",
+    "no real side effects or model execution"
+  ]
+}

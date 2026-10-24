@@ -1,0 +1,1 @@
+ERROR: TERM is set to "dumb". Refusing to start the interactive TUI because no terminal is available for a confirmation prompt (stdin/stderr is not a TTY). Run in a supported terminal or unset TERM.

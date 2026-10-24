@@ -1,0 +1,18 @@
+{
+  "desktop": {
+    "bodyClientHeight": 720,
+    "bodyScrollHeight": 720,
+    "height": 720,
+    "projectsClientHeight": 323,
+    "projectsScrollHeight": 323,
+    "width": 1280
+  },
+  "mobile": {
+    "bodyClientHeight": 844,
+    "bodyScrollHeight": 844,
+    "height": 844,
+    "projectsClientHeight": 272,
+    "projectsScrollHeight": 272,
+    "width": 390
+  }
+}

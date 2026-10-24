@@ -1,0 +1,39 @@
+{
+  "project_id": "demo-inventory-soak-001",
+  "task_id": "transform",
+  "attempts": [
+    {
+      "id": "a1ddf9b2-09ad-4cd2-b542-417c87d6ac41",
+      "project": "demo-inventory-soak-001",
+      "task": "transform",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Simulator emits a recorded success receipt after configured delay\"],\"allowed_operations\":[\"read\",\"write\",\"test\"],\"artifact_outputs\":[\"transform.receipt.json\"],\"depends_on\":[\"source\"],\"description\":\"Transform deterministic sample data for demo-inventory; no real project or network access.\",\"escalation_conditions\":[\"Retry budget exhausted\",\"Execution exceeds timeout without progress\"],\"estimate_minutes\":2,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":75,\"resources\":{\"memory_mb\":16,\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.1,\"fail_attempts\":1,\"output\":\"demo-inventory/transform: deterministic simulated result\",\"stall_seconds\":0},\"task_id\":\"transform\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":10,\"max_retries\":2,\"warning_multiplier\":2},\"title\":\"Transform dummy data\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "99349d2b5bc2500620e4ddc58d6318867c735e3b5150d64c23cbac0ed44b9bb3",
+      "state": "failed",
+      "started": 1792800358.8997602,
+      "due": 1792800358.9997602,
+      "ended": 1792800359.1548426,
+      "output": "{\"attempt_id\":\"a1ddf9b2-09ad-4cd2-b542-417c87d6ac41\",\"error\":\"injected simulation failure\",\"executor\":\"simulation\",\"result\":\"demo-inventory/transform: deterministic simulated result\",\"synthetic\":true}",
+      "output_hash": "49b9b48cd5002021eafd151773222458edfe16ee832292a23a59c6fc6e86b892",
+      "error": "injected simulation failure",
+      "heartbeat": 1792800358.8997602
+    },
+    {
+      "id": "c13ea028-e127-4a69-b628-f88f83256266",
+      "project": "demo-inventory-soak-001",
+      "task": "transform",
+      "number": 2,
+      "input": "{\"acceptance_criteria\":[\"Simulator emits a recorded success receipt after configured delay\"],\"allowed_operations\":[\"read\",\"write\",\"test\"],\"artifact_outputs\":[\"transform.receipt.json\"],\"depends_on\":[\"source\"],\"description\":\"Transform deterministic sample data for demo-inventory; no real project or network access.\",\"escalation_conditions\":[\"Retry budget exhausted\",\"Execution exceeds timeout without progress\"],\"estimate_minutes\":2,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":75,\"resources\":{\"memory_mb\":16,\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.1,\"fail_attempts\":1,\"output\":\"demo-inventory/transform: deterministic simulated result\",\"stall_seconds\":0},\"task_id\":\"transform\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":10,\"max_retries\":2,\"warning_multiplier\":2},\"title\":\"Transform dummy data\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "99349d2b5bc2500620e4ddc58d6318867c735e3b5150d64c23cbac0ed44b9bb3",
+      "state": "completed",
+      "started": 1792800359.664832,
+      "due": 1792800359.764832,
+      "ended": 1792800359.9198246,
+      "output": "{\"attempt_id\":\"c13ea028-e127-4a69-b628-f88f83256266\",\"error\":null,\"executor\":\"simulation\",\"result\":\"demo-inventory/transform: deterministic simulated result\",\"synthetic\":true}",
+      "output_hash": "581ca267bf60ba62bf759cd6aae62724b6e441d43ce751b7b48553dfd5ca8fa5",
+      "error": null,
+      "heartbeat": 1792800359.664832
+    }
+  ],
+  "updated_at": "2026-10-24T00:06:01.253587+00:00"
+}

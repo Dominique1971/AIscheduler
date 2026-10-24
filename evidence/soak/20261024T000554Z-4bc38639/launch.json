@@ -1,0 +1,38 @@
+{
+  "run_id": "20261024T000554Z-4bc38639",
+  "pid": 40092,
+  "entry_point": [
+    "tests/soak_simulation.py",
+    "--hours",
+    ".003",
+    "--period-seconds",
+    "4",
+    "--task-duration",
+    ".1"
+  ],
+  "started_at_epoch": 1792800354.1778278,
+  "deadline_epoch": 1792800364.9778278,
+  "source_sha256": {
+    "scheduler\\api.py": "aec1e1e9ecf65b1f580231c4d8de6175f825fc73b38cdec7730005d9d4803d72",
+    "scheduler\\codex_adapter.py": "4f080aeb2ebc8b5c6e7e75dff74534f4c2a935d5fed85f5964e65a450a9ffdea",
+    "scheduler\\contracts.py": "02cd4aa7c77596ef4b19d7199d4615df8196c7431ce8f52d56d5016639eafcd4",
+    "scheduler\\core.py": "5ac6eea9f257c52a050a3fb0387f22188c211d5758ec2c6ac27628b1b9d91890",
+    "scheduler\\__init__.py": "540e048abf15bf451196e6f8a5ed530a01c211669637950e8a697d91484c7285",
+    "scheduler\\__main__.py": "8ecb2625381663b673223b0a71a01e0a266a25d32dad83f03ec67a6d31fbce7a",
+    "scheduler\\schemas\\plan-1.0.schema.json": "18d42c248c8fb877da74cd3434f445a0b99e8c803d8e947f70610e741da6e397",
+    "scheduler\\static\\dashboard.js": "347545a36f3e58a6fab88ef0abd3fccdc525be7ce932e02845b7d4187e03ffb5",
+    "scheduler\\static\\index.html": "b51099cef74488519f7193d7368add527b84928ca4256834d75cecbcd9c6cfd3",
+    "scheduler\\static\\style.css": "09a6753f52175a98b2224f539ec64138c022a83082910d42a142b66a0bb0f6be"
+  },
+  "configuration": {
+    "hours": 0.003,
+    "period_seconds": 4.0,
+    "task_duration": 0.1
+  },
+  "executor": "simulation-only",
+  "model": null,
+  "cost": 0,
+  "acceptance": "RUNNING; not passed",
+  "host_reboot": "UNRUN",
+  "load": "hourly bursts with idle monitoring; no inference"
+}

@@ -1,0 +1,19 @@
+{
+  "project_id": "demo-inventory",
+  "from_revision": null,
+  "to_revision": 1,
+  "added": [
+    "audit",
+    "independent-alpha",
+    "independent-beta",
+    "publish",
+    "review",
+    "source",
+    "summary",
+    "transform"
+  ],
+  "removed": [],
+  "modified": [],
+  "requires_approval": false,
+  "risk": "initial-dummy-import"
+}

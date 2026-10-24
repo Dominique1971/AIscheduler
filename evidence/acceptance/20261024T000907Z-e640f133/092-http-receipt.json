@@ -1,0 +1,1 @@
+{"path": "/system/emergency-stop", "body": {"confirmed": true}, "status": 200, "role": "controller", "idempotency_key": "4add042e-0d9c-4d6d-8953-a4cd81134510", "response_sha256": "01d1f4a3a81ed426161760cf72f11e6c48eb4137caa578e4ec40ccf4cb26a9f7", "at": 1792800557.714872}

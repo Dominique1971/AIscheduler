@@ -1,0 +1,17 @@
+{
+  "project_id": "demo-weather-soak-002",
+  "from_revision": null,
+  "to_revision": 1,
+  "added": [
+    "audit",
+    "publish",
+    "review",
+    "source",
+    "summary",
+    "transform"
+  ],
+  "removed": [],
+  "modified": [],
+  "requires_approval": false,
+  "risk": "initial-dummy-import"
+}

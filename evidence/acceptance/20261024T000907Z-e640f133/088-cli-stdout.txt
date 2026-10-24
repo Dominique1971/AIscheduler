@@ -1,0 +1,9 @@
+{
+  "destination": "C:\\dev-codex\\scheduler\\evidence\\acceptance\\20261024T000907Z-e640f133\\restored.db",
+  "source_sha256": "be6d1e60d8314cd7cc2721abfd425d732797e578a0d05a7c36813896af1a308a",
+  "valid": true,
+  "attempts": 22,
+  "revisions": 4,
+  "checked_at_epoch": 1792800557.4177127,
+  "limitation": "hashes establish byte consistency, not semantic correctness or tamper-proof storage"
+}

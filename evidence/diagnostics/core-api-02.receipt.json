@@ -1,0 +1,8 @@
+{
+  "recorded_at": "2026-10-24T00:01:54.2064553Z",
+  "exit_code": 1,
+  "output": "evidence/diagnostics/core-api-02.txt",
+  "classification": "fixture and synthetic fault-injection diagnostics; not generator acceptance",
+  "sha256": "72c8a3c4a650b10097ae95e98cc5188175504d1d871a08d0a1474949f3f993d0",
+  "command": "python -m pytest tests/test_core.py tests/test_api.py -q"
+}

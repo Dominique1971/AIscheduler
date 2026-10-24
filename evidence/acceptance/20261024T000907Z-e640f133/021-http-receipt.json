@@ -1,0 +1,1 @@
+{"path": "/projects/demo-inventory/allocate", "body": {"max_workers": 2}, "status": 200, "role": "controller", "idempotency_key": "7d125b98-4659-40e6-b9c7-d348a0b65d29", "response_sha256": "156373592f260a7c165e5bc5c9e9d8018729269944899e1a8f2f4720b3c0322a", "at": 1792800549.870739}

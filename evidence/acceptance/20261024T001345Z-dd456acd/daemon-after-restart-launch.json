@@ -1,0 +1,1 @@
+{"argv": ["C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "-m", "scheduler", "--db", "C:\\dev-codex\\scheduler\\evidence\\acceptance\\20261024T001345Z-dd456acd\\scheduler.db", "daemon", "--interval", ".05"], "pid": 37712, "at": 1792800830.6192303}

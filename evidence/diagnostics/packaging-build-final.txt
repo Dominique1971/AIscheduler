@@ -1,0 +1,16 @@
+Processing .\.
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: autonomous-project-scheduler
+  Building wheel for autonomous-project-scheduler (pyproject.toml): started
+  Building wheel for autonomous-project-scheduler (pyproject.toml): finished with status 'done'
+  Created wheel for autonomous-project-scheduler: filename=autonomous_project_scheduler-0.1.0-py3-none-any.whl size=32530 sha256=db13fce8ac5deb939ad1bd101120ea35d6d61bcdaccec871e2a44e94d7accc5a
+  Stored in directory: C:\Users\domin\AppData\Local\Temp\pip-ephem-wheel-cache-lftrcd7o\wheels\b5\45\62\966fde8a638e1b7dac52730283a9484907d1a3ca8c6e42d2a0
+Successfully built autonomous-project-scheduler
+
+[notice] A new release of pip is available: 26.1.1 -> 26.2.2
+[notice] To update, run: python.exe -m pip install --upgrade pip

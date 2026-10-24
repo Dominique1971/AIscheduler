@@ -1,0 +1,21 @@
+{
+  "project_id": "demo-weather",
+  "from_revision": null,
+  "to_revision": 1,
+  "added": [
+    "audit",
+    "blocked-by-stall",
+    "independent-alpha",
+    "independent-beta",
+    "publish",
+    "review",
+    "source",
+    "stalled",
+    "summary",
+    "transform"
+  ],
+  "removed": [],
+  "modified": [],
+  "requires_approval": false,
+  "risk": "initial-dummy-import"
+}

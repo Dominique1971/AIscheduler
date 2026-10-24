@@ -1,0 +1,6 @@
+Processing .\runtime\wheels-final\autonomous_project_scheduler-0.1.0-py3-none-any.whl
+Installing collected packages: autonomous-project-scheduler
+Successfully installed autonomous-project-scheduler-0.1.0
+
+[notice] A new release of pip is available: 26.1.1 -> 26.2.2
+[notice] To update, run: python.exe -m pip install --upgrade pip

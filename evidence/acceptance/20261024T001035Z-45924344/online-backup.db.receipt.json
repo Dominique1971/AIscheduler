@@ -1,0 +1,11 @@
+{
+  "operation": "sqlite-online-backup-v1",
+  "source": "C:\\dev-codex\\scheduler\\evidence\\acceptance\\20261024T001035Z-45924344\\scheduler.db",
+  "destination": "C:\\dev-codex\\scheduler\\evidence\\acceptance\\20261024T001035Z-45924344\\online-backup.db",
+  "sha256": "5b35ec701f8b3b2410cce257028d06c13b1c8219b64e93fbaba74660c10f4485",
+  "valid": true,
+  "attempts": 22,
+  "revisions": 4,
+  "checked_at_epoch": 1792800644.7588696,
+  "limitation": "hashes establish byte consistency, not semantic correctness or tamper-proof storage"
+}

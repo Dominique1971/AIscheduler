@@ -1,0 +1,14 @@
+{
+  "run_id": "20261024T000554Z-4bc38639",
+  "passed": true,
+  "requested_hours": 0.003,
+  "elapsed_seconds": 10.85050082206726,
+  "batches_completed": 3,
+  "error": null,
+  "source_unchanged": true,
+  "cost": 0,
+  "model": null,
+  "soak_24h_passed": false,
+  "host_reboot": "UNRUN",
+  "real_Codex": "UNRUN"
+}
