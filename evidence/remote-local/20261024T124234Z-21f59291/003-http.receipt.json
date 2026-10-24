@@ -1,0 +1,1 @@
+{"path": "/auth/login", "status": 200, "body": {"email": "fixture@example.invalid", "password": "SYNTHETIC_NOT_REAL_PASSWORD", "code": "123456"}, "response_sha256": "8905d5831ef1832c679588bdd3b278c7af60a0889b154677765d3ee38df8b971"}

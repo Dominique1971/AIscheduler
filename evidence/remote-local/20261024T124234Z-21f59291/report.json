@@ -1,0 +1,25 @@
+{
+  "run_id": "20261024T124234Z-21f59291",
+  "passed": true,
+  "error": null,
+  "checks": {
+    "mock_provider_mfa_login": true,
+    "outbound_projected_status": true,
+    "normal_control_pause": true,
+    "normal_control_allocate": true,
+    "normal_control_resume": true,
+    "logout_revoked_and_shell_rejected": true
+  },
+  "source_sha256": {
+    "remote\\worker.mjs": "7b521dc76167b35a0b0aa5a0ed208db2d4cbb7917b572170cdb37ef81693c0ed",
+    "remote\\contract.mjs": "a270d12df8c82e1adfc183a81c82b6e798f8fa7d51f3671af8ad1c4645f6f2b9",
+    "remote\\bridge.py": "98315a8af2c2bdcbdacd96bc1f57790fcdeddcc098c24a838ff7aefc90698131",
+    "remote\\tests\\local_pipeline.py": "a9a064028f7c3ccf7d6329a216294661c3f652a3c939385a6e399ed5f6cea63a"
+  },
+  "kind": "local pipeline diagnostics with mocked Auth provider, real Worker/D1/bridge/API/daemon",
+  "hosted_mfa": "UNRUN",
+  "cellular": "UNRUN",
+  "cloud_resources_created": false,
+  "cost": 0,
+  "real_projects_connected": false
+}

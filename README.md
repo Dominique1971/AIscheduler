@@ -74,3 +74,9 @@ See [state](docs/STATE.md), [implementation plan](docs/IMPLEMENTATION_PLAN.md),
 [architecture](docs/ARCHITECTURE.md), [capabilities](docs/INTEGRATION_VALIDATION.md),
 [API](docs/API.md), and [acceptance gates](docs/ACCEPTANCE.md). Plans use the packaged
 JSON Schema 2020-12 contract; the reusable skill lives under `skills/plan-builder`.
+
+The optional [remote dashboard candidate](remote/README.md) follows the reviewed
+Oppo/Compass Cloudflare + Supabase owner-login pattern. It adds mandatory TOTP MFA
+and an outbound-only bridge to the existing local API. It is locally tested and
+not deployed; no existing app resources or real projects are connected. See the
+[setup decision](docs/REMOTE_SETUP.md) for evidence and publication gates.

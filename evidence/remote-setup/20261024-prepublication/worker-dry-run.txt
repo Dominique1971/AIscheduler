@@ -1,0 +1,19 @@
+
+> scheduler-remote-dashboard@0.1.0 build
+> wrangler deploy --dry-run --outdir ../runtime/remote-build
+
+
+ ⛅️ wrangler 4.152.0
+────────────────────
+✨ Read 3 files from the assets directory C:\dev-codex\scheduler\remote\public
+Total Upload: 18.07 KiB / gzip: 5.69 KiB
+Your Worker has access to the following bindings:
+Binding                                                                      Resource                  
+env.SCHEDULER_REMOTE (scheduler-dashboard)                                   D1 Database               
+env.ASSETS                                                                   Assets                    
+env.APP_ORIGIN ("https://scheduler.invalid")                                 Environment Variable      
+env.SUPABASE_URL ("https://replace-with-new-project.supa...")                Environment Variable      
+env.OWNER_ID ("replace-with-dedicated-owner-uuid")                           Environment Variable      
+env.REMOTE_CONTROL_ENABLED ("false")                                         Environment Variable      
+
+--dry-run: exiting now.

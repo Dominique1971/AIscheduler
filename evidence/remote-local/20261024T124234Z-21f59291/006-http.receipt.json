@@ -1,0 +1,1 @@
+{"path": "/api/control", "status": 202, "body": {"action": "pause", "project": "demo-weather"}, "response_sha256": "afb3bb0189a487fd725f4104707a2b7e290b927481eccb91afb752a65de16816"}

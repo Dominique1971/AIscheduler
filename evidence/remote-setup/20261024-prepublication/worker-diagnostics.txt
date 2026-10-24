@@ -1,0 +1,28 @@
+
+> scheduler-remote-dashboard@0.1.0 test
+> node --test tests/*.test.mjs
+
+(node:49492) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ no anonymous data or control; security headers apply on failure (18.9913ms)
+✔ owner MFA login verifies tokens twice and stores no provider credentials (4.3911ms)
+✔ deny wrong owner (1.6872ms)
+✔ deny anonymous (1.1374ms)
+✔ deny unconfirmed (0.9753ms)
+✔ deny no enrolled MFA (1.2619ms)
+✔ deny aal1 (2.0783ms)
+✔ deny provider error (1.2672ms)
+✔ CSRF, role, expiry and signout are enforced on server (2.4485ms)
+✔ command queue replays idempotently, fences leases and records actual ack (5.7146ms)
+✔ expired leased commands are uncertain; payloads never grant arbitrary execution (1.447ms)
+✔ snapshot projection removes descriptions, credentials, paths and errors (0.1283ms)
+✔ login rate budget rejects sixth attempt before provider call (1.7894ms)
+✔ expired opaque session cannot read data even with correct cookie (1.6174ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120.5831

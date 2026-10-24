@@ -1,0 +1,20 @@
+{
+  "C:\\dev-codex\\opportunities": {
+    "head": "09fbf27614fe1a640148c36c6fc52a47ed4f4df4",
+    "files": {
+      "web/README.md": "4f4d1a13c53953eeda7a13d926027e851d064cf7d0ce030c9c0cd9bae37aaad6",
+      "web/public-config.js": "c5c4905d60242975cea0b461075c96ee243c7c27d20fcc82972db34ca8ba64c6",
+      "deploy/README.md": "6f4214cfbaa1f9a20bf9d0f927938db16d0f39f07eeff3cbfbca039147c4649a"
+    },
+    "access": "read-only reference; live resources not tested or changed"
+  },
+  "C:\\dev-codex\\MyNews": {
+    "head": "3442cd0814b70061440f1d9119a3d035ee526b6c",
+    "files": {
+      "docs/15-compass-hosted-mvp-setup.md": "ba7c8202cfbc2f817ce052fab1c58161695aeb23e77f5dcb5b9c5b9e8279d511",
+      "docs/decisions/0005-single-owner-supabase-auth.md": "2f95ab61cde05329b55727a37d84cd4a2005873cd8c2d7e41b9f1bb5be8b65be",
+      "web/wrangler.jsonc": "cffa0e8913f736203f6c10715d049c78bc0e1508b627c87b7dcd431169ccf358"
+    },
+    "access": "read-only reference; live resources not tested or changed"
+  }
+}

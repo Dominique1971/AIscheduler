@@ -1,0 +1,1 @@
+{"path": "/api/control", "status": 202, "body": {"action": "allocate", "project": "demo-weather", "value": 2}, "response_sha256": "1bf7bdcd395840110af0b05166ebef2eed3b4c0f27f23c8cf30e1ed1ec5ad0e5"}

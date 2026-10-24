@@ -1,6 +1,25 @@
 # State
 
-Updated 2026-10-23. Initial delivery in progress; **not production ready**.
+Updated 2026-10-24. Initial delivery in progress; **not production ready**.
+
+Remote setup: reviewed Oppo/Compass locally, read-only. Their current hosted
+pattern is Cloudflare + Supabase owner authentication, not the older Compass
+Tailscale-only baseline. Added a separate optional Worker/D1 dashboard and
+outbound-only local bridge under `remote/`; scheduler source remains untouched.
+Owner TOTP/AAL2, 15-minute opaque HttpOnly sessions, CSRF, default read-only role,
+bounded typed controls, leases/fencing, idempotency, expiry/uncertainty, audit and
+status projection are implemented. No cloud resource or public endpoint created.
+
+Remote validation: 14 Worker diagnostics, six new bridge diagnostics, full Python
+suite 58 pass, dry-run build passes, npm audit zero findings. Real local
+Worker/D1/bridge/API/daemon pipeline passed with explicitly mocked Auth at
+`evidence/remote-local/20261024T124234Z-21f59291`; 88 artifact hashes verify. Hosted
+Supabase MFA, cellular access and deployment remain unrun. See REMOTE_SETUP.md.
+
+User selected the same Supabase organization as Oppo/Compass for a dedicated
+scheduler Auth project. Connector quotes $0/month; cost confirmation and actual
+free-quota availability must precede resource creation. No paid upgrade or
+alteration/reuse of either existing application's resources is authorized.
 
 Completed: repository discovery, independent Git initialization, capability help
 probes with raw hashes, ADR, schema/validator and builder, two 6-task dummy plans,
@@ -48,5 +67,6 @@ weeks-long operation. Source-faithful receipts cannot establish task semantics.
 Next: inspect soak outcome when available, then advance E1/E2 and remote gates.
 The subscription-route question was resolved from actual CLI login status under
 the original authorization for real dummy tests. Remote access provider remains
-a pending user choice. Full remaining scope is
+resolved user choice: follow the hosted Cloudflare/Supabase pattern; dedicated
+resource provisioning and publication still require their gates. Full remaining scope is
 tracked in IMPLEMENTATION_PLAN.md and ARCHITECTURE.md; nothing is silently waived.

@@ -1,0 +1,11 @@
+{"at": 1792845756.9416025, "kind": "started", "protocol": "outbound-bridge/1", "source_sha256": "98315a8af2c2bdcbdacd96bc1f57790fcdeddcc098c24a838ff7aefc90698131"}
+{"at": 1792845756.9651556, "kind": "snapshot.read", "raw_sha256": "bc08fd5a0e5ea7329dd9d1e25345c620c418706e546f4e648988086212df9b5f", "projection_sha256": "b7f29ea8070f6c9c62534c695190ccda7a51526b93c4d79aabce6bb4d2460680", "transformation": "remote-snapshot/1"}
+{"at": 1792845758.0267959, "kind": "snapshot.read", "raw_sha256": "04baad04c3b2149de01a3ed0eddce62193643d130d78cc2e7fe281115f342e1c", "projection_sha256": "087f7387b05a0d311339b5ac2e17cf31d51b4c0f215ca7d59a72013882c0e4a4", "transformation": "remote-snapshot/1"}
+{"at": 1792845758.0847552, "kind": "control.response", "id": "local-command-20261024T124234Z-21f59291-0", "fence": 1, "http_status": 200, "output_sha256": "d97816e0cc0c6df69fee659419734f4a47db771f768bc309938afa9a513cbbfa"}
+{"at": 1792845758.1232686, "kind": "control.ack", "id": "local-command-20261024T124234Z-21f59291-0", "fence": 1, "http_status": 200, "status": "succeeded"}
+{"at": 1792845759.1426718, "kind": "snapshot.read", "raw_sha256": "7eb5049269f8083d839609da4bba74bbdd06e9413021d5e9fb9cfcf397d1192a", "projection_sha256": "3872dfe7c1c8d4428057775706d9cd8806b4fd5893d072c98cdba9277cec64b8", "transformation": "remote-snapshot/1"}
+{"at": 1792845759.2097278, "kind": "control.response", "id": "local-command-20261024T124234Z-21f59291-1", "fence": 1, "http_status": 200, "output_sha256": "2385b11622779f7d79b6a7b450adc69c56136b4349c89fa9d51bfebb2ddb7883"}
+{"at": 1792845759.2437487, "kind": "control.ack", "id": "local-command-20261024T124234Z-21f59291-1", "fence": 1, "http_status": 200, "status": "succeeded"}
+{"at": 1792845760.2715566, "kind": "snapshot.read", "raw_sha256": "b436ea85a4582ce57cffd5853a3b5cff79e80e707beb8465cebf3dd92065bd87", "projection_sha256": "6d4ad8d99dc6a31f0be959918cea7242e8e416ad632b3d9af06604904f2074b6", "transformation": "remote-snapshot/1"}
+{"at": 1792845760.3354392, "kind": "control.response", "id": "local-command-20261024T124234Z-21f59291-2", "fence": 1, "http_status": 200, "output_sha256": "34b080db269b849d2909e2f9590d9ef9bcc3a178e17657443e2ef2df3c82341a"}
+{"at": 1792845760.3549428, "kind": "control.ack", "id": "local-command-20261024T124234Z-21f59291-2", "fence": 1, "http_status": 200, "status": "succeeded"}

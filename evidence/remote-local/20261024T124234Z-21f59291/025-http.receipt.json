@@ -1,0 +1,1 @@
+{"path": "/api/control", "status": 422, "body": {"action": "shell", "command": "dir"}, "response_sha256": "b281320910854976c55956c19891f0b5cd766b9dc81cae060f454b876c031385"}

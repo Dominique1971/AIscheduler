@@ -1,0 +1,62 @@
+
+ ⛅️ wrangler 4.152.0
+────────────────────
+Your Worker has access to the following bindings:
+Binding                                                                        Resource                  Mode
+env.SCHEDULER_REMOTE (scheduler-dashboard)                                     D1 Database               local
+env.ASSETS                                                                     Assets                    local
+env.APP_ORIGIN ("http://127.0.0.1:56135")                                      Environment Variable      local
+env.SUPABASE_URL ("http://127.0.0.1:56136")                                    Environment Variable      local
+env.OWNER_ID ("a1234567-1234-4234-8234-123456789012")                          Environment Variable      local
+env.REMOTE_CONTROL_ENABLED ("true")                                            Environment Variable      local
+env.SUPABASE_PUBLISHABLE_KEY ("sb_publishable_local_fixture_only")             Environment Variable      local
+env.AGENT_TOKEN ("f0c737216e35d3ba488aba2a5373bc5aecc47...")                   Environment Variable      local
+env.DEV_MODE ("local-only")                                                    Environment Variable      local
+
+⎔ Starting local server...
+Wrangler detected this dev session is running in an AI agent.
+The Local Explorer API is available at http://127.0.0.1:56135/cdn-cgi/local/explorer/api
+Useful routes:
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api/local/workers - local Workers and bindings
+  POST http://127.0.0.1:56135/cdn-cgi/local/explorer/api/local/scheduled?worker=<name> - invoke a Worker's scheduled handler; cron is required (see the OpenAPI schema for the full request)
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api/storage/kv/namespaces - KV namespaces
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api/d1/database - D1 databases
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api/r2/buckets - R2 buckets
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api/workers/durable_objects/namespaces - Durable Object namespaces
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api/workflows - Workflows
+  POST http://127.0.0.1:56135/cdn-cgi/local/explorer/api/local/observability/query - run a read-only SQL query (SELECT/WITH only) over captured request traces and console logs. Tables: spans, logs (read attributes via json(attributes)). Example:
+    curl -X POST http://127.0.0.1:56135/cdn-cgi/local/explorer/api/local/observability/query -H 'Content-Type: application/json' -d '{"sql":"SELECT service, name, outcome, duration_ms FROM spans WHERE parent_id IS NULL LIMIT 20"}'
+  POST http://127.0.0.1:56135/cdn-cgi/local/explorer/api/local/observability/clear - clear all captured traces and logs
+If the routes above don't cover what you need, fetch the full OpenAPI schema (large - use only as a last resort):
+  GET http://127.0.0.1:56135/cdn-cgi/local/explorer/api - OpenAPI schema
+[wrangler:info] Ready on http://127.0.0.1:56135
+[wrangler:info] GET /api/snapshot 401 Unauthorized (15ms)
+[wrangler:info] POST /auth/login 200 OK (20ms)
+[wrangler:info] GET /api/snapshot 200 OK (16ms)
+[wrangler:info] POST /agent/poll 200 OK (10ms)
+[wrangler:info] GET /api/snapshot 200 OK (42ms)
+[wrangler:info] POST /api/control 202 Accepted (14ms)
+[wrangler:info] GET /api/commands 200 OK (7ms)
+[wrangler:info] GET /api/commands 200 OK (6ms)
+[wrangler:info] GET /api/commands 200 OK (7ms)
+[wrangler:info] POST /agent/poll 200 OK (10ms)
+[wrangler:info] POST /agent/ack 200 OK (7ms)
+[wrangler:info] GET /api/commands 200 OK (6ms)
+[wrangler:info] POST /api/control 202 Accepted (10ms)
+[wrangler:info] GET /api/commands 200 OK (7ms)
+[wrangler:info] GET /api/commands 200 OK (18ms)
+[wrangler:info] GET /api/commands 200 OK (6ms)
+[wrangler:info] POST /agent/poll 200 OK (19ms)
+[wrangler:info] POST /agent/ack 200 OK (7ms)
+[wrangler:info] GET /api/commands 200 OK (6ms)
+[wrangler:info] POST /api/control 202 Accepted (10ms)
+[wrangler:info] GET /api/commands 200 OK (6ms)
+[wrangler:info] GET /api/commands 200 OK (57ms)
+[wrangler:info] GET /api/commands 200 OK (7ms)
+[wrangler:info] POST /agent/poll 200 OK (9ms)
+[wrangler:info] GET /api/commands 200 OK (6ms)
+[wrangler:info] POST /agent/ack 200 OK (7ms)
+[wrangler:info] GET /api/commands 200 OK (7ms)
+[wrangler:info] POST /api/control 422 Unprocessable Entity (15ms)
+[wrangler:info] POST /auth/logout 200 OK (8ms)
+[wrangler:info] GET /api/snapshot 401 Unauthorized (4ms)
