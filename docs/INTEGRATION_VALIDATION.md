@@ -432,6 +432,32 @@ Site once to confirm the read-only dashboard opens without a code. This
 exception does not meet the MFA control acceptance criterion and must be
 disabled before any real-project connection or renewed control trial.
 
+### Local project intake review and guarded dummy import
+
+The local dashboard now shows the authored description, task details, estimates,
+dependency layers, defaults, source/plan hashes and the authoritative plan diff
+before offering an explicit reviewed import. The UI limits that action to a new
+`demo-`/`dummy-` simulation project under the declared `./runtime/` path. The
+normal API apply operation accepts an optional exact `expected_preview` and
+rejects a changed preview within the database transaction. This does not add
+real executor support or publish the form on the phone Site.
+
+Fresh local HTTP run `20261024T185515Z-37fd708b` used the ordinary loopback
+server with an isolated SQLite database and an authored dummy intake. Anonymous
+preview returned 401, authenticated intake and plan previews returned 200,
+an altered preview returned 409, the exact reviewed import returned 200, and
+reusing its now-stale preview returned 409. All six raw HTTP responses, request
+bodies, server output and database were retained in `evidence/intake-http/`;
+the manifest's 17 file hashes were independently rechecked with no mismatch.
+This verifies the HTTP API path, not browser interaction, a real Codex task,
+or semantic task output. The first direct harness invocation failed before
+creating a run because `python tests/acceptance_intake_http.py` could not
+resolve the repository package; the harness import path was fixed before the
+fresh recorded run. An earlier green run `20261024T185433Z-bfc74777` is
+retained for its prior code version; the current run includes the subsequent
+invalid-preview-object guard. Targeted API, intake, core and allocation
+diagnostics passed 40/40 after the change.
+
 ### Codex invocation boundary after the disposable-worktree probe
 
 `CodexAdapter.prepare` can now construct an explicit workspace-write invocation

@@ -142,15 +142,19 @@ def create_app(store: Store, read_token=None, control_token=None):
     @app.post("/api/v1/plans/{operation}")
     async def plan(operation: str, request: Request, role=Depends(controller)):
         data = await object_body(request)
-        if data.keys() - {"plan", "approved"}:
+        if data.keys() - {"plan", "approved", "expected_preview"}:
             raise ValueError("unknown plan request fields")
+        if "expected_preview" in data and not isinstance(data["expected_preview"], dict):
+            raise ValueError("expected_preview must be an object")
         value = validate_plan(data.get("plan"))
         if operation == "validate":
             return {"valid": True, "project_id": value["project_id"]}
         if operation == "preview":
             return store.preview(value)
         if operation == "apply":
-            return store.apply(value, approved=data.get("approved") is True, key=request.headers["idempotency-key"])
+            return store.apply(value, approved=data.get("approved") is True,
+                               key=request.headers["idempotency-key"],
+                               expected_preview=data.get("expected_preview"))
         raise HTTPException(404, "unknown plan operation")
 
     @app.post("/api/v1/projects/{project}/{action}")

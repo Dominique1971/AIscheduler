@@ -23,3 +23,12 @@
 #intake-result li p{margin:4px 0}
 #intake-result .dialog-actions{flex-wrap:wrap}
 @media(max-width:600px){.intake-grid{grid-template-columns:1fr}.intake-dialog{padding:14px}.intake-dialog .dialog-actions{justify-content:flex-start}}
+.intake-graph{display:flex;gap:12px;overflow-x:auto;padding:8px 0 12px}
+.intake-layer{min-width:170px;flex:1;border-left:2px solid var(--line);padding-left:10px}
+.intake-layer h4{font-size:11px;color:var(--muted);margin:0 0 8px}
+.intake-node{border:1px solid #526789;border-radius:7px;background:#1b2a3e;padding:9px;margin-bottom:8px}
+.intake-node strong,.intake-node small{display:block}
+.intake-node small{color:var(--muted);margin-top:4px}
+.intake-approval{display:flex!important;align-items:flex-start;gap:9px;margin:12px 0!important}
+.intake-approval input{width:auto!important;margin:3px 0 0;flex:none}
+.intake-success{color:#72dfb2!important}.intake-error{color:#ff9b9b!important}

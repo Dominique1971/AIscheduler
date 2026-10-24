@@ -14,7 +14,7 @@ IDs below identify deliverables, not permission to attach real repositories.
 | D2 | Architecture and requirement gaps | D1 | 1h | Recorded decisions and full-stage ledger | Initial ADR done |
 | I1 | Versioned project intake description | C1 | 2–4h | Authored tasks/estimates/dependencies -> canonical draft with defaults, hashes and critical path; no auto-import | Fresh dummy CLI-to-simulation intake run passed; real-project authoring unrun |
 | I2 | Assisted goal-to-task authoring | I1 | 3–6h | Skill drafts tasks from an incomplete goal, marks unknowns, validates DAG, preserves the authored brief | Plan Builder skill updated; interactive authoring acceptance unrun |
-| I3 | Project review and approval surface | I1,A1,U1 | 5–9h | Local UI/API shows inbound description, task details, dependency graph, estimates, defaults, diff and explicit apply | Local form/API source implemented; browser interaction, graph, diff, reviewed apply and phone Site parity pending |
+| I3 | Project review and approval surface | I1,A1,U1 | 5–9h | Local UI/API shows inbound description, task details, dependency graph, estimates, defaults, diff and explicit apply | Local review graph, diff and guarded dummy import implemented; browser interaction and phone Site parity pending |
 | C1 | Strict portable plan contract and builder | D2 | 2–4h | Valid/invalid YAML, line errors, DAG/schema | Implemented, diagnostic tests |
 | C2 | Durable tasks, revisions, receipts | C1 | 3–5h | Untouched output, immutable history, integrity rejection | Implemented simulation slice |
 | C3 | Dispatcher, backfill, leases/restart | C2 | 3–5h | Normal daemon/API two-project forced restart | Fresh simulation passed; real lifecycle unrun |

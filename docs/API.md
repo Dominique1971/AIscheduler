@@ -16,7 +16,7 @@ shared local roles; per-person identity/MFA is not implemented.
 | POST /intake/preview | `{intake: authoredIntake}`; returns draft plan, per-task explanation, estimates, defaults and source provenance; no import | control |
 | POST /plans/validate | `{plan: canonicalPlan}` | control |
 | POST /plans/preview | `{plan: canonicalPlan}` | control |
-| POST /plans/apply | `{plan: canonicalPlan, approved: true}`; approval required on revisions | control |
+| POST /plans/apply | `{plan: canonicalPlan, approved: true, expected_preview?: previewResponse}`; an exact expected preview rejects a changed plan state; approval required on revisions | control |
 | POST /projects/{id}/pause | `{}`; stop-new-dispatch | control |
 | POST /projects/{id}/resume | `{}` | control |
 | POST /projects/{id}/allocate | `{max_workers: 2}` or partial object with `min_workers`, `target_workers`, `reserved_slots`; active work drains safely | control |

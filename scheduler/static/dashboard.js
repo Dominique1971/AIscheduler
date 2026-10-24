@@ -5,6 +5,7 @@
   const active = new Set(["starting", "running", "validating", "recovering"]);
   const symbols = {completed:"✓", running:"●", starting:"●", validating:"●", ready:"◇", queued:"◇", "dependency-blocked":"⊘", blocked:"⊘", retrying:"↻", recovering:"↻", failed:"!", paused:"Ⅱ", "waiting-review":"!", canceled:"×", superseded:"×", draft:"◇"};
   let snapshot = null, lastSuccess = 0, hours = 8, offset = 0, loading = false, updateFailed = false, noticeTimer;
+  let reviewedIntake = null, intakeGeneration = 0;
   let token = "";
   try { token = sessionStorage.getItem("scheduler-token") || ""; } catch (_) { /* Storage may be disabled; memory still works. */ }
   const localDate = value => value ? new Date(value).toLocaleString("en-US", {timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"}) + " NY" : "Unavailable";
@@ -21,6 +22,7 @@
       if (response.status === 401) message = "Authentication required or token expired. Connect with a valid token.";
       if (response.status === 403) message = "This token cannot perform that action. A read-only token permits inspection only.";
       if (response.status === 404) message = "This operation is unavailable on the connected server.";
+      if (response.status === 409) { const problem = await response.json().catch(()=>null); message = typeof problem?.message === "string" ? problem.message.slice(0,400) : "The project changed; preview again before importing."; }
       if (response.status === 422) { const problem = await response.json().catch(()=>null); if (typeof problem?.message === "string") message = problem.message.slice(0,400); }
       throw new Error(message);
     }
@@ -196,17 +198,39 @@
     const link = node("a"), url = URL.createObjectURL(new Blob([sourceText],{type:"application/json"}));
     link.href = url; link.download = name; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  function showIntakeResult(draft, source) {
+  function intakeGraph(tasks) {
+    const graph = node("div",undefined,"intake-graph");
+    graph.setAttribute("role","list"); graph.setAttribute("aria-label","Task dependency graph by layer");
+    const layers = [...new Set(tasks.map(task=>task.dependency_layer))].sort((a,b)=>a-b);
+    for (const layer of layers) {
+      const column = node("div",undefined,"intake-layer");
+      column.append(node("h4",`Step ${layer}`));
+      for (const task of tasks.filter(item=>item.dependency_layer===layer)) {
+        const card = node("div",undefined,"intake-node"); card.setAttribute("role","listitem");
+        card.append(node("strong",`${task.task_id} · ${task.title}`),
+          node("small",`${task.estimate_minutes} min · ${task.depends_on.length ? `after ${task.depends_on.join(", ")}` : "starts independently"}`));
+        column.append(card);
+      }
+      graph.append(column);
+    }
+    return graph;
+  }
+  function showIntakeResult(draft, source, diff) {
     const target = $("intake-result"); target.replaceChildren();
-    target.append(node("h3","Draft review"),node("p",`${draft.summary.task_count} tasks · ${draft.summary.total_estimate_minutes} minutes of authored effort · ${draft.summary.critical_path_estimate_minutes} minute dependency critical path. These are estimates, not delivery forecasts.`),
-      node("p",draft.summary.execution_note));
+    target.append(node("h3","Review before import"),node("p",`${source.display_name} (${source.project_id}) · ${source.repository.path} at ${source.repository.base_branch}`),
+      node("p",source.description),
+      node("p",`${draft.summary.task_count} tasks · ${draft.summary.total_estimate_minutes} minutes of authored effort · ${draft.summary.critical_path_estimate_minutes} minute dependency critical path. These are estimates, not delivery forecasts.`),
+      node("p",draft.summary.execution_note),
+      node("p",`Source SHA-256: ${draft.source_sha256} · Plan SHA-256: ${draft.plan_sha256} · Transform: ${draft.transform_version}`),
+      node("h3","Dependencies"),intakeGraph(draft.summary.tasks));
     const list = node("ol");
     for (const task of draft.summary.tasks) {
       const item = node("li"), title = node("strong",`${task.task_id}: ${task.title}`);
       item.append(title,node("p",task.description),node("p",`${task.estimate_minutes} min · depends on ${task.depends_on.join(", ") || "nothing"} · ${task.executor}`),
         node("p",`Acceptance: ${task.acceptance_criteria.join("; ")}`)); list.append(item);
     }
-    target.append(list,node("p",`Operational defaults added: ${draft.defaults_applied.join(", ") || "none"}.`));
+    target.append(node("h3","Task details"),list,node("p",`Operational defaults added: ${draft.defaults_applied.join(", ") || "none"}.`),
+      node("p",`Plan preview: ${diff.risk} · revision ${diff.from_revision ?? "new"} → ${diff.to_revision}. Added: ${diff.added.join(", ") || "none"}; modified: ${diff.modified.join(", ") || "none"}; removed: ${diff.removed.join(", ") || "none"}.`));
     const actions = node("div",undefined,"dialog-actions");
     const sourceButton = node("button","Download intake for CLI"); sourceButton.type = "button";
     sourceButton.addEventListener("click",()=>downloadSource(`${source.project_id}-intake.json`,draft.source_text)); actions.append(sourceButton);
@@ -215,18 +239,57 @@
       const button = node("button",label); button.type = "button";
       button.addEventListener("click",()=>downloadDraft(`${source.project_id}-${suffix}`,data)); actions.append(button);
     }
-    target.append(actions,node("p","Review these files before using the separate CLI preview/import workflow. Nothing was imported by this form."));
+    target.append(actions);
+    const repositoryPath = source.repository.path.replaceAll("\\","/");
+    const safeDummy = /^(demo|dummy)-/.test(source.project_id) &&
+      /^(?:\.\/)?runtime\/[^/]/.test(repositoryPath) &&
+      !repositoryPath.split("/").some(part=>part==="..") &&
+      draft.plan.tasks.every(task=>task.executor==="simulation") && diff.from_revision===null;
+    if (safeDummy) {
+      const approval = node("label",undefined,"intake-approval"), check = node("input");
+      check.type = "checkbox";
+      approval.append(check,node("span","I reviewed the source, tasks, dependencies, defaults and plan preview. Import this new disposable simulation project."));
+      const apply = node("button","Import reviewed dummy plan"); apply.type = "button"; apply.disabled = true;
+      check.addEventListener("change",()=>{apply.disabled=!check.checked;});
+      apply.addEventListener("click",async()=>{
+        if (!reviewedIntake || reviewedIntake.draft !== draft || !check.checked) return;
+        const generation = intakeGeneration;
+        apply.disabled = true;
+        try {
+          const current = await request("/plans/preview",{plan:draft.plan});
+          if (JSON.stringify(current) !== JSON.stringify(diff)) throw new Error("The plan preview changed. Preview the intake again before importing.");
+          if (generation !== intakeGeneration) throw new Error("Inputs changed. Preview the intake again before importing.");
+          const formControls = [...$("intake-form").elements]; formControls.forEach(control=>{control.disabled=true;});
+          let result;
+          try { result = await request("/plans/apply",{plan:draft.plan,approved:true,expected_preview:diff}); }
+          finally { formControls.forEach(control=>{control.disabled=false;}); }
+          reviewedIntake = null; check.disabled = true;
+          target.append(node("p",`Imported ${result.project_id} revision ${result.to_revision}. Refreshing authoritative state.`,"intake-success"));
+          await refresh();
+        } catch(error) { target.append(node("p",error.message,"intake-error")); }
+        finally { if (reviewedIntake?.draft === draft) apply.disabled = !check.checked; }
+      });
+      target.append(approval,apply);
+    } else {
+      target.append(node("p","Dashboard import is limited to new demo-/dummy- simulation projects under ./runtime/. Review other plans through the CLI and its separate approval workflow."));
+    }
+    target.append(node("p","Preview and downloads do not import or start work. Import may make queued simulation tasks eligible for a running daemon."));
   }
   $("refresh").addEventListener("click",refresh);
   $("intake-open").addEventListener("click",()=>$("intake-dialog").showModal());
   $("intake-close").addEventListener("click",()=>$("intake-dialog").close());
   $("intake-add").addEventListener("click",addIntakeTask);
-  $("intake-form").addEventListener("input",()=>{$("intake-result").replaceChildren(node("p","Inputs changed; preview again before using any downloaded draft."));});
+  $("intake-form").addEventListener("input",()=>{intakeGeneration++;reviewedIntake=null;$("intake-result").replaceChildren(node("p","Inputs changed; preview again before importing or using a downloaded draft."));});
   $("intake-form").addEventListener("submit",async event=>{
     event.preventDefault();
     if (!$("intake-form").reportValidity()) return;
-    const button = $("intake-preview"), source = readIntakeForm(); button.disabled = true;
-    try { showIntakeResult(await request("/intake/preview",{intake:source}),source); }
+    const button = $("intake-preview"), source = readIntakeForm(), generation = intakeGeneration; button.disabled = true;
+    try {
+      const draft = await request("/intake/preview",{intake:source});
+      const diff = await request("/plans/preview",{plan:draft.plan});
+      if (generation !== intakeGeneration) return;
+      reviewedIntake = {draft,diff}; showIntakeResult(draft,source,diff);
+    }
     catch(error) { $("intake-result").replaceChildren(node("p",error.message)); }
     finally { button.disabled = false; }
   });

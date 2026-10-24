@@ -88,6 +88,39 @@ def test_intake_preview_is_authenticated_draft_without_project_mutation(client, 
     assert client.post(url, headers=headers(), json={"intake": intake}).status_code == 422
 
 
+def test_intake_reviewed_import_checks_the_exact_preview(client, store):
+    intake, _ = load_intake(ROOT / "examples/intake-demo-weather.yaml")
+    draft = client.post("/api/v1/intake/preview", headers=headers(), json={"intake": intake}).json()
+    plan = draft["plan"]
+    preview = client.post("/api/v1/plans/preview", headers=headers(), json={"plan": plan})
+    assert preview.status_code == 200
+    expected = preview.json()
+    assert expected["from_revision"] is None
+    assert expected["added"] == sorted(task["task_id"] for task in plan["tasks"])
+    assert store.snapshot()["projects"] == []
+    stale = {**expected, "added": []}
+    rejected = client.post("/api/v1/plans/apply", headers=headers(key="stale-review"),
+                           json={"plan": plan, "approved": True, "expected_preview": stale})
+    assert rejected.status_code == 409
+    invalid = client.post("/api/v1/plans/apply", headers=headers(key="null-review"),
+                          json={"plan": plan, "approved": True, "expected_preview": None})
+    assert invalid.status_code == 422
+    assert store.snapshot()["projects"] == []
+    accepted = client.post("/api/v1/plans/apply", headers=headers(key="reviewed-import"),
+                           json={"plan": plan, "approved": True, "expected_preview": expected})
+    assert accepted.status_code == 200, accepted.text
+    assert accepted.json() == expected
+    assert len(store.snapshot()["projects"]) == 1
+    repeat = client.post("/api/v1/plans/apply", headers=headers(key="reviewed-import"),
+                         json={"plan": plan, "approved": True, "expected_preview": expected})
+    assert repeat.status_code == 200 and repeat.json() == expected
+    changed = client.post("/api/v1/plans/apply", headers=headers(key="stale-after-import"),
+                          json={"plan": plan, "approved": True, "expected_preview": expected})
+    assert changed.status_code == 409
+    assert "preview changed" in changed.json()["message"]
+    assert len(store.snapshot()["projects"]) == 1
+
+
 def test_cross_origin_and_dns_rebinding_rejected(client):
     for origin in ["https://evil.invalid", "null", "http://localhost"]:
         assert client.get("/api/v1/snapshot", headers={**headers(), "Origin": origin}).status_code == 403

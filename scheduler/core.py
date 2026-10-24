@@ -156,11 +156,13 @@ class Store:
         with self.connect() as db:
             return self._preview(db, plan)
 
-    def apply(self, plan, approved=False, key=None):
+    def apply(self, plan, approved=False, key=None, expected_preview=None):
         from .contracts import validate_plan
         plan = validate_plan(plan)
         with self.transaction() as db:
             request = {"plan": plan, "approved": approved}
+            if expected_preview is not None:
+                request["expected_preview"] = expected_preview
             if key:
                 prior = db.execute("SELECT * FROM requests WHERE key=?", (key,)).fetchone()
                 if prior:
@@ -168,6 +170,8 @@ class Store:
                         raise Conflict("idempotency key reused")
                     return json.loads(prior["response"])
             diff = self._preview(db, plan)
+            if expected_preview is not None and diff != expected_preview:
+                raise Conflict("plan preview changed; review again before applying")
             pid, rev = plan["project_id"], plan["revision"]
             current = db.execute("SELECT * FROM projects WHERE id=?", (pid,)).fetchone()
             if current and rev <= current["revision"]:

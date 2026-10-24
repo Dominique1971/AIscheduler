@@ -1,0 +1,78 @@
+{
+  "run_id": "20261024T185515Z-37fd708b",
+  "entry_point": "python tests/acceptance_intake_http.py",
+  "test_class": "fresh local HTTP intake -> plan preview -> guarded import; browser interaction and real Codex unrun",
+  "source_sha256": "1f0378ac35cfb5ec1dcfc1887508dd556f26523117c0f2892057c84e1c06e00f",
+  "code_sha256": {
+    "scheduler\\api.py": "6ad4401b328d7cd1cace486c734f7b3c41faf197135139e27f641f27d0c9feac",
+    "scheduler\\core.py": "7f4516cafaaef2913af8ed35eccc62144db7d0dd9421b43db6ab7fbc47ed7dec",
+    "scheduler\\intake.py": "1e94c1caa0f11e16eac568f17c37917587fa035402991640fd4d9319c915be86",
+    "scheduler\\static\\dashboard.js": "e62498f9dbc608f81358d52e1640778e6c058765ac4d8e6afc15341d9bbbbec4",
+    "tests\\acceptance_intake_http.py": "015eee0dccf1079215a88d5155479ba4da3b4ca9604a5e0b62a60ab1cad8dde8"
+  },
+  "http_receipts": [
+    {
+      "label": "anonymous-intake",
+      "route": "/intake/preview",
+      "status": 401,
+      "request_sha256": "813b362fda766974a48f5b1c4456ffb7aa7c1518eb1b69bd9572d1f7741c124e",
+      "response_sha256": "6bdf668486bb839ee19f5ee4edd137dfc84e04c736e0cdc42e7955136546c0b3"
+    },
+    {
+      "label": "intake-preview",
+      "route": "/intake/preview",
+      "status": 200,
+      "request_sha256": "813b362fda766974a48f5b1c4456ffb7aa7c1518eb1b69bd9572d1f7741c124e",
+      "response_sha256": "1eb622e90cf44128eb2f4a5e9886e5dcd7cd7a80641ded15cee31569ba5b49ce"
+    },
+    {
+      "label": "plan-preview",
+      "route": "/plans/preview",
+      "status": 200,
+      "request_sha256": "1239b69822360e936adb442e3231591c3c934d542241d571970c1c419145a488",
+      "response_sha256": "fc587973b31a3cf0c10aa4c5755563e08d5365b8143623e6d4ef5d1a7c6537c1"
+    },
+    {
+      "label": "stale-rejected",
+      "route": "/plans/apply",
+      "status": 409,
+      "request_sha256": "61eac0a89dc8d3160f6e8fa56d7048644fef15523c9f0b116793918865bc774e",
+      "response_sha256": "09f6a23a1cbc1325109802f39f02db9b26e7a28b7ab9df666921c033c63e3efc"
+    },
+    {
+      "label": "reviewed-import",
+      "route": "/plans/apply",
+      "status": 200,
+      "request_sha256": "c6fc87c3dfbba853d53d68f5e91d3b6d8373afbb2b8a77f4c4539b1426819119",
+      "response_sha256": "fc587973b31a3cf0c10aa4c5755563e08d5365b8143623e6d4ef5d1a7c6537c1"
+    },
+    {
+      "label": "reused-preview-rejected",
+      "route": "/plans/apply",
+      "status": 409,
+      "request_sha256": "c6fc87c3dfbba853d53d68f5e91d3b6d8373afbb2b8a77f4c4539b1426819119",
+      "response_sha256": "09f6a23a1cbc1325109802f39f02db9b26e7a28b7ab9df666921c033c63e3efc"
+    }
+  ],
+  "file_sha256": {
+    "anonymous-intake.request.json": "813b362fda766974a48f5b1c4456ffb7aa7c1518eb1b69bd9572d1f7741c124e",
+    "anonymous-intake.response.raw": "6bdf668486bb839ee19f5ee4edd137dfc84e04c736e0cdc42e7955136546c0b3",
+    "intake-demo-weather.yaml": "1f0378ac35cfb5ec1dcfc1887508dd556f26523117c0f2892057c84e1c06e00f",
+    "intake-input.json": "f0f560b69210e60c701c09bc336dc9f245d62429a1fc5ad4c16f3f8b345105e8",
+    "intake-preview.request.json": "813b362fda766974a48f5b1c4456ffb7aa7c1518eb1b69bd9572d1f7741c124e",
+    "intake-preview.response.raw": "1eb622e90cf44128eb2f4a5e9886e5dcd7cd7a80641ded15cee31569ba5b49ce",
+    "plan-preview.request.json": "1239b69822360e936adb442e3231591c3c934d542241d571970c1c419145a488",
+    "plan-preview.response.raw": "fc587973b31a3cf0c10aa4c5755563e08d5365b8143623e6d4ef5d1a7c6537c1",
+    "reused-preview-rejected.request.json": "c6fc87c3dfbba853d53d68f5e91d3b6d8373afbb2b8a77f4c4539b1426819119",
+    "reused-preview-rejected.response.raw": "09f6a23a1cbc1325109802f39f02db9b26e7a28b7ab9df666921c033c63e3efc",
+    "reviewed-import.request.json": "c6fc87c3dfbba853d53d68f5e91d3b6d8373afbb2b8a77f4c4539b1426819119",
+    "reviewed-import.response.raw": "fc587973b31a3cf0c10aa4c5755563e08d5365b8143623e6d4ef5d1a7c6537c1",
+    "scheduler.sqlite": "06216a419f761c6769eaa2b8eb52c8f3f7eebb3d331f0625dc7ef5c363a14a2c",
+    "server.stderr.raw": "9a66f3d0673bb532c7544e2aa0a87d13dea0a074c9ffdfa780c21a81a5cf6dd8",
+    "server.stdout.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stale-rejected.request.json": "61eac0a89dc8d3160f6e8fa56d7048644fef15523c9f0b116793918865bc774e",
+    "stale-rejected.response.raw": "09f6a23a1cbc1325109802f39f02db9b26e7a28b7ab9df666921c033c63e3efc"
+  },
+  "cost": "no model call; local simulation intake only",
+  "result": "green_dummy_http_review_import_only"
+}

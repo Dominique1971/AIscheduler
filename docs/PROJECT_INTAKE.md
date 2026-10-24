@@ -31,14 +31,21 @@ defaults, risks, accepted outputs and dependencies with the actual goal before
 using the separate `import` command. Plan revisions continue to require explicit
 approval and immutable task identity.
 
-The authenticated **local** dashboard also has a Draft project form. It collects
-the same description and task fields, calls `POST /api/v1/intake/preview`, and
-shows each task's estimate, dependencies and criteria before offering separate
-downloads of the source intake, canonical plan and provenance. The downloaded
-intake is exact canonical JSON whose SHA-256 matches the preview response;
-the API also reports the raw HTTP request hash. A control token is required.
-This form does not yet provide the richer plan-diff or approval/import workflow,
-and it is not deployed in the private phone Site.
+The authenticated **local** dashboard has a Draft project form. It collects
+the description and task fields, calls `POST /api/v1/intake/preview` followed by
+`POST /api/v1/plans/preview`, and shows the source description, estimates,
+dependency layers, task criteria, defaults, hashes and plan diff. It offers
+separate downloads of the source intake, canonical plan and provenance. The
+downloaded intake is exact canonical JSON whose SHA-256 matches the preview
+response; the API also reports the raw HTTP request hash. A control token is
+required. After an explicit review checkbox, the dashboard can import only a
+**new** `demo-` or `dummy-` simulation plan with a declared path below
+`./runtime/`. It rechecks the preview and submits it as `expected_preview`;
+the server rejects a changed preview in the same transaction as import. Import
+queues synthetic tasks for a running daemon. Browser interaction is still
+unverified, and this form is not deployed in the private phone Site. The path
+check applies to this UI workflow only; a future real executor must validate
+the resolved repository path independently before any launch.
 
 The total is the sum of task estimates; the critical path is the longest chain
 of dependent task estimates. Neither includes review, retries, queue time or
