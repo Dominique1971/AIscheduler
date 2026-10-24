@@ -1,0 +1,26 @@
+{
+  "observed_at_utc": "2026-10-24T13:02:09Z",
+  "operation": "supabase.create_project",
+  "input": {
+    "name": "AI Scheduler Auth",
+    "organization_id": "kphglmcylkeyslkvesia",
+    "region": "us-east-1"
+  },
+  "quoted_cost": {
+    "type": "project",
+    "recurrence": "monthly",
+    "amount": 0
+  },
+  "user_cost_confirmation": "yes continue the work",
+  "raw_result": {
+    "error": {
+      "name": "BadRequestException",
+      "message": "The following organization members have reached their maximum limits for the number of active free projects within organizations where they are an administrator or owner: Dominique1971 (2 project limit). To continue, these users will need to either delete, pause or upgrade one or more of these projects."
+    },
+    "isError": true,
+    "structuredContent": {
+      "error_code": "INVALID_ARGUMENT"
+    }
+  },
+  "project_created": false
+}

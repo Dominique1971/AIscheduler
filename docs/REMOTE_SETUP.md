@@ -37,6 +37,10 @@ SPEC section 11. No cloud resource, billing change or public endpoint was create
 The user selected the existing Oppo/Compass Supabase organization for the new,
 separate Auth project. The connector's project-creation quote on October 24 is
 `{"type":"project","recurrence":"monthly","amount":0}` ($0/month).
-Required cost confirmation is pending. A quote does not guarantee spare free
-project capacity; do not upgrade billing, pause another project or reuse its Auth
-configuration if creation is refused.
+The user confirmed that quoted cost. Creation was attempted for a separate
+`AI Scheduler Auth` project in `us-east-1`, but Supabase refused it because the
+organization's owner has reached the two-active-free-project limit. The exact
+request and response are preserved in
+`evidence/remote-setup/20261024-prepublication/supabase-create-refused.json`.
+No project was created. Do not upgrade billing, pause another project or reuse
+an existing app's Auth configuration without a specific new decision.

@@ -17,9 +17,13 @@ Worker/D1/bridge/API/daemon pipeline passed with explicitly mocked Auth at
 Supabase MFA, cellular access and deployment remain unrun. See REMOTE_SETUP.md.
 
 User selected the same Supabase organization as Oppo/Compass for a dedicated
-scheduler Auth project. Connector quotes $0/month; cost confirmation and actual
-free-quota availability must precede resource creation. No paid upgrade or
-alteration/reuse of either existing application's resources is authorized.
+scheduler Auth project and confirmed the connector's $0/month quote. Creation
+was refused: the organization owner has reached its two-active-free-project
+limit. Raw refusal is preserved in `evidence/remote-setup/20261024-prepublication/`.
+No paid upgrade or alteration/reuse of either existing application's resources
+is authorized. Cloudflare account read-only inventory confirmed the expected
+account, an existing `compass` Worker and no D1 databases; no new resource was
+created there.
 
 Completed: repository discovery, independent Git initialization, capability help
 probes with raw hashes, ADR, schema/validator and builder, two 6-task dummy plans,
