@@ -132,6 +132,14 @@ evidence for the simulation product; it is not real generator acceptance.
   evidence file hashes verified. This run
   captures current parser/API/dashboard/layout code hashes; the seven-task
   run above remains separate evidence for broader graph topology.
+- Local dashboard connection diagnostic `evidence/diagnostics/dashboard-auth-20261024/`
+  preserved the HTTP 401 response when this browser tab had no token. The
+  authenticated snapshot API returned HTTP 200 with six dummy projects and a
+  healthy daemon, so the server was not down. The dashboard now labels this
+  case **Connect required** and opens its token dialog. A downloadable five-task
+  Markdown example is visible in the import dialog without login; its source
+  matched the served bytes and its live authenticated preview was valid for a
+  new project. Browser token entry and import remain unrun in this diagnostic.
 
 ## Requirement gates
 

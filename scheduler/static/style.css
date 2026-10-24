@@ -20,4 +20,5 @@
 .example-card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0}
 .intake-format{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:12px 0}.intake-format summary{cursor:pointer;color:var(--accent)}.intake-format a{color:var(--accent)}#intake-file-form{border:1px solid var(--line);border-radius:8px;padding:12px;margin:12px 0}#intake-file{display:block;width:100%;margin-top:7px}#intake-file-form .dialog-actions{margin-top:10px}
 .example-card p{margin:7px 0}.example-card small{color:var(--muted)}
+.example-files{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:12px 0}.example-files h3{margin:0 0 6px!important}.example-files p{margin:0 0 8px}.example-files a{color:var(--accent)}
 .intake-success{color:#72dfb2!important}.intake-error{color:#ff9b9b!important}

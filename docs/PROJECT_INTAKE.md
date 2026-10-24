@@ -45,7 +45,10 @@ it has no project drafting editor. Its **Import plan** dialog accepts a `.md`
 file authored elsewhere using the exact
 [`Markdown intake v1` format](../scheduler/static/intake-format.md). A
 [downloadable template](../scheduler/static/intake-template.md) and in-dialog
-format guide list every required field. The upload calls
+format guide list every required field. A separate
+[five-task dummy import example](../scheduler/static/dummy-import-example.md)
+is downloadable from the dialog. Each project ID imports only once; edit the
+authored file's ID for a new project. The upload calls
 `POST /api/v1/intake/file/preview` and `POST /api/v1/plans/preview`, then shows
 the authored description, estimates, directed dependency arrows, criteria, defaults,
 source/plan hashes and plan diff. An explicit review checkbox is required

@@ -1,0 +1,7 @@
+{
+  "entry_point": "GET /api/v1/snapshot without token from local browser context",
+  "http_status": 401,
+  "output_sha256": "6bdf668486bb839ee19f5ee4edd137dfc84e04c736e0cdc42e7955136546c0b3",
+  "diagnosis": "browser tab lacked local token; authenticated direct request returned HTTP 200; page now prompts Connect required",
+  "validation": "diagnostic only; signed-in browser flow not yet exercised"
+}

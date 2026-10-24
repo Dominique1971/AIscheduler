@@ -4,7 +4,7 @@
   const terminal = new Set(["completed", "failed", "canceled", "superseded"]);
   const active = new Set(["starting", "running", "validating", "recovering"]);
   const symbols = {completed:"✓", running:"●", starting:"●", validating:"●", ready:"◇", queued:"◇", "dependency-blocked":"⊘", blocked:"⊘", retrying:"↻", recovering:"↻", failed:"!", paused:"Ⅱ", "waiting-review":"!", canceled:"×", superseded:"×", draft:"◇"};
-  let snapshot = null, lastSuccess = 0, hours = 8, offset = 0, loading = false, updateFailed = false, noticeTimer;
+  let snapshot = null, lastSuccess = 0, hours = 8, offset = 0, loading = false, updateFailed = false, authRequired = false, noticeTimer;
   let reviewedIntake = null, intakeGeneration = 0;
   let token = "";
   try { token = sessionStorage.getItem("scheduler-token") || ""; } catch (_) { /* Storage may be disabled; memory still works. */ }
@@ -24,7 +24,7 @@
       if (response.status === 404) message = "This operation is unavailable on the connected server.";
       if (response.status === 409) { const problem = await response.json().catch(()=>null); message = typeof problem?.message === "string" ? problem.message.slice(0,400) : "The project changed; preview again before importing."; }
       if (response.status === 422) { const problem = await response.json().catch(()=>null); if (typeof problem?.message === "string") message = problem.message.slice(0,400); }
-      throw new Error(message);
+      const error = new Error(message); error.status = response.status; throw error;
     }
     return response.status === 204 ? null : response.json();
   }
@@ -34,9 +34,14 @@
     try {
       const data = await request("/snapshot");
       if (!data || !Array.isArray(data.projects) || !data.projects.every(p => Array.isArray(p.tasks))) throw new Error("Snapshot contract is invalid; retaining the last successful data.");
-      snapshot = data; lastSuccess = Date.now(); updateFailed = false;
+      snapshot = data; lastSuccess = Date.now(); updateFailed = false; authRequired = false;
       clearTimeout(noticeTimer); $("notice").style.display = "none"; render();
-    } catch (error) { updateFailed = true; $("connection").textContent = "Update failed"; $("connection").classList.add("stale"); announce(error.message); }
+    } catch (error) {
+      updateFailed = true; authRequired = error.status === 401;
+      $("connection").textContent = authRequired ? "Connect required" : "Update failed";
+      $("connection").classList.add("stale"); announce(error.message);
+      if (authRequired && !$("auth-dialog").open) $("auth-dialog").showModal();
+    }
     finally { loading = false; $("refresh").disabled = false; updateAge(); }
   }
   async function action(path, body, button) {
@@ -53,7 +58,7 @@
     $("updated").textContent = `Source: ${localDate(snapshot.updated_at)} · ${age === null ? "age unavailable" : age < 60 ? `${age}s old` : `${Math.floor(age/60)}m old`}`;
     $("updated").classList.toggle("stale", stale);
     const daemonHealthy = snapshot.daemon?.healthy === true;
-    if (!loading) { $("connection").textContent = updateFailed ? "Update failed" : stale ? "Stale data" : !daemonHealthy ? "Daemon unhealthy at update" : snapshot.stopped ? "Emergency stop active" : `${snapshot.role === "reader" ? "Read only" : "Control"} · daemon healthy at update`; $("connection").classList.toggle("stale", stale || updateFailed || !daemonHealthy || snapshot.stopped); }
+    if (!loading) { $("connection").textContent = authRequired ? "Connect required" : updateFailed ? "Update failed" : stale ? "Stale data" : !daemonHealthy ? "Daemon unhealthy at update" : snapshot.stopped ? "Emergency stop active" : `${snapshot.role === "reader" ? "Read only" : "Control"} · daemon healthy at update`; $("connection").classList.toggle("stale", stale || updateFailed || !daemonHealthy || snapshot.stopped); }
   }
   function showTask(project, task) {
     $("detail-title").textContent = task.title || task.task_id;

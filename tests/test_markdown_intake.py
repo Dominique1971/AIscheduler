@@ -11,6 +11,7 @@ from scheduler.intake import build_intake, parse_markdown_intake
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = (ROOT / "scheduler/static/intake-template.md").read_text(encoding="utf-8")
+IMPORT_EXAMPLE = (ROOT / "scheduler/static/dummy-import-example.md").read_text(encoding="utf-8")
 TOKEN = "markdown-diagnostic-" + "m" * 40
 HEADERS = {"Authorization": "Bearer " + TOKEN, "Idempotency-Key": "markdown-diagnostic"}
 
@@ -22,6 +23,15 @@ def test_markdown_template_has_valid_fork_join_and_preserves_authored_facts():
     assert draft["summary"]["total_estimate_minutes"] == 12
     assert draft["summary"]["critical_path_estimate_minutes"] == 10
     assert draft["summary"]["tasks"][-1]["depends_on"] == ["check", "summarize"]
+
+
+def test_downloadable_dummy_example_has_two_roots_and_a_join():
+    intake = parse_markdown_intake(IMPORT_EXAMPLE)
+    draft = build_intake(intake, hashlib.sha256(IMPORT_EXAMPLE.encode()).hexdigest(), source_kind="markdown-intake/1")
+    assert intake["project_id"] == "dummy-import-example"
+    assert draft["summary"]["task_count"] == 5
+    assert [task["task_id"] for task in intake["tasks"] if not task["depends_on"]] == ["records", "checklist"]
+    assert intake["tasks"][-1]["depends_on"] == ["summary", "checklist"]
 
 
 @pytest.mark.parametrize("changed", [

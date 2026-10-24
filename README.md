@@ -38,6 +38,9 @@ The local **Import plan** dialog uses a control token to preview an external
 Markdown intake file without importing it. Download the
 [format specification](scheduler/static/intake-format.md) and
 [template](scheduler/static/intake-template.md) to prepare the file elsewhere.
+The dashboard also offers a [ready-made five-task dummy plan](scheduler/static/dummy-import-example.md)
+to download and import. It is not preloaded in the example showcase; change
+the ID in the file if it has already been imported.
 The dialog also lists two packaged six-task examples and shows the goal,
 estimate critical path, dependencies and task details before and after import.
 For the isolated example showcase already set up on this machine:
