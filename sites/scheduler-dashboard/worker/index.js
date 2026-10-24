@@ -90,6 +90,11 @@ async function agent(request,env) {
 async function route(request,env) {
   const url=new URL(request.url);
   // Owner-private, read-only bootstrap diagnostic. Disable before enabling controls.
+  if(env.IDENTITY_PROBE_ENABLED==="true" && env.REMOTE_CONTROL_ENABLED!=="true" && request.method==="GET" && ["/","/favicon.ico"].includes(url.pathname)) {
+    if(!request.headers.get("oai-authenticated-user-id") && !request.headers.get("oai-authenticated-user-email"))throw new Failure(401,"site_sign_in_required");
+    if(url.pathname==="/favicon.ico")return new Response(null,{status:204});
+    return new Response("<!doctype html><html lang=\"en\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Scheduler diagnostic</title><main><h1>Scheduler Site diagnostic</h1><p>Private sign-in reached the Site. Remote controls and the local bridge are disabled.</p><p><a href=\"/setup/identity\">Inspect supplied identity</a></p></main></html>",{headers:{"Content-Type":"text/html; charset=utf-8"}});
+  }
   if(url.pathname==="/setup/identity" && request.method==="GET" && env.IDENTITY_PROBE_ENABLED==="true" && env.REMOTE_CONTROL_ENABLED!=="true") {
     const id=request.headers.get("oai-authenticated-user-id");
     const email=request.headers.get("oai-authenticated-user-email");
