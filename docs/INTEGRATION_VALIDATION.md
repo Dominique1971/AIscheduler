@@ -458,6 +458,17 @@ retained for its prior code version; the current run includes the subsequent
 invalid-preview-object guard. Targeted API, intake, core and allocation
 diagnostics passed 40/40 after the change.
 
+### Disposable worktree preparation boundary
+
+The new `scheduler/worktrees.py` prepares a detached Git worktree only inside
+an explicitly marked disposable root and preserves raw Git command outputs and
+hashes per attempt. Two fresh dummy checkouts from one seed commit remained
+independent in direct Git diagnostics; missing marker, outside checkout,
+unsafe attempt ID and destination reuse were rejected. The 10 targeted
+worktree/adapter tests passed. This does **not** launch a Codex task through the
+scheduler or establish crash reconciliation, artifact acceptance or native
+tool parity. The daemon's real executor gate remains closed.
+
 ### Codex invocation boundary after the disposable-worktree probe
 
 `CodexAdapter.prepare` can now construct an explicit workspace-write invocation

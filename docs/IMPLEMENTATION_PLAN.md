@@ -23,7 +23,7 @@ IDs below identify deliverables, not permission to attach real repositories.
 | C6 | Admission of resource/skill/budget policy | C4,E2 | 5–9h | Memory, skill requirements, project concurrency caps and task token budgets enforced or clearly rejected | Slots only; other fields declarative |
 | C7 | Complete plan revision controls | C5,I3 | 4–7h | Edge/estimate/allocation diff, rollback as new revision, safe active replacement, approval audit | Basic diff and append split only |
 | E1 | Real Codex capability spike | D1 | 2–5h | Actual launch/IDs/status/resume/cancel/usage with receipts | Parallel CLI, resume, own-thread app-server controls/usage verified; artifact/worktree/parity pending |
-| E2 | Worker worktrees and Codex lifecycle | E1,C3 | 5–10h | Disposable real tasks, crash reconciliation, no duplicates | Parser and root-gated write invocation prepared; launch/reconciliation unimplemented |
+| E2 | Worker worktrees and Codex lifecycle | E1,C3 | 5–10h | Disposable real tasks, crash reconciliation, no duplicates | Marked disposable worktree preparation and raw Git receipts added; scheduler launch/reconciliation unimplemented |
 | E3 | Validation/tests/Git checkpoints and batch review | E2 | 5–8h | Source-faithful actual artifacts and narrow/full test policy | Unimplemented |
 | E4 | Live process reconciliation and control | E2 | 5–9h | After daemon/host restart, recover IDs/status/logs without duplicate side effects; cancel/steer only where proven | Direct CLI/app-server probes only |
 | R1 | Watchdog/bounded recovery/alerts | C3,E2 | 3–6h | Stalls, network/rate limits, partial side effects | Simulation timeout/retry/warnings only |

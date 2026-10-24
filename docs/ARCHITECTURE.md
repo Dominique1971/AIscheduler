@@ -23,6 +23,16 @@ starts a process itself. It is not scheduled Codex execution or artifact
 acceptance. Desktop and Dot are optional
 peers. Nothing changes their configuration or intercepts native tasks.
 
+Worktree preparation is also separate from dispatch. `scheduler/worktrees.py`
+requires an explicit disposable root marked with `.scheduler-disposable`, a seed
+Git checkout inside that root, and a unique attempt ID. It creates a detached
+worktree at the seed's full commit, retains raw Git stdout/stderr and hashes in
+an attempt-specific receipt directory, and refuses to overwrite an existing
+worktree or receipt. It never launches Codex, deletes a worktree, or claims an
+attempt. A future runner must durably claim before external launch, record the
+process and Codex IDs, reconcile ambiguous crash windows without blind relaunch,
+and validate untouched artifacts before completing a task.
+
 Each plan revision stores the canonical input and hash. Active/completed task
 contracts cannot change or disappear. A split appends new tasks dependent on the
 original task; incompatible replacement requires a different identity. Removed
