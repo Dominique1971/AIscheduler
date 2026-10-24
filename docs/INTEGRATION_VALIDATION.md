@@ -329,6 +329,22 @@ had no scheduler daemon or control command. It is a **green hosted bridge
 diagnostic**, not phone, MFA, command-control, or real Codex acceptance. Site
 cost was not reported; controls are still disabled.
 
+### Owner authenticator follow-up
+
+The owner reported that manual authenticator setup worked. A read-only Sites
+D1 check then found one owner verification counter, two `reader` sessions and
+two `auth.login` audit events. These hosted records support successful separate
+TOTP verification, but the browser response itself was reported by the owner
+rather than captured by this runner. The Site access policy remains owner-only.
+Temporary `TOTP_ENROLLMENT_ENABLED` was set to `false`, and the saved version 4
+was privately redeployed as `appgdep_6adcd37756908191930bac68fb71b8f4`
+(`succeeded`) with environment revision 4. The identity probe and remote
+controls are also `false`.
+
+The owner has been asked to verify the read-only dashboard on Android over
+mobile data with Wi-Fi off. Until that result is observed, cellular access is
+unrun. No command-control or real-project access has been enabled or tested.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
