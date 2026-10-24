@@ -1,0 +1,1 @@
+This attempt ran with EOF on stdin, so the `service` request used an empty bearer value. The receipt's `credential` field is inaccurate for this attempt. Keep the raw response and receipt as diagnostic history; they do not test the newly generated token. A new run uses a separate directory.

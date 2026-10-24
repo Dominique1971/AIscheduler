@@ -226,6 +226,36 @@ unconfigured dashboard's 503. A fresh anonymous `GET /` returned HTTP 401.
 No owner-signed-in response or successful service-token request has yet been
 captured on version 2; hosted identity and bridge acceptance remain unrun/red.
 
+### Version 2 follow-up: identity and rotated service token
+
+The owner opened `/setup/identity` while signed in and reported JSON containing
+both `site_user_id` and `site_user_email`. This is a user-observed live result,
+not an independently captured raw browser response. The ID is available for
+`OWNER_SITE_USER_ID` configuration; its personal value is omitted from the
+repository. The earlier absence of the ID in one Worker log is therefore not a
+general property of the hosted runtime. The owner also explicitly authorized
+generating and testing a new Sites bypass token.
+
+A new token was generated through Sites, held only in the tool session, and sent
+to the version 2 private deployment via `OAI-Sites-Authorization: Bearer ...`.
+The normal HTTP request to `/setup/identity` returned HTTP 401 with
+`application/json` and the Worker's `site_sign_in_required` error. This is the
+expected result for a service request without visitor identity and proves that
+the rotated token reached the Worker. The unauthenticated request received HTTP
+403 at the edge. Raw bodies, request metadata, SHA-256 hashes and the receipt
+are in `evidence/remote-sites/20261024T152000Z-rotated-token/`; the token
+value is not present. All four raw response hashes across the two attempts
+were checked against their receipts.
+
+An initial probe attempt inadvertently received EOF on stdin and sent an empty
+bearer value. Its untouched raw results and receipt remain in
+`evidence/remote-sites/20261024T151703Z-rotated-token/`, with a separate note
+correcting the receipt's inaccurate credential description. That attempt is
+**not** evidence for the new token. The valid probe establishes Site dispatch
+reachability only. Agent authentication, D1 migration, owner TOTP, bridge polling,
+private audience denial for a different signed-in user, mobile cellular access,
+and scheduler control are still unrun. Remote controls remain disabled.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
