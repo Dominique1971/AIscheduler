@@ -57,6 +57,14 @@ explicit model/low effort, steer/interrupt and stored interrupted status were
 observed. CLI resume usage may be cumulative; app-server exposes total/last. See
 INTEGRATION_VALIDATION.md for exact scopes, original red probes and limitations.
 
+Further disposable Git-worktree diagnostic: two concurrent installed CLI tasks
+created exact expected files in separate branches/worktrees with ordinary user
+configuration and explicit workspace-write, while the same diagnostic using
+`--ignore-user-config` had both writes refused by read-only policy. Raw red and
+green streams, emitted bytes and hashes are under `evidence/codex-worktree/`.
+This establishes only direct CLI isolation in dummy repositories; scheduled
+Codex dispatch and artifact acceptance remain unrun.
+
 Gates: scheduled Codex execution/worktree isolation and artifact acceptance,
 tool/approval parity, optional Dot handshake, remote tunnel provider/MFA, Android cellular
 testing, 24h soak and host reboot. No real projects connected; no external API
