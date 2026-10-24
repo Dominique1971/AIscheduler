@@ -13,6 +13,7 @@ shared local roles; per-person identity/MFA is not implemented.
 | GET /projects?offset=0&limit=50 | Project listing (limit 1..100) | read/control |
 | GET /projects/{id}/tasks/{task}/trace | Original attempts and verified input/output hashes | read/control |
 | GET /projects/{id}/plans/history?offset=0&limit=50 | Immutable plans, hashes and timestamps | read/control |
+| POST /intake/preview | `{intake: authoredIntake}`; returns draft plan, per-task explanation, estimates, defaults and source provenance; no import | control |
 | POST /plans/validate | `{plan: canonicalPlan}` | control |
 | POST /plans/preview | `{plan: canonicalPlan}` | control |
 | POST /plans/apply | `{plan: canonicalPlan, approved: true}`; approval required on revisions | control |
@@ -43,3 +44,9 @@ Snapshot events are currently capped at the last 200; detailed events remain in
 SQLite. Full task/execution/worker/metrics/alert pagination, alert acknowledgement,
 plan rollback helper, independent OpenAPI publication, MCP wrapping and Dot
 handshake remain pending. This document describes only implemented routes.
+
+The intake API hashes a canonical JSON rendering of the inbound `intake`
+object and returns those exact source bytes as `source_text` for download;
+`request_sha256` separately identifies the raw HTTP envelope. The local
+dashboard's Draft project form uses this route. Neither preview nor download
+creates a project. The standalone CLI hashes the original intake file bytes.

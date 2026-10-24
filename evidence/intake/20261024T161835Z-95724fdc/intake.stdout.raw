@@ -1,0 +1,56 @@
+{
+  "plan_path": "C:\\dev-codex\\scheduler\\evidence\\intake\\20261024T161835Z-95724fdc\\proposed-plan.json",
+  "provenance_path": "C:\\dev-codex\\scheduler\\evidence\\intake\\20261024T161835Z-95724fdc\\proposed-plan.json.provenance.json",
+  "summary": {
+    "project_id": "intake-demo-weather",
+    "description": "Exercise project intake with synthetic weather data only. This description names the intended work; simulation receipts do not create or validate CSVs.",
+    "task_count": 3,
+    "total_estimate_minutes": 9,
+    "critical_path_estimate_minutes": 7,
+    "estimate_note": "Authored estimates only; excludes review, retries and overhead. Not a forecast.",
+    "execution_note": "Simulation is synthetic; Codex execution remains disabled by the scheduler.",
+    "tasks": [
+      {
+        "task_id": "observations",
+        "title": "Describe synthetic observations",
+        "description": "Define a deterministic synthetic temperature table contract.",
+        "estimate_minutes": 4,
+        "depends_on": [],
+        "dependency_layer": 1,
+        "executor": "simulation",
+        "acceptance_criteria": [
+          "Table columns and row count are specified for later real validation."
+        ]
+      },
+      {
+        "task_id": "averages",
+        "title": "Describe average calculation",
+        "description": "State how daily means would be calculated from observations.",
+        "estimate_minutes": 3,
+        "depends_on": [
+          "observations"
+        ],
+        "dependency_layer": 2,
+        "executor": "simulation",
+        "acceptance_criteria": [
+          "Expected aggregation rule is specified."
+        ]
+      },
+      {
+        "task_id": "chart",
+        "title": "Describe chart presentation",
+        "description": "State the labels and axes for a future temperature chart.",
+        "estimate_minutes": 2,
+        "depends_on": [
+          "observations"
+        ],
+        "dependency_layer": 2,
+        "executor": "simulation",
+        "acceptance_criteria": [
+          "Axis labels and chart title are specified."
+        ]
+      }
+    ]
+  },
+  "status": "draft_only; explicit preview and import required"
+}

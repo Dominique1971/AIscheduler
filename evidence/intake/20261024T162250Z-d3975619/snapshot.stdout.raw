@@ -1,0 +1,537 @@
+{
+  "updated_at": "2026-10-24T16:22:53.126359+00:00",
+  "max_workers": 2,
+  "workers": 0,
+  "projects": [
+    {
+      "project_id": "intake-demo-weather",
+      "display_name": "Disposable weather intake demonstration",
+      "revision": 1,
+      "paused": false,
+      "max_workers": 2,
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "Expected aggregation rule is specified."
+          ],
+          "allowed_operations": [],
+          "artifact_outputs": [],
+          "depends_on": [
+            "observations"
+          ],
+          "description": "State how daily means would be calculated from observations.",
+          "escalation_conditions": [
+            "Human review if acceptance is unverified or retry budget is exhausted"
+          ],
+          "estimate_minutes": 3,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 50,
+          "resources": {
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "output": "Synthetic average-contract receipt; no calculation was executed."
+          },
+          "task_id": "averages",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 300,
+            "max_retries": 0,
+            "warning_multiplier": 2
+          },
+          "title": "Describe average calculation",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T16:22:51.608893+00:00",
+          "ended_at": "2026-10-24T16:22:51.716922+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Axis labels and chart title are specified."
+          ],
+          "allowed_operations": [],
+          "artifact_outputs": [],
+          "depends_on": [
+            "observations"
+          ],
+          "description": "State the labels and axes for a future temperature chart.",
+          "escalation_conditions": [
+            "Human review if acceptance is unverified or retry budget is exhausted"
+          ],
+          "estimate_minutes": 2,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 50,
+          "resources": {
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "output": "Synthetic chart-contract receipt; no image was generated."
+          },
+          "task_id": "chart",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 300,
+            "max_retries": 0,
+            "warning_multiplier": 2
+          },
+          "title": "Describe chart presentation",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T16:22:51.608893+00:00",
+          "ended_at": "2026-10-24T16:22:51.716922+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        },
+        {
+          "acceptance_criteria": [
+            "Table columns and row count are specified for later real validation."
+          ],
+          "allowed_operations": [],
+          "artifact_outputs": [],
+          "depends_on": [],
+          "description": "Define a deterministic synthetic temperature table contract.",
+          "escalation_conditions": [
+            "Human review if acceptance is unverified or retry budget is exhausted"
+          ],
+          "estimate_minutes": 4,
+          "executor": "simulation",
+          "model": {
+            "preference": "default"
+          },
+          "priority": 50,
+          "resources": {
+            "slots": 1
+          },
+          "risk_class": "low",
+          "simulation": {
+            "duration_seconds": 0.1,
+            "output": "Synthetic observation-contract receipt; no CSV was generated."
+          },
+          "task_id": "observations",
+          "timeout_policy": {
+            "escalation_multiplier": 4,
+            "execution_seconds": 300,
+            "max_retries": 0,
+            "warning_multiplier": 2
+          },
+          "title": "Describe synthetic observations",
+          "validation_profile": "simulation-receipt",
+          "state": "completed",
+          "started_at": "2026-10-24T16:22:51.499258+00:00",
+          "ended_at": "2026-10-24T16:22:51.608893+00:00",
+          "attempt_count": 1,
+          "error": null,
+          "tokens": null,
+          "held": false
+        }
+      ],
+      "min_workers": 0,
+      "target_workers": 2,
+      "reserved_slots": 0,
+      "allocated": 0,
+      "busy": 0,
+      "ready": 0,
+      "blocked": 0,
+      "idle": 0
+    }
+  ],
+  "events": [
+    {
+      "seq": 27,
+      "at": "2026-10-24T16:22:53.012464+00:00",
+      "kind": "daemon.released",
+      "project": null,
+      "task": null,
+      "detail": {
+        "owner": "67e119da-2792-4f4c-bf8d-42f1ae279d42"
+      }
+    },
+    {
+      "seq": 26,
+      "at": "2026-10-24T16:22:51.718096+00:00",
+      "kind": "attempt.finished",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "attempt_id": "adc61bf2-8229-4d5c-9900-38703ac5bfe0",
+        "cost": 0,
+        "output_hash": "a5ae6eb6b18a184d08aa03e141552a2bc79dbca5e0f3cbb9698f1eca5771d0f9",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 25,
+      "at": "2026-10-24T16:22:51.718096+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 24,
+      "at": "2026-10-24T16:22:51.718096+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 23,
+      "at": "2026-10-24T16:22:51.718096+00:00",
+      "kind": "attempt.finished",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "attempt_id": "3962dee4-8290-48c6-80fe-154b61330803",
+        "cost": 0,
+        "output_hash": "b479abe9512ca33ee9a62c8dc6904f6ee25795b8b714e7f033a3f1f411507849",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 22,
+      "at": "2026-10-24T16:22:51.718096+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 21,
+      "at": "2026-10-24T16:22:51.718096+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 20,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "attempt.started",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "attempt_id": "adc61bf2-8229-4d5c-9900-38703ac5bfe0",
+        "code_sha256": "39e8f8a11c3996427e190677e323e4d3621c5570ddeb8bc51595df0ac2a28af9",
+        "cost": 0,
+        "executor": "simulation",
+        "fence": 1,
+        "input_hash": "dd5564c8f657af50c6e0afa896385b47ed257e63d20b0d5f41f32bce9b355862",
+        "model": {
+          "preference": "default"
+        },
+        "number": 1,
+        "owner": "67e119da-2792-4f4c-bf8d-42f1ae279d42",
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "schema_version": "1.0",
+        "tokens": null
+      }
+    },
+    {
+      "seq": 19,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 18,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 17,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "attempt.started",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "attempt_id": "3962dee4-8290-48c6-80fe-154b61330803",
+        "code_sha256": "39e8f8a11c3996427e190677e323e4d3621c5570ddeb8bc51595df0ac2a28af9",
+        "cost": 0,
+        "executor": "simulation",
+        "fence": 1,
+        "input_hash": "3c6f32afea8032127524116157b6ae4f073ae0e99e21b435585079a24c2579f6",
+        "model": {
+          "preference": "default"
+        },
+        "number": 1,
+        "owner": "67e119da-2792-4f4c-bf8d-42f1ae279d42",
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "schema_version": "1.0",
+        "tokens": null
+      }
+    },
+    {
+      "seq": 16,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 15,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 14,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 13,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "previous": "dependency-blocked",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 12,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "attempt.finished",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "attempt_id": "01afbfa3-de35-4747-b9f2-08799779eb40",
+        "cost": 0,
+        "output_hash": "2cf480f16f2cee2b3a0bc8375b603dd6759697f118046791414e9493a98388be",
+        "state": "completed",
+        "tokens": null,
+        "validation": "simulation-envelope-only"
+      }
+    },
+    {
+      "seq": 11,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "previous": "validating",
+        "state": "completed"
+      }
+    },
+    {
+      "seq": 10,
+      "at": "2026-10-24T16:22:51.609897+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "previous": "running",
+        "state": "validating"
+      }
+    },
+    {
+      "seq": 9,
+      "at": "2026-10-24T16:22:51.501260+00:00",
+      "kind": "attempt.started",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "attempt_id": "01afbfa3-de35-4747-b9f2-08799779eb40",
+        "code_sha256": "39e8f8a11c3996427e190677e323e4d3621c5570ddeb8bc51595df0ac2a28af9",
+        "cost": 0,
+        "executor": "simulation",
+        "fence": 1,
+        "input_hash": "c5ce411d1d15e88bcb5236285e35010ba8c4ce08f69e84cbfb9259352c5ae96b",
+        "model": {
+          "preference": "default"
+        },
+        "number": 1,
+        "owner": "67e119da-2792-4f4c-bf8d-42f1ae279d42",
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "schema_version": "1.0",
+        "tokens": null
+      }
+    },
+    {
+      "seq": 8,
+      "at": "2026-10-24T16:22:51.501260+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "previous": "starting",
+        "state": "running"
+      }
+    },
+    {
+      "seq": 7,
+      "at": "2026-10-24T16:22:51.501260+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "previous": "ready",
+        "state": "starting"
+      }
+    },
+    {
+      "seq": 6,
+      "at": "2026-10-24T16:22:51.501260+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "observations",
+      "detail": {
+        "previous": "queued",
+        "state": "ready"
+      }
+    },
+    {
+      "seq": 5,
+      "at": "2026-10-24T16:22:51.501260+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "chart",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 4,
+      "at": "2026-10-24T16:22:51.501260+00:00",
+      "kind": "transition",
+      "project": "intake-demo-weather",
+      "task": "averages",
+      "detail": {
+        "previous": "queued",
+        "state": "dependency-blocked"
+      }
+    },
+    {
+      "seq": 3,
+      "at": "2026-10-24T16:22:51.500257+00:00",
+      "kind": "daemon.acquired",
+      "project": null,
+      "task": null,
+      "detail": {
+        "fence": 1,
+        "owner": "67e119da-2792-4f4c-bf8d-42f1ae279d42",
+        "simulation_reconciliation": "retained persisted attempts"
+      }
+    },
+    {
+      "seq": 2,
+      "at": "2026-10-24T16:22:51.497258+00:00",
+      "kind": "control.workers",
+      "project": null,
+      "task": null,
+      "detail": {
+        "actor": "local-cli",
+        "idempotency_key": null,
+        "value": 2
+      }
+    },
+    {
+      "seq": 1,
+      "at": "2026-10-24T16:22:51.385747+00:00",
+      "kind": "plan.applied",
+      "project": "intake-demo-weather",
+      "task": null,
+      "detail": {
+        "approved": false,
+        "diff": {
+          "added": [
+            "averages",
+            "chart",
+            "observations"
+          ],
+          "from_revision": null,
+          "modified": [],
+          "project_id": "intake-demo-weather",
+          "removed": [],
+          "requires_approval": false,
+          "risk": "initial-dummy-import",
+          "to_revision": 1
+        },
+        "hash": "e6bce05848c7acd62b066cf8723a26373f391f413ca35a04e3851a35425b5959",
+        "revision": 1
+      }
+    }
+  ],
+  "stopped": false,
+  "daemon": {
+    "healthy": false,
+    "lease_expires_at": "1970-01-01T00:00:00+00:00"
+  },
+  "metrics": {
+    "allocated": 0,
+    "reserved_slots": 0,
+    "unallocated": 2,
+    "blocked": 0,
+    "busy": 0,
+    "idle": 2,
+    "total": 3,
+    "completed": 3,
+    "ready": 0,
+    "warnings": 0,
+    "utilization": 0.0,
+    "token_accounting": "unavailable",
+    "forecast_confidence": "simulation-only"
+  }
+}

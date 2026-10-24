@@ -2,6 +2,15 @@
 
 Updated 2026-10-24. Initial delivery in progress; **not production ready**.
 
+Project intake now accepts an authored description with task explanations,
+estimates and dependency IDs, then builds a versioned canonical draft with
+reported defaults, source/plan hashes, total effort and critical-path estimate.
+The draft does not import or execute itself. A fresh dummy CLI → validate →
+preview → import → simulation run passed after rejecting an earlier run whose
+transient SQLite sidecars failed post-exit integrity. See `docs/PROJECT_INTAKE.md`
+and `docs/ACCEPTANCE.md`. Goal-only assisted task breakdown, review UI and
+real Codex task execution remain open.
+
 Remote setup: reviewed Oppo/Compass locally, read-only. Their current hosted
 pattern is Cloudflare + Supabase owner authentication, not the older Compass
 Tailscale-only baseline. The separate Supabase scheduler Auth project was

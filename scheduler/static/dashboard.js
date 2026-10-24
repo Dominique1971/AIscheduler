@@ -21,6 +21,7 @@
       if (response.status === 401) message = "Authentication required or token expired. Connect with a valid token.";
       if (response.status === 403) message = "This token cannot perform that action. A read-only token permits inspection only.";
       if (response.status === 404) message = "This operation is unavailable on the connected server.";
+      if (response.status === 422) { const problem = await response.json().catch(()=>null); if (typeof problem?.message === "string") message = problem.message.slice(0,400); }
       throw new Error(message);
     }
     return response.status === 204 ? null : response.json();
@@ -150,7 +151,86 @@
     for(const [label,value] of [["Estimated",estimated],["Actual",actual]]) {const row=node("div",undefined,`duration-row ${label.toLowerCase()}`), track=node("div"), bar=node("i"); bar.style.width=`${value/Math.max(estimated,actual,1)*100}%`; track.append(bar); row.append(node("span",label),track,node("span",`${value.toFixed(1)}m`)); bars.append(row);}
     $("duration-caption").textContent = `${measured.length} completed tasks · elapsed duration, including waits`;
   }
+  function intakeField(label, field, kind="input", options={}) {
+    const wrapper = node("label",label), control = node(kind);
+    control.dataset.field = field;
+    if (kind === "input") control.type = options.type || "text";
+    if (options.placeholder) control.placeholder = options.placeholder;
+    if (options.min !== undefined) control.min = String(options.min);
+    if (options.step !== undefined) control.step = String(options.step);
+    if (options.rows) control.rows = options.rows;
+    control.required = true;
+    wrapper.append(control);
+    return wrapper;
+  }
+  function addIntakeTask() {
+    const box = node("fieldset",undefined,"intake-task"), legend = node("legend",`Task ${$("intake-tasks").children.length+1}`);
+    const fields = node("div",undefined,"intake-grid");
+    fields.append(intakeField("Task ID","task_id"),intakeField("Title","title"),
+      intakeField("What this task does","description","textarea",{rows:2}),
+      intakeField("Acceptance criteria, one per line","acceptance_criteria","textarea",{rows:2}),
+      intakeField("Estimate (minutes)","estimate_minutes","input",{type:"number",min:0.01,step:"any"}),
+      intakeField("Depends on task IDs (comma separated)","depends_on","input",{placeholder:"None"}));
+    fields.querySelector('[data-field="depends_on"]').required = false;
+    const remove = node("button","Remove task"); remove.type = "button";
+    remove.addEventListener("click",()=>{box.remove(); [...$("intake-tasks").children].forEach((child,i)=>child.querySelector("legend").textContent=`Task ${i+1}`);});
+    box.append(legend,fields,remove); $("intake-tasks").append(box);
+  }
+  function readIntakeForm() {
+    const tasks = [...$("intake-tasks").querySelectorAll(".intake-task")].map(box => {
+      const get = field => box.querySelector(`[data-field="${field}"]`).value.trim();
+      return {task_id:get("task_id"),title:get("title"),description:get("description"),
+        acceptance_criteria:get("acceptance_criteria").split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
+        estimate_minutes:Number(get("estimate_minutes")),
+        depends_on:get("depends_on").split(",").map(x=>x.trim()).filter(Boolean)};
+    });
+    return {intake_version:"1.0",project_id:$("intake-id").value.trim(),display_name:$("intake-name").value.trim(),
+      description:$("intake-description").value.trim(),repository:{path:$("intake-repository").value.trim(),base_branch:$("intake-branch").value.trim()},
+      policy:{max_workers:Number($("intake-workers").value)},tasks};
+  }
+  function downloadDraft(name, data) {
+    const link = node("a"), url = URL.createObjectURL(new Blob([JSON.stringify(data,null,2)+"\n"],{type:"application/json"}));
+    link.href = url; link.download = name; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function downloadSource(name, sourceText) {
+    const link = node("a"), url = URL.createObjectURL(new Blob([sourceText],{type:"application/json"}));
+    link.href = url; link.download = name; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function showIntakeResult(draft, source) {
+    const target = $("intake-result"); target.replaceChildren();
+    target.append(node("h3","Draft review"),node("p",`${draft.summary.task_count} tasks · ${draft.summary.total_estimate_minutes} minutes of authored effort · ${draft.summary.critical_path_estimate_minutes} minute dependency critical path. These are estimates, not delivery forecasts.`),
+      node("p",draft.summary.execution_note));
+    const list = node("ol");
+    for (const task of draft.summary.tasks) {
+      const item = node("li"), title = node("strong",`${task.task_id}: ${task.title}`);
+      item.append(title,node("p",task.description),node("p",`${task.estimate_minutes} min · depends on ${task.depends_on.join(", ") || "nothing"} · ${task.executor}`),
+        node("p",`Acceptance: ${task.acceptance_criteria.join("; ")}`)); list.append(item);
+    }
+    target.append(list,node("p",`Operational defaults added: ${draft.defaults_applied.join(", ") || "none"}.`));
+    const actions = node("div",undefined,"dialog-actions");
+    const sourceButton = node("button","Download intake for CLI"); sourceButton.type = "button";
+    sourceButton.addEventListener("click",()=>downloadSource(`${source.project_id}-intake.json`,draft.source_text)); actions.append(sourceButton);
+    for (const [label,suffix,data] of [["Download canonical plan","plan.json",draft.plan],
+      ["Download provenance","provenance.json",Object.fromEntries(Object.entries(draft).filter(([key])=>key!=="plan"&&key!=="source_text"))]]) {
+      const button = node("button",label); button.type = "button";
+      button.addEventListener("click",()=>downloadDraft(`${source.project_id}-${suffix}`,data)); actions.append(button);
+    }
+    target.append(actions,node("p","Review these files before using the separate CLI preview/import workflow. Nothing was imported by this form."));
+  }
   $("refresh").addEventListener("click",refresh);
+  $("intake-open").addEventListener("click",()=>$("intake-dialog").showModal());
+  $("intake-close").addEventListener("click",()=>$("intake-dialog").close());
+  $("intake-add").addEventListener("click",addIntakeTask);
+  $("intake-form").addEventListener("input",()=>{$("intake-result").replaceChildren(node("p","Inputs changed; preview again before using any downloaded draft."));});
+  $("intake-form").addEventListener("submit",async event=>{
+    event.preventDefault();
+    if (!$("intake-form").reportValidity()) return;
+    const button = $("intake-preview"), source = readIntakeForm(); button.disabled = true;
+    try { showIntakeResult(await request("/intake/preview",{intake:source}),source); }
+    catch(error) { $("intake-result").replaceChildren(node("p",error.message)); }
+    finally { button.disabled = false; }
+  });
+  addIntakeTask();
   $("credentials").addEventListener("click",()=>{ $("token").value=token; $("auth-dialog").showModal(); });
   $("auth-cancel").addEventListener("click",()=>$("auth-dialog").close());
   $("auth-form").addEventListener("submit",event=>{event.preventDefault(); token=$("token").value.trim(); try {sessionStorage.setItem("scheduler-token",token);} catch (_) {} $("token").value=""; $("auth-dialog").close(); refresh();});

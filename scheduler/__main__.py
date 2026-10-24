@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 import signal
 import time
 import uuid
@@ -16,6 +17,9 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
     p = sub.add_parser("validate")
     p.add_argument("plan")
+    p = sub.add_parser("intake")
+    p.add_argument("source")
+    p.add_argument("--output", help="write a new canonical JSON plan and provenance sidecar; never overwrite")
     for name in ["import", "preview"]:
         p = sub.add_parser(name)
         p.add_argument("plan")
@@ -46,6 +50,31 @@ def main():
         if args.command == "validate":
             plan = load_plan(args.plan)
             print(json.dumps({"valid": True, "project_id": plan["project_id"]}))
+            return
+        if args.command == "intake":
+            from .intake import build_intake, load_intake
+
+            value, source_hash = load_intake(args.source)
+            draft = build_intake(value, source_hash)
+            if args.output:
+                destination = Path(args.output)
+                receipt = destination.with_name(destination.name + ".provenance.json")
+                if destination.exists() or receipt.exists():
+                    raise ValueError("intake output or provenance already exists; choose a new path")
+                if not destination.parent.is_dir():
+                    raise ValueError("intake output parent directory does not exist")
+                with destination.open("x", encoding="utf-8", newline="\n") as stream:
+                    json.dump(draft["plan"], stream, indent=2, ensure_ascii=False)
+                    stream.write("\n")
+                with receipt.open("x", encoding="utf-8", newline="\n") as stream:
+                    json.dump({key: draft[key] for key in ("transform_version", "source_sha256", "source_kind",
+                                                              "plan_sha256", "defaults_applied", "summary", "status")},
+                              stream, indent=2, ensure_ascii=False)
+                    stream.write("\n")
+                print(json.dumps({"plan_path": str(destination), "provenance_path": str(receipt),
+                                  "summary": draft["summary"], "status": draft["status"]}, indent=2))
+            else:
+                print(json.dumps(draft, indent=2, ensure_ascii=False))
             return
         if args.command == "restore":
             from .maintenance import restore

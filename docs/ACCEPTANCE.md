@@ -5,6 +5,26 @@ evidence for the simulation product; it is not real generator acceptance.
 
 ## Recorded runs
 
+- Latest project intake run `evidence/intake/20261024T162250Z-d3975619/` passed
+  through the normal intake CLI, canonical validation, preview, import,
+  simulation daemon and snapshot on a disposable brief. Three tasks retained
+  their authored descriptions, estimates and dependencies; total effort was
+  9 minutes and dependency critical path 7 minutes, both estimates only.
+  Dependency precedence held and all 16 post-exit file hashes, source hash
+  and five code hashes verified. This accepts the intake transformation and
+  synthetic scheduling path only; no CSV, chart or real Codex artifact was made.
+- Earlier intact intake run `20261024T161849Z-69e7805b` passed against the
+  preceding source revision. The fresh run above covers the current intake
+  transform after its source-kind provenance update.
+- Intake UI source passed JavaScript syntax check and its preview API passed
+  authenticated TestClient diagnostics. Browser automation did not initialize,
+  so form interaction and visual layout are **unrun**, not accepted.
+- The preceding intake run `20261024T161835Z-95724fdc` reported green during
+  execution but its manifest captured transient SQLite sidecars that vanished
+  after exit. **Rejected as consumable acceptance evidence**, not patched.
+  The reusable harness now closes the checkpoint connection before manifest
+  creation. The original raw outputs and inaccurate manifest remain retained.
+
 - Latest fresh pass: `evidence/acceptance/20261024T001345Z-dd456acd/` (UTC run ID;
   October 23, 8:13pm New York). Normal CLI -> actual loopback API + independent
   daemon -> untouched receipts/database. Twenty authored dummy tasks: 18 completed,

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scheduler project intake 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intake_version", "project_id", "display_name", "description", "repository", "tasks"],
+  "properties": {
+    "intake_version": {"type": "string", "enum": ["1.0"]},
+    "project_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$"},
+    "display_name": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "revision": {"type": "integer", "minimum": 1},
+    "repository": {
+      "type": "object", "additionalProperties": false,
+      "required": ["base_branch"],
+      "oneOf": [{"required": ["path"]}, {"required": ["url"]}],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "minLength": 1},
+        "base_branch": {"type": "string", "minLength": 1}
+      }
+    },
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "max_workers": {"type": "integer", "minimum": 1, "maximum": 128},
+        "min_workers": {"type": "integer", "minimum": 0, "maximum": 128},
+        "target_workers": {"type": "integer", "minimum": 0, "maximum": 128},
+        "reserved_slots": {"type": "integer", "minimum": 0, "maximum": 128},
+        "merge": {"type": "string", "enum": ["manual", "feature-batch"]},
+        "full_regression": {"type": "string", "enum": ["manual", "daily"]}
+      }
+    },
+    "tasks": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["task_id", "title", "description", "acceptance_criteria", "estimate_minutes", "depends_on"],
+        "properties": {
+          "task_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$"},
+          "title": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "acceptance_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "estimate_minutes": {"type": "number", "exclusiveMinimum": 0},
+          "depends_on": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "priority": {"type": "integer", "minimum": 0, "maximum": 100},
+          "executor": {"type": "string", "enum": ["simulation", "codex-cli"]},
+          "slots": {"type": "integer", "minimum": 1, "maximum": 128},
+          "risk_class": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+          "allowed_operations": {"type": "array", "uniqueItems": true, "items": {"type": "string", "enum": ["read", "write", "test", "git-commit", "git-merge", "network", "deploy", "delete"]}},
+          "validation_profile": {"type": "string", "minLength": 1},
+          "artifact_outputs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "execution_seconds": {"type": "number", "exclusiveMinimum": 0},
+          "max_retries": {"type": "integer", "minimum": 0, "maximum": 10},
+          "simulation": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "duration_seconds": {"type": "number", "minimum": 0},
+              "fail_attempts": {"type": "integer", "minimum": 0},
+              "stall_seconds": {"type": "number", "minimum": 0},
+              "output": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    }
+  }
+}

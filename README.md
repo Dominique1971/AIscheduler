@@ -9,6 +9,9 @@ Requires Python 3.12+. From this directory:
 ```powershell
 python -m pip install -e ".[test]"
 python -m scheduler validate examples/demo-weather.yaml
+python -m scheduler intake examples/intake-demo-weather.yaml --output runtime/proposed-weather.json
+python -m scheduler validate runtime/proposed-weather.json
+python -m scheduler preview runtime/proposed-weather.json
 python -m scheduler import examples/demo-weather.yaml
 python -m scheduler import examples/demo-inventory.yaml
 python -m scheduler daemon --workers 6
@@ -31,8 +34,10 @@ python -m scheduler serve
 Open [the local dashboard](http://127.0.0.1:8765), click Connect, and paste the
 appropriate token from your terminal environment. Read tokens inspect; control
 tokens change state. Do not publish this local bearer-token service directly.
-HTTPS tunnel + MFA and Android cellular testing are still gated. No inbound router
-ports are required or configured. No credentials belong in plans or Git.
+The local Draft project form uses a control token to preview an intake without
+importing it. The separate private Site has its own MFA and outbound bridge;
+fresh cellular control testing is still open. No inbound router ports are
+required or configured. No credentials belong in plans or Git.
 
 ```powershell
 python -m scheduler preview path/to/revision.yaml
@@ -53,6 +58,13 @@ cancels active simulation attempts and stops new dispatch globally. Failed tasks
 enter review after their bounded retry budget; other eligible work continues.
 Changes to active/completed contracts are rejected. Split by appending new IDs
 dependent on the original task; retain original results and history.
+
+The project intake command turns an authored description, task explanations,
+minute estimates and dependency IDs into a **draft** canonical plan. It reports
+all operational defaults and a source-hash provenance sidecar. Total effort and
+critical path are estimates, not delivery forecasts. Review the draft before a
+separate import; intake itself does not create a project or run a task. See
+[project intake](docs/PROJECT_INTAKE.md).
 
 Tests and evidence:
 
@@ -75,8 +87,9 @@ See [state](docs/STATE.md), [implementation plan](docs/IMPLEMENTATION_PLAN.md),
 [API](docs/API.md), and [acceptance gates](docs/ACCEPTANCE.md). Plans use the packaged
 JSON Schema 2020-12 contract; the reusable skill lives under `skills/plan-builder`.
 
-The optional [remote dashboard candidate](remote/README.md) follows the reviewed
-Oppo/Compass Cloudflare + Supabase owner-login pattern. It adds mandatory TOTP MFA
-and an outbound-only bridge to the existing local API. It is locally tested and
-not deployed; no existing app resources or real projects are connected. See the
-[setup decision](docs/REMOTE_SETUP.md) for evidence and publication gates.
+The owner-private [OpenAI Site dashboard](sites/scheduler-dashboard/README.md)
+uses TOTP and an outbound-only bridge to the local API. A dummy phone Pause
+trial passed; remote controls are disabled again, and real projects remain
+unconnected. The older Supabase candidate under `remote/` is retained as
+diagnostic history. See the [setup decision](docs/REMOTE_SETUP.md) and
+[acceptance gates](docs/ACCEPTANCE.md).

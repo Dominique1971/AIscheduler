@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import hmac
+import hashlib
+import json
 import os
 import time
 from collections import defaultdict, deque
@@ -13,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .contracts import validate_plan
 from .core import Conflict, Store, stamp
+from .intake import build_intake
 
 
 def create_app(store: Store, read_token=None, control_token=None):
@@ -124,6 +127,17 @@ def create_app(store: Store, read_token=None, control_token=None):
             raise ValueError("invalid pagination")
         with store.connect() as db:
             return {"items": [dict(r) for r in db.execute("SELECT * FROM revisions WHERE project=? ORDER BY revision DESC LIMIT ? OFFSET ?", (project, limit, offset))], "updated_at": stamp()}
+
+    @app.post("/api/v1/intake/preview")
+    async def intake_preview(request: Request, role=Depends(controller)):
+        raw = await request.body()
+        data = await object_body(request)
+        if set(data) != {"intake"}:
+            raise ValueError("intake preview requires only the intake object")
+        source_text = json.dumps(data["intake"], sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        draft = build_intake(data["intake"], hashlib.sha256(source_text.encode()).hexdigest(),
+                             source_kind="canonical-json-intake/1")
+        return {**draft, "source_text": source_text, "request_sha256": hashlib.sha256(raw).hexdigest()}
 
     @app.post("/api/v1/plans/{operation}")
     async def plan(operation: str, request: Request, role=Depends(controller)):

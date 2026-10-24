@@ -1,0 +1,67 @@
+{
+  "run_id": "20261024T161835Z-95724fdc",
+  "entry_point": "python tests/acceptance_intake.py",
+  "test_class": "fresh project intake CLI -> draft -> validate -> preview -> import -> simulation daemon -> snapshot; real generator unrun",
+  "commands": [
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler intake",
+      "label": "intake",
+      "exit_code": 0
+    },
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler validate",
+      "label": "validate",
+      "exit_code": 0
+    },
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler --db",
+      "label": "preview",
+      "exit_code": 0
+    },
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler --db",
+      "label": "import",
+      "exit_code": 0
+    },
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler --db",
+      "label": "daemon",
+      "exit_code": 0
+    },
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler --db",
+      "label": "snapshot",
+      "exit_code": 0
+    }
+  ],
+  "source_sha256": "1f0378ac35cfb5ec1dcfc1887508dd556f26523117c0f2892057c84e1c06e00f",
+  "code_sha256": {
+    "scheduler\\intake.py": "9adde865459bea287e80e3d64f4b08fa2d4f01023674216068ca12e3900f04e6",
+    "scheduler\\__main__.py": "fdf393651afe682243c3897fa4dbf661b6ba7f185121e10708aa349ca706f2bd",
+    "scheduler\\schemas\\intake-1.0.schema.json": "834b5b6ec1620b6804d27d95d2a6b39b9dbd620b5ad6cd3f8da604a1d8802a89",
+    "scheduler\\core.py": "8b41fb00b53711c431c3a9f13c2c328b7d766a2cff9f7344c3041c96d5829eb6",
+    "tests\\acceptance_intake.py": "4d6deb88160859312998ab4cb410f22fc5041887ceb6b91d5787cafbb59b095b"
+  },
+  "file_sha256": {
+    "daemon.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "daemon.stdout.raw": "17043f801cc1a41ac9ee4f3527550e57ec926a7ecb86ee3139399f8b30a8c2d8",
+    "import.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "import.stdout.raw": "fa2a7b023fceee5b2dfe0f94ce0e297082e08dba73ea6528653a07182ea028cf",
+    "intake-demo-weather.yaml": "1f0378ac35cfb5ec1dcfc1887508dd556f26523117c0f2892057c84e1c06e00f",
+    "intake.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "intake.stdout.raw": "88798cc166f2643627bed2756f7a5d72051376f09ac3cc5853ef944ecaa870ea",
+    "preview.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preview.stdout.raw": "fa2a7b023fceee5b2dfe0f94ce0e297082e08dba73ea6528653a07182ea028cf",
+    "proposed-plan.json": "ca6650c4b7ffa483bd5f5b0260c95333954e4037280bd835bc487d9dc40d0b20",
+    "proposed-plan.json.provenance.json": "81c88c891d262be51306655a328bcbec9abe7ae7ebd0a70fc51d9828015a3582",
+    "scheduler.sqlite": "03c4c117a202e6dc9fcb1ed71d627e80950676b8af41949361cd3b682e8473d7",
+    "scheduler.sqlite-shm": "883c52750636581c5826a193b9c57ce4d9e567486daaadfa31e4b3ce31043430",
+    "scheduler.sqlite-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "snapshot.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "snapshot.stdout.raw": "a7ed3b607efc60a41f0c58b78fa20b32895960a2bfdfc562f42537d9dc1a90a1",
+    "validate.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.stdout.raw": "99b33c7de2c4bc99553fac6c4728d8c600c603ccf507cad5012179db13f2a46c"
+  },
+  "cost": "no model call; local simulation only",
+  "result": "green_intake_and_simulation_only"
+}

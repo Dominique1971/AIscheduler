@@ -16,6 +16,15 @@ Independent repository/service, ideally Python orchestration daemon, SQLite in W
 
 Provide JSON Schema 2020-12 as normative machine-readable contract and YAML as preferred human/AI authoring format. Required project fields: schema_version, project_id, display_name, revision, goal, repository locator, root branch, policy, task list. Each task: immutable task_id, title, description, acceptance_criteria, dependency task IDs, estimate_minutes, priority, executor type, model preference/override, reasoning effort if supported, resource needs, risk class, allowed operations, validation profile, artifact outputs, timeout policy and escalation conditions. Optional task groups/milestones, due dates, concurrency caps, skill requirements and token budget. Strict validation: unique IDs, resolvable dependencies, DAG/no cycles, valid model/executor compatibility, schema errors with line numbers. Provide a reusable Plan Builder skill and templates to create compliant plans from project goals. Import must not silently create unapproved work.
 
+Project intake should also accept a concise authored description with tasks,
+estimates, acceptance criteria and dependencies before the full execution
+contract. A versioned, reproducible transformation may fill only explicit
+operational defaults and must report them. Show total task effort and the
+dependency critical path as estimates, never as delivery promises. Preserve
+the inbound source and provenance; require separate review, preview and import.
+Do not infer missing tasks or repository facts from a short description without
+an explicitly invoked authoring step.
+
 # 5. Example canonical YAML
 
 schema_version: "1.0"  

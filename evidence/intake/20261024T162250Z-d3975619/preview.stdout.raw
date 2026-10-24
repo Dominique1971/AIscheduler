@@ -1,0 +1,14 @@
+{
+  "project_id": "intake-demo-weather",
+  "from_revision": null,
+  "to_revision": 1,
+  "added": [
+    "averages",
+    "chart",
+    "observations"
+  ],
+  "removed": [],
+  "modified": [],
+  "requires_approval": false,
+  "risk": "initial-dummy-import"
+}

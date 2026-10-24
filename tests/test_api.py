@@ -1,4 +1,5 @@
 """HTTP TestClient diagnostics; no deployed service, phone or MFA acceptance."""
+import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from threading import Barrier
@@ -9,6 +10,7 @@ import pytest
 from scheduler.api import create_app
 from scheduler.contracts import load_plan
 from scheduler.core import Store
+from scheduler.intake import load_intake
 
 ROOT = Path(__file__).resolve().parents[1]
 READ = "diagnostic-reader-" + "r" * 40
@@ -69,6 +71,21 @@ def test_plan_apply_replay_and_key_mismatch(client, store, plan):
     assert first.json() == second.json()
     body["plan"]["display_name"] = "Changed"
     assert client.post("/api/v1/plans/apply", headers=headers(), json=body).status_code == 409
+
+
+def test_intake_preview_is_authenticated_draft_without_project_mutation(client, store):
+    intake, _ = load_intake(ROOT / "examples/intake-demo-weather.yaml")
+    url = "/api/v1/intake/preview"
+    assert client.post(url, headers=headers(READ), json={"intake": intake}).status_code == 403
+    response = client.post(url, headers=headers(), json={"intake": intake})
+    assert response.status_code == 200, response.text
+    assert response.json()["summary"]["critical_path_estimate_minutes"] == 7
+    assert response.json()["status"].startswith("draft_only")
+    assert hashlib.sha256(response.json()["source_text"].encode()).hexdigest() == response.json()["source_sha256"]
+    assert response.json()["source_kind"] == "canonical-json-intake/1"
+    assert store.snapshot()["projects"] == []
+    intake["tasks"][1]["depends_on"] = ["unknown"]
+    assert client.post(url, headers=headers(), json={"intake": intake}).status_code == 422
 
 
 def test_cross_origin_and_dns_rebinding_rejected(client):
