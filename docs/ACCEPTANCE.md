@@ -106,6 +106,32 @@ evidence for the simulation product; it is not real generator acceptance.
   temporary read-only TOTP bypass active. Browser import interaction and
   physical phone rendering of this version remain unrun; synthetic receipts
   are not the described CSV, chart or inventory artifacts.
+- Fresh Markdown file acceptance `evidence/markdown-import/20261024T191736Z-095c087c`
+  passed through the normal local HTTP static page/template, authenticated
+  Markdown preview, canonical plan preview, changed-source rejection, explicit
+  file import, stored plan view, running daemon and untouched trace endpoints.
+  Four synthetic tasks completed once each with raw input/output hash and DAG
+  precedence checks; 26 raw evidence file hashes verified. Anonymous preview
+  was denied. This validates the server pipeline, not browser file-picker
+  interaction, physical phone layout or real Codex execution.
+- Current diverse Markdown DAG run `evidence/markdown-import/20261024T192116Z-d5734c6e`
+  passed the normal local HTTP upload/preview/import and running daemon with
+  seven newly authored synthetic tasks: two roots, forks, a two-way join and
+  a three-way join. All seven completed with untouched trace hashes and
+  dependency precedence; all 33 raw evidence file hashes verified. The live
+  dashboard served the generic layout script, and independent Node layout
+  diagnostics passed for roots, forks, joins, cycles and unknown dependencies.
+  The private Site source was built, validated, tested and deployed as version 8
+  with the same layout script; Worker tests verify owner-only asset access.
+  Browser-rendered arrows and physical phone layout remain unverified because
+  the browser automation runtime did not initialize. Real Codex work is unrun.
+- Latest fresh Markdown run `evidence/markdown-import/20261024T192504Z-a4c3a6c3`
+  passed after the parser's BOM rejection and showcase restart fix, through
+  the same live HTTP and daemon path. Its independently authored five-task
+  chain/fork/join completed with raw receipt and precedence checks; all 30 raw
+  evidence file hashes verified. This run
+  captures current parser/API/dashboard/layout code hashes; the seven-task
+  run above remains separate evidence for broader graph topology.
 
 ## Requirement gates
 

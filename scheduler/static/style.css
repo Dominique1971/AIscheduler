@@ -6,31 +6,18 @@
 @media(min-width:761px) and (max-height:800px){main>.trends{display:none}.projects.overview .task-list{display:none}.projects.overview .lane{height:26px}.projects.overview .task{height:20px;top:3px}}
 :root{--intake-focus:#89b7ff}
 .intake-dialog{width:min(850px,calc(100vw - 20px));max-height:90dvh;overflow:auto}
-.intake-dialog textarea{font:inherit;color:inherit;background:#1b283b;border:1px solid #3c4d66;border-radius:6px;padding:8px 11px;resize:vertical;width:100%}
-.intake-dialog textarea:focus-visible{outline:2px solid var(--intake-focus);outline-offset:3px}
 .intake-dialog h3{font-size:14px;margin:18px 0 9px}
-.intake-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.intake-grid label{min-width:0;font-size:12px;color:var(--muted)}
-.intake-grid input{display:block;width:100%;margin-top:5px}
-.intake-grid textarea{display:block;margin-top:5px}
-.intake-grid .wide{grid-column:1/-1}
-.intake-task{border:1px solid var(--line);border-radius:8px;margin:12px 0;padding:12px}
-.intake-task legend{padding:0 5px;color:var(--accent)}
-.intake-task button{margin-top:10px}
 #intake-result{border-top:1px solid var(--line);margin-top:18px;padding-top:5px;overflow-wrap:anywhere}
 #intake-result ol{padding-left:22px}
 #intake-result li{margin-bottom:12px}
 #intake-result li p{margin:4px 0}
 #intake-result .dialog-actions{flex-wrap:wrap}
-@media(max-width:600px){.intake-grid{grid-template-columns:1fr}.intake-dialog{padding:14px}.intake-dialog .dialog-actions{justify-content:flex-start}}
-.intake-graph{display:flex;gap:12px;overflow-x:auto;padding:8px 0 12px}
-.intake-layer{min-width:170px;flex:1;border-left:2px solid var(--line);padding-left:10px}
-.intake-layer h4{font-size:11px;color:var(--muted);margin:0 0 8px}
-.intake-node{border:1px solid #526789;border-radius:7px;background:#1b2a3e;padding:9px;margin-bottom:8px}
-.intake-node strong,.intake-node small{display:block}
-.intake-node small{color:var(--muted);margin-top:4px}
+@media(max-width:600px){.intake-dialog{padding:14px}.intake-dialog .dialog-actions{justify-content:flex-start}}
+.intake-graph{overflow:auto;max-height:55dvh;border:1px solid var(--line);border-radius:8px;background:#0d1623;margin:10px 0 14px}
+.intake-graph svg{display:block;max-width:none}.dag-node rect{fill:#1b2a3e;stroke:#6680a5;stroke-width:1.5}.dag-node text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;pointer-events:none}.dag-id{fill:#a6c8ff;font-size:11px;font-weight:700}.dag-title{fill:#edf2fa;font-size:12px;font-weight:600}.dag-estimate{fill:#a4b0c4;font-size:10px}.dag-edge{fill:none;stroke:#91b8ed;stroke-width:2.2;opacity:.9}.dag-arrowhead{fill:#91b8ed}
 .intake-approval{display:flex!important;align-items:flex-start;gap:9px;margin:12px 0!important}
 .intake-approval input{width:auto!important;margin:3px 0 0;flex:none}
 .example-card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0}
+.intake-format{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:12px 0}.intake-format summary{cursor:pointer;color:var(--accent)}.intake-format a{color:var(--accent)}#intake-file-form{border:1px solid var(--line);border-radius:8px;padding:12px;margin:12px 0}#intake-file{display:block;width:100%;margin-top:7px}#intake-file-form .dialog-actions{margin-top:10px}
 .example-card p{margin:7px 0}.example-card small{color:var(--muted)}
 .intake-success{color:#72dfb2!important}.intake-error{color:#ff9b9b!important}

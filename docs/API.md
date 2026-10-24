@@ -16,6 +16,8 @@ shared local roles; per-person identity/MFA is not implemented.
 | GET /projects/{id}/plan | Hash-checked current plan summary, task DAG and intake receipt | read/control |
 | GET /examples | Two packaged disposable intake plans with summaries and file hashes | read/control |
 | POST /intake/preview | `{intake: authoredIntake}`; returns draft plan, per-task explanation, estimates, defaults and source provenance; no import | control |
+| POST /intake/file/preview | `{filename: "plan.md", source_text: exactMarkdown}`; strict Markdown v1 parse, source hash and canonical draft; no import | control |
+| POST /intake/file/import | `{filename, source_text, expected_source_sha256, expected_preview, approved: true}`; reparse and hash-check exact Markdown before guarded dummy import | control |
 | POST /intake/import | `{intake, expected_source_sha256, expected_preview, approved: true}`; hash-bound guarded import for `demo-`/`dummy-` simulation plans under `./runtime/` | control |
 | POST /plans/validate | `{plan: canonicalPlan}` | control |
 | POST /plans/preview | `{plan: canonicalPlan}` | control |
@@ -51,7 +53,8 @@ handshake remain pending. This document describes only implemented routes.
 The intake API hashes a canonical JSON rendering of the inbound `intake`
 object and returns those exact source bytes as `source_text` for download;
 `request_sha256` separately identifies the raw HTTP envelope. The local
-dashboard's Draft project form uses this route. Neither preview nor download
+programmatic JSON route remains available. The dashboard's **Import plan**
+dialog uses the file routes above and has no drafting form. Neither preview nor download
 creates a project. Import recomputes the canonical source and exact reviewed
 preview, then stores the source, transform version and defaults with the plan
 revision. The standalone CLI hashes the original intake file bytes.

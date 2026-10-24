@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Scheduler · Mission control</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/dashboard.js" defer></script>
+</head>
+<body>
+  <header><div><span class="eyebrow">AUTONOMOUS SCHEDULER</span><h1>Mission control</h1></div><div class="header-actions"><span id="connection" role="status">Not connected</span><button id="intake-open">Import plan</button><button id="refresh">↻ Refresh now</button><button id="credentials">Connect</button></div></header>
+  <main>
+    <section class="metrics" aria-label="Current scheduler metrics">
+      <article><span>Workers busy / target</span><strong id="workers">—</strong><small id="idle">Waiting for data</small></article>
+      <article><span>Ready queue</span><strong id="ready">—</strong><small id="blocked">— blocked</small></article>
+      <article><span id="completion-label">Completed tasks</span><strong id="complete">—</strong><small id="percent">— of total</small></article>
+      <article><span>Utilization</span><strong id="utilization">—</strong><small id="warnings">— warnings</small></article>
+    </section>
+    <section class="workspace">
+      <div class="section-head"><div><h2>Project activity</h2><span id="window-label">Last 8 hours · America/New_York</span></div><div class="timeline-controls"><label class="sr-only" for="focus">Project focus</label><select id="focus"><option value="">All projects</option></select><button id="earlier" aria-label="Pan earlier">←</button><label class="sr-only" for="zoom">Timeline range</label><select id="zoom"><option value="1">1 hour</option><option value="8" selected>8 hours</option><option value="24">24 hours</option><option value="168">7 days</option></select><button id="later" aria-label="Pan later">→</button><button id="now">Now</button></div></div>
+      <div class="legend" aria-label="Task states"><span class="running">● Running</span><span class="ready">◇ Ready / queued</span><span class="completed">✓ Completed</span><span class="dependency-blocked">⊘ Blocked</span><span class="retrying">↻ Retrying</span><span class="failed">! Failed</span><span class="paused">Ⅱ Paused</span></div>
+      <div id="projects" class="projects"><div class="empty">Connect to the local scheduler to inspect authoritative state.<br>No sample data is displayed.</div></div>
+    </section>
+    <section class="trends" aria-label="Progress trends"><article><h2>Completion history</h2><svg id="completion-chart" viewBox="0 0 400 65" role="img" aria-label="Completed tasks over the visible time window"></svg><small id="completion-caption">Waiting for data</small></article><article><h2>Work duration</h2><div id="duration-bars"></div><small id="duration-caption">Waiting for data</small></article><article><h2>Operational status</h2><p id="operational">Waiting for data</p><small>Worker monitoring runs independently of this page.</small></article></section>
+  </main>
+  <footer><span id="updated">No successful update</span><span>Refresh every 300 seconds</span><button id="emergency" class="danger">Emergency stop…</button></footer>
+  <dialog id="auth-dialog"><form id="auth-form"><h2>Connect to scheduler</h2><p>Use a read token for inspection or a control token for actions. The token is kept in this tab’s session storage.</p><label for="token">Bearer token</label><input id="token" type="password" autocomplete="off" required><div class="dialog-actions"><button type="button" id="auth-cancel">Cancel</button><button type="submit">Connect</button></div></form></dialog>
+  <dialog id="details"><div class="detail-header"><h2 id="detail-title">Task details</h2><button id="close-details" aria-label="Close task details">×</button></div><div id="detail-body"></div></dialog>
+  <dialog id="stop-dialog"><form id="stop-form"><h2>Stop scheduler dispatch?</h2><p>This sends the system emergency-stop command. Active execution cancellation depends on the server’s supported executor controls. Inspect task state after the command completes.</p><div class="dialog-actions"><button type="button" id="stop-cancel">Cancel</button><button class="danger" type="submit">Confirm emergency stop</button></div></form></dialog>
+  <dialog id="intake-dialog" class="intake-dialog"><div class="detail-header"><h2>Import a project plan</h2><button id="intake-close" aria-label="Close project import">×</button></div><p>Create a Markdown intake file outside this dashboard, then upload it here for validation and review. Uploading does not start work.</p><details class="intake-format"><summary>Required Markdown format</summary><p>Use the exact v1 headings and field labels. Include a project ID, name, runtime repository path, base branch, worker cap, project description, and at least one task. Each task needs an ID, title, description, positive minute estimate, dependency IDs or “none”, and acceptance criteria. Dependencies must point to other tasks and contain no cycles.</p><p>The dashboard currently imports new <code>demo-</code> or <code>dummy-</code> simulation projects under <code>./runtime/</code>. Review the source hash, defaults, estimates, graph and diff before approving. Estimates are not delivery forecasts.</p><a href="/intake-format.md" target="_blank" rel="noopener">Full format specification</a> · <a href="/intake-template.md" download="scheduler-intake-template.md">Download Markdown template</a></details><form id="intake-file-form"><label for="intake-file">Markdown intake file (.md)</label><input id="intake-file" type="file" accept=".md,text/markdown" required><div class="dialog-actions"><button type="submit" id="intake-preview">Validate and preview file</button></div></form><div id="example-catalog" aria-label="Packaged example projects"></div><div id="intake-result" aria-live="polite"></div></dialog>
+  <dialog id="plan-dialog" class="intake-dialog"><div class="detail-header"><h2 id="plan-title">Project plan</h2><button id="plan-close" aria-label="Close project plan">×</button></div><div id="plan-content"></div></dialog>
+  <div id="notice" role="status" aria-live="polite"></div>
+</body>
+</html>

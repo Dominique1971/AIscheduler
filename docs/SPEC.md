@@ -25,9 +25,15 @@ the inbound source and provenance; require separate review, preview and import.
 Do not infer missing tasks or repository facts from a short description without
 an explicitly invoked authoring step.
 Provide reusable disposable examples with explicit estimates and fork/join
-dependencies. The local dashboard should list, preview and import them through
-the same guarded API path as authored intake, then render the stored goal,
-task details and dependency graph. The owner-private phone Site may render a
+dependencies. The local dashboard is an import/review/visualization surface,
+not a plan authoring surface: it accepts a versioned Markdown intake file
+prepared elsewhere, validates its required fields and dependencies, shows the
+exact source and canonical-plan hashes, previews the plan diff, then imports
+only after explicit approval. Supply a downloadable Markdown template and
+format specification. It may also list and import packaged examples through
+the same guarded review path, then render the stored goal, task details and
+directed dependency graph with visible arrows for roots, forks and joins,
+computed from task IDs and dependency lists. The owner-private phone Site may render a
 bounded read-only projection of this plan; source authoring and import stay on
 the local authenticated API. Preserve the source hash and transformation
 receipt with each imported revision and verify them before display.

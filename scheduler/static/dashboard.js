@@ -155,66 +155,52 @@
     for(const [label,value] of [["Estimated",estimated],["Actual",actual]]) {const row=node("div",undefined,`duration-row ${label.toLowerCase()}`), track=node("div"), bar=node("i"); bar.style.width=`${value/Math.max(estimated,actual,1)*100}%`; track.append(bar); row.append(node("span",label),track,node("span",`${value.toFixed(1)}m`)); bars.append(row);}
     $("duration-caption").textContent = `${measured.length} completed tasks · elapsed duration, including waits`;
   }
-  function intakeField(label, field, kind="input", options={}) {
-    const wrapper = node("label",label), control = node(kind);
-    control.dataset.field = field;
-    if (kind === "input") control.type = options.type || "text";
-    if (options.placeholder) control.placeholder = options.placeholder;
-    if (options.min !== undefined) control.min = String(options.min);
-    if (options.step !== undefined) control.step = String(options.step);
-    if (options.rows) control.rows = options.rows;
-    control.required = true;
-    wrapper.append(control);
-    return wrapper;
-  }
-  function addIntakeTask() {
-    const box = node("fieldset",undefined,"intake-task"), legend = node("legend",`Task ${$("intake-tasks").children.length+1}`);
-    const fields = node("div",undefined,"intake-grid");
-    fields.append(intakeField("Task ID","task_id"),intakeField("Title","title"),
-      intakeField("What this task does","description","textarea",{rows:2}),
-      intakeField("Acceptance criteria, one per line","acceptance_criteria","textarea",{rows:2}),
-      intakeField("Estimate (minutes)","estimate_minutes","input",{type:"number",min:0.01,step:"any"}),
-      intakeField("Depends on task IDs (comma separated)","depends_on","input",{placeholder:"None"}));
-    fields.querySelector('[data-field="depends_on"]').required = false;
-    const remove = node("button","Remove task"); remove.type = "button";
-    remove.addEventListener("click",()=>{box.remove(); [...$("intake-tasks").children].forEach((child,i)=>child.querySelector("legend").textContent=`Task ${i+1}`);});
-    box.append(legend,fields,remove); $("intake-tasks").append(box);
-  }
-  function readIntakeForm() {
-    const tasks = [...$("intake-tasks").querySelectorAll(".intake-task")].map(box => {
-      const get = field => box.querySelector(`[data-field="${field}"]`).value.trim();
-      return {task_id:get("task_id"),title:get("title"),description:get("description"),
-        acceptance_criteria:get("acceptance_criteria").split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
-        estimate_minutes:Number(get("estimate_minutes")),
-        depends_on:get("depends_on").split(",").map(x=>x.trim()).filter(Boolean)};
-    });
-    return {intake_version:"1.0",project_id:$("intake-id").value.trim(),display_name:$("intake-name").value.trim(),
-      description:$("intake-description").value.trim(),repository:{path:$("intake-repository").value.trim(),base_branch:$("intake-branch").value.trim()},
-      policy:{max_workers:Number($("intake-workers").value)},tasks};
-  }
   function downloadDraft(name, data) {
     const link = node("a"), url = URL.createObjectURL(new Blob([JSON.stringify(data,null,2)+"\n"],{type:"application/json"}));
     link.href = url; link.download = name; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function downloadSource(name, sourceText) {
-    const link = node("a"), url = URL.createObjectURL(new Blob([sourceText],{type:"application/json"}));
+    const link = node("a"), url = URL.createObjectURL(new Blob([sourceText],{type:name.endsWith(".md")?"text/markdown":"application/json"}));
     link.href = url; link.download = name; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
+  let dagSequence = 0;
   function intakeGraph(tasks) {
     const graph = node("div",undefined,"intake-graph");
-    graph.setAttribute("role","list"); graph.setAttribute("aria-label","Task dependency graph by layer");
-    const layers = [...new Set(tasks.map(task=>task.dependency_layer))].sort((a,b)=>a-b);
-    for (const layer of layers) {
-      const column = node("div",undefined,"intake-layer");
-      column.append(node("h4",`Step ${layer}`));
-      for (const task of tasks.filter(item=>item.dependency_layer===layer)) {
-        const card = node("div",undefined,"intake-node"); card.setAttribute("role","listitem");
-        card.append(node("strong",`${task.task_id} · ${task.title}`),
-          node("small",`${task.estimate_minutes} min · ${task.depends_on.length ? `after ${task.depends_on.join(", ")}` : "starts independently"}`));
-        column.append(card);
-      }
-      graph.append(column);
+    const layout = window.schedulerDagLayout(tasks);
+    const namespace = "http://www.w3.org/2000/svg", arrowId = `intake-arrow-${++dagSequence}`;
+    const svgNode = (tag, attributes = {}, value) => {
+      const element = document.createElementNS(namespace,tag);
+      for (const [key, attribute] of Object.entries(attributes)) element.setAttribute(key,String(attribute));
+      if (value !== undefined) element.textContent = value;
+      return element;
+    };
+    const svg = svgNode("svg",{viewBox:`0 0 ${layout.width} ${layout.height}`,
+      width:layout.width,height:layout.height,role:"img",
+      "aria-label":`Task dependency graph: ${layout.nodes.length} tasks, ${layout.edges.length} dependency arrows`});
+    const defs = svgNode("defs"), marker = svgNode("marker",{id:arrowId,markerWidth:9,markerHeight:9,
+      refX:8,refY:4.5,orient:"auto",markerUnits:"userSpaceOnUse"});
+    marker.append(svgNode("path",{d:"M 0 0 L 9 4.5 L 0 9 z",class:"dag-arrowhead"}));
+    defs.append(marker); svg.append(defs);
+    for (const edge of layout.edges) {
+      const x1 = edge.from.x + edge.from.width + 2, y1 = edge.from.y + edge.from.height/2;
+      const x2 = edge.to.x - 8, y2 = edge.to.y + edge.to.height/2;
+      const bend = Math.max(24,(x2-x1)/2);
+      const path = svgNode("path",{d:`M ${x1} ${y1} C ${x1+bend} ${y1}, ${x2-bend} ${y2}, ${x2} ${y2}`,
+        class:"dag-edge","marker-end":`url(#${arrowId})`});
+      path.append(svgNode("title",{},`${edge.from.task.task_id} precedes ${edge.to.task.task_id}`));
+      svg.append(path);
     }
+    for (const item of layout.nodes) {
+      const group = svgNode("g",{class:"dag-node"});
+      group.append(svgNode("title",{},`${item.task.task_id}: ${item.task.title}; ${item.task.estimate_minutes} minutes`),
+        svgNode("rect",{x:item.x,y:item.y,width:item.width,height:item.height,rx:8}),
+        svgNode("text",{x:item.x+12,y:item.y+23,class:"dag-id"},item.task.task_id),
+        svgNode("text",{x:item.x+12,y:item.y+45,class:"dag-title"},
+          item.task.title.length > 25 ? `${item.task.title.slice(0,24)}…` : item.task.title),
+        svgNode("text",{x:item.x+12,y:item.y+64,class:"dag-estimate"},`${item.task.estimate_minutes} min`));
+      svg.append(group);
+    }
+    graph.append(svg);
     return graph;
   }
   async function showProjectPlan(project) {
@@ -253,7 +239,7 @@
             const draft=await request("/intake/preview",{intake:example.intake});
             const diff=await request("/plans/preview",{plan:draft.plan});
             if(generation!==intakeGeneration)return;
-            reviewedIntake={draft,diff}; showIntakeResult(draft,example.intake,diff);
+            reviewedIntake={draft,diff,source:example.intake,filename:`${example.id}-intake.json`,mode:"catalog"}; showIntakeResult(draft,example.intake,diff);
             $("intake-result").scrollIntoView({behavior:"smooth",block:"start"});
           } catch(error) {$("intake-result").replaceChildren(node("p",error.message,"intake-error"));}
           finally {button.disabled=false;}
@@ -281,8 +267,8 @@
     target.append(node("h3","Task details"),list,node("p",`Operational defaults added: ${draft.defaults_applied.join(", ") || "none"}.`),
       node("p",`Plan preview: ${diff.risk} · revision ${diff.from_revision ?? "new"} → ${diff.to_revision}. Added: ${diff.added.join(", ") || "none"}; modified: ${diff.modified.join(", ") || "none"}; removed: ${diff.removed.join(", ") || "none"}.`));
     const actions = node("div",undefined,"dialog-actions");
-    const sourceButton = node("button","Download intake for CLI"); sourceButton.type = "button";
-    sourceButton.addEventListener("click",()=>downloadSource(`${source.project_id}-intake.json`,draft.source_text)); actions.append(sourceButton);
+    const sourceButton = node("button","Download reviewed source"), reviewedFilename=reviewedIntake?.filename || `${source.project_id}-intake.json`; sourceButton.type = "button";
+    sourceButton.addEventListener("click",()=>downloadSource(reviewedFilename,draft.source_text)); actions.append(sourceButton);
     for (const [label,suffix,data] of [["Download canonical plan","plan.json",draft.plan],
       ["Download provenance","provenance.json",Object.fromEntries(Object.entries(draft).filter(([key])=>key!=="plan"&&key!=="source_text"))]]) {
       const button = node("button",label); button.type = "button";
@@ -301,22 +287,26 @@
       const apply = node("button","Import reviewed dummy plan"); apply.type = "button"; apply.disabled = true;
       check.addEventListener("change",()=>{apply.disabled=!check.checked;});
       apply.addEventListener("click",async()=>{
-        if (!reviewedIntake || reviewedIntake.draft !== draft || !check.checked) return;
+        const reviewed = reviewedIntake;
+        if (!reviewed || reviewed.draft !== draft || !check.checked) return;
         const generation = intakeGeneration;
         apply.disabled = true;
         try {
           const current = await request("/plans/preview",{plan:draft.plan});
           if (JSON.stringify(current) !== JSON.stringify(diff)) throw new Error("The plan preview changed. Preview the intake again before importing.");
-          if (generation !== intakeGeneration) throw new Error("Inputs changed. Preview the intake again before importing.");
-          const formControls = [...$("intake-form").elements]; formControls.forEach(control=>{control.disabled=true;});
+          if (generation !== intakeGeneration || reviewedIntake !== reviewed) throw new Error("Inputs changed. Preview the intake again before importing.");
+          const fileControl = $("intake-file"); fileControl.disabled=true;
           let result;
-          try { result = await request("/intake/import",{intake:source,expected_source_sha256:draft.source_sha256,expected_preview:diff,approved:true}); }
-          finally { formControls.forEach(control=>{control.disabled=false;}); }
+          try {
+            result = reviewed.mode === "markdown"
+              ? await request("/intake/file/import",{filename:reviewed.filename,source_text:draft.source_text,expected_source_sha256:draft.source_sha256,expected_preview:diff,approved:true})
+              : await request("/intake/import",{intake:source,expected_source_sha256:draft.source_sha256,expected_preview:diff,approved:true});
+          } finally { fileControl.disabled=false; }
           reviewedIntake = null; check.disabled = true;
           target.append(node("p",`Imported ${result.project_id} revision ${result.to_revision}. Refreshing authoritative state.`,"intake-success"));
           await refresh();
         } catch(error) { target.append(node("p",error.message,"intake-error")); }
-        finally { if (reviewedIntake?.draft === draft) apply.disabled = !check.checked; }
+        finally { if (reviewedIntake === reviewed) apply.disabled = !check.checked; }
       });
       target.append(approval,apply);
     } else {
@@ -328,22 +318,25 @@
   $("intake-open").addEventListener("click",()=>{$("intake-dialog").showModal();loadExamples();});
   $("plan-close").addEventListener("click",()=>$("plan-dialog").close());
   $("intake-close").addEventListener("click",()=>$("intake-dialog").close());
-  $("intake-add").addEventListener("click",addIntakeTask);
-  $("intake-form").addEventListener("input",()=>{intakeGeneration++;reviewedIntake=null;$("intake-result").replaceChildren(node("p","Inputs changed; preview again before importing or using a downloaded draft."));});
-  $("intake-form").addEventListener("submit",async event=>{
+  $("intake-file").addEventListener("change",()=>{intakeGeneration++;reviewedIntake=null;$("intake-result").replaceChildren();});
+  $("intake-file-form").addEventListener("submit",async event=>{
     event.preventDefault();
-    if (!$("intake-form").reportValidity()) return;
-    const button = $("intake-preview"), source = readIntakeForm(), generation = intakeGeneration; button.disabled = true;
+    const file = $("intake-file").files?.[0];
+    if (!file) {$("intake-file").reportValidity();return;}
+    const button = $("intake-preview"), generation = ++intakeGeneration; button.disabled = true;
     try {
-      const draft = await request("/intake/preview",{intake:source});
+      if (!/^[A-Za-z0-9_.-]{1,124}\.md$/.test(file.name) || file.size > 512*1024) throw new Error("Choose a .md file under 512 KiB with a simple filename.");
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      if (bytes[0]===0xef && bytes[1]===0xbb && bytes[2]===0xbf) throw new Error("Save the Markdown file as UTF-8 without a byte-order mark.");
+      const sourceText = new TextDecoder("utf-8",{fatal:true}).decode(bytes);
+      const draft = await request("/intake/file/preview",{filename:file.name,source_text:sourceText});
       const diff = await request("/plans/preview",{plan:draft.plan});
       if (generation !== intakeGeneration) return;
-      reviewedIntake = {draft,diff}; showIntakeResult(draft,source,diff);
+      reviewedIntake = {draft,diff,source:draft.intake,filename:file.name,mode:"markdown"}; showIntakeResult(draft,draft.intake,diff);
     }
-    catch(error) { $("intake-result").replaceChildren(node("p",error.message)); }
+    catch(error) { $("intake-result").replaceChildren(node("p",error.message,"intake-error")); }
     finally { button.disabled = false; }
   });
-  addIntakeTask();
   $("credentials").addEventListener("click",()=>{ $("token").value=token; $("auth-dialog").showModal(); });
   $("auth-cancel").addEventListener("click",()=>$("auth-dialog").close());
   $("auth-form").addEventListener("submit",event=>{event.preventDefault(); token=$("token").value.trim(); try {sessionStorage.setItem("scheduler-token",token);} catch (_) {} $("token").value=""; $("auth-dialog").close(); refresh();});

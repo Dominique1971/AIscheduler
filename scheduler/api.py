@@ -5,6 +5,7 @@ import hmac
 import hashlib
 import json
 import os
+import re
 import time
 from collections import defaultdict, deque
 from pathlib import Path
@@ -15,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .contracts import validate_plan
 from .core import Conflict, Store, stamp
-from .intake import TRANSFORM_VERSION, build_intake, load_intake, plan_summary
+from .intake import MARKDOWN_INTAKE_VERSION, TRANSFORM_VERSION, build_intake, load_intake, parse_markdown_intake, plan_summary
 
 
 def create_app(store: Store, read_token=None, control_token=None):
@@ -156,6 +157,45 @@ def create_app(store: Store, read_token=None, control_token=None):
                              source_kind="canonical-json-intake/1")
         return {**draft, "source_text": source_text, "request_sha256": hashlib.sha256(raw).hexdigest()}
 
+    def markdown_draft(data):
+        if set(data) != {"filename", "source_text"} or not isinstance(data["filename"], str) or not re.fullmatch(r"[A-Za-z0-9_.-]{1,124}\.md", data["filename"]):
+            raise ValueError("upload one .md file with a simple filename")
+        source_text = data["source_text"]
+        intake = parse_markdown_intake(source_text)
+        source_hash = hashlib.sha256(source_text.encode("utf-8")).hexdigest()
+        draft = build_intake(intake, source_hash, source_kind=MARKDOWN_INTAKE_VERSION)
+        return draft, intake
+
+    def guard_dummy_plan(plan):
+        path = plan["repository"]["path"].replace("\\", "/")
+        if not plan["project_id"].startswith(("demo-", "dummy-")) or not path.startswith(("./runtime/", "runtime/")) or ".." in path.split("/") or not all(t["executor"] == "simulation" for t in plan["tasks"]):
+            raise ValueError("dashboard import is limited to disposable simulation projects under ./runtime/")
+
+    @app.post("/api/v1/intake/file/preview")
+    async def intake_file_preview(request: Request, role=Depends(controller)):
+        raw = await request.body()
+        data = await object_body(request)
+        draft, intake = markdown_draft(data)
+        return {**draft, "intake": intake, "source_text": data["source_text"],
+                "filename": data["filename"], "request_sha256": hashlib.sha256(raw).hexdigest()}
+
+    @app.post("/api/v1/intake/file/import")
+    async def intake_file_import(request: Request, role=Depends(controller)):
+        data = await object_body(request)
+        if set(data) != {"filename", "source_text", "expected_source_sha256", "expected_preview", "approved"}:
+            raise ValueError("file import requires filename, source_text, expected_source_sha256, expected_preview and approved")
+        if data["approved"] is not True or not isinstance(data["expected_preview"], dict):
+            raise ValueError("reviewed preview and explicit approval required")
+        draft, _ = markdown_draft({"filename": data["filename"], "source_text": data["source_text"]})
+        if draft["source_sha256"] != data["expected_source_sha256"]:
+            raise Conflict("Markdown source changed; preview again")
+        guard_dummy_plan(draft["plan"])
+        return store.apply(draft["plan"], approved=True, key=request.headers["idempotency-key"],
+                           expected_preview=data["expected_preview"],
+                           source_receipt={"source": data["source_text"], "source_hash": draft["source_sha256"],
+                                           "transform_version": MARKDOWN_INTAKE_VERSION + "+" + TRANSFORM_VERSION,
+                                           "defaults": draft["defaults_applied"]})
+
     @app.post("/api/v1/intake/import")
     async def intake_import(request: Request, role=Depends(controller)):
         data = await object_body(request)
@@ -168,9 +208,7 @@ def create_app(store: Store, read_token=None, control_token=None):
         if source_hash != data["expected_source_sha256"]:
             raise Conflict("intake changed; preview again")
         draft = build_intake(data["intake"], source_hash, source_kind="canonical-json-intake/1")
-        path = draft["plan"]["repository"]["path"].replace("\\", "/")
-        if not draft["plan"]["project_id"].startswith(("demo-", "dummy-")) or not path.startswith(("./runtime/", "runtime/")) or ".." in path.split("/") or not all(t["executor"] == "simulation" for t in draft["plan"]["tasks"]):
-            raise ValueError("dashboard import is limited to disposable simulation projects under ./runtime/")
+        guard_dummy_plan(draft["plan"])
         return store.apply(draft["plan"], approved=True, key=request.headers["idempotency-key"],
                            expected_preview=data["expected_preview"],
                            source_receipt={"source": source_text, "source_hash": source_hash,

@@ -99,6 +99,19 @@ stored-plan view are implemented; signed-in browser and physical phone layout
 verification of this version remain unrun. Raw receipts and scope are under
 `evidence/example-showcase/20261024T190729Z-3725e490`.
 
+The local dashboard now offers **Import plan** instead of drafting fields. An
+external strict Markdown v1 file is validated, previewed with task estimates
+and a directed graph with visible dependency arrows, and imported only after review. The raw Markdown source
+and parser/transform provenance are stored with the revision. The static
+format specification and template are available from the dashboard. Fresh
+loopback HTTP-to-daemon acceptance for four-task examples and a separate
+seven-task multi-branch plan and a five-task chain/fork/join passed, latest at
+`evidence/markdown-import/20261024T192504Z-a4c3a6c3`. The local preview and
+stored project view share the generic layout. The private Site version 8 has
+the same arrowed graph and remains owner-only, read-only and controls-off.
+Browser file-picker interaction and visual arrow rendering remain unverified.
+The isolated showcase database now has six dummy projects, all simulation-complete.
+
 Next: inspect soak outcome when available, then advance E1/E2 and remote gates.
 The subscription-route question was resolved from actual CLI login status under
 the original authorization for real dummy tests. Remote access uses a separate

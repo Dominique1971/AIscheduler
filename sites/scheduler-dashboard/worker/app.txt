@@ -12,24 +12,38 @@ function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hi
 const local=value=>new Date(value).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" NY";
 async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("logout").hidden=auth.auth_mode==="site-owner-readonly";$("auth-mode").hidden=auth.auth_mode!=="site-owner-readonly";$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
 async function control(payload){try{const result=await api("/api/control",payload,crypto.randomUUID());notice(`Control ${result.state}; awaiting local acknowledgement.`);await refresh();}catch(error){notice(error.message);}}
+let dagSequence=0;
+function dependencyGraph(tasks){
+  const graph=el("div",undefined,"plan-graph"),layout=window.schedulerDagLayout(tasks);
+  const ns="http://www.w3.org/2000/svg",arrowId=`site-dag-arrow-${++dagSequence}`;
+  const svgEl=(tag,attributes={},value)=>{const element=document.createElementNS(ns,tag);for(const [key,attribute] of Object.entries(attributes))element.setAttribute(key,String(attribute));if(value!==undefined)element.textContent=value;return element;};
+  const svg=svgEl("svg",{viewBox:`0 0 ${layout.width} ${layout.height}`,width:layout.width,height:layout.height,role:"img","aria-label":`Task dependency graph: ${layout.nodes.length} tasks, ${layout.edges.length} dependency arrows`});
+  const defs=svgEl("defs"),marker=svgEl("marker",{id:arrowId,markerWidth:9,markerHeight:9,refX:8,refY:4.5,orient:"auto",markerUnits:"userSpaceOnUse"});
+  marker.append(svgEl("path",{d:"M 0 0 L 9 4.5 L 0 9 z",class:"dag-arrowhead"}));defs.append(marker);svg.append(defs);
+  for(const edge of layout.edges){
+    const x1=edge.from.x+edge.from.width+2,y1=edge.from.y+edge.from.height/2,x2=edge.to.x-8,y2=edge.to.y+edge.to.height/2,bend=Math.max(24,(x2-x1)/2);
+    const path=svgEl("path",{d:`M ${x1} ${y1} C ${x1+bend} ${y1}, ${x2-bend} ${y2}, ${x2} ${y2}`,class:"dag-edge","marker-end":`url(#${arrowId})`});
+    path.append(svgEl("title",{},`${edge.from.task.task_id} precedes ${edge.to.task.task_id}`));svg.append(path);
+  }
+  for(const item of layout.nodes){
+    const group=svgEl("g",{class:"dag-node"});group.append(svgEl("title",{},`${item.task.task_id}: ${item.task.title}; ${item.task.estimate_minutes} minutes`),
+      svgEl("rect",{x:item.x,y:item.y,width:item.width,height:item.height,rx:8}),
+      svgEl("text",{x:item.x+12,y:item.y+23,class:"dag-id"},item.task.task_id),
+      svgEl("text",{x:item.x+12,y:item.y+45,class:"dag-title"},item.task.title.length>25?`${item.task.title.slice(0,24)}…`:item.task.title),
+      svgEl("text",{x:item.x+12,y:item.y+64,class:"dag-estimate"},`${item.task.estimate_minutes} min`));svg.append(group);
+  }
+  graph.append(svg);return graph;
+}
 function planView(project,opened=false){
   const plan=el("details",undefined,"plan-view"),summary=el("summary","Tasks, estimates and dependencies");plan.append(summary);
   plan.open=opened;
   if(project.goal)plan.append(el("p",project.goal,"plan-goal"));
-  const byId=new Map(project.tasks.map(t=>[t.task_id,t])),levels=new Map(),visiting=new Set();
-  function level(id){if(levels.has(id))return levels.get(id);if(visiting.has(id))return 0;visiting.add(id);const task=byId.get(id);const depth=task?1+Math.max(0,...task.depends_on.map(level)):0;visiting.delete(id);levels.set(id,depth);return depth;}
-  for(const task of project.tasks)level(task.task_id);
+  const byId=new Map(project.tasks.map(t=>[t.task_id,t]));
   const total=project.tasks.reduce((sum,t)=>sum+t.estimate_minutes,0);
   const longest=new Map();function critical(id){if(longest.has(id))return longest.get(id);const task=byId.get(id);if(!task)return 0;const value=task.estimate_minutes+Math.max(0,...task.depends_on.map(critical));longest.set(id,value);return value;}
   const path=Math.max(0,...project.tasks.map(t=>critical(t.task_id)));
   plan.append(el("p",`${project.tasks.length} tasks · ${total} min authored effort · ${path} min dependency critical path. Estimates exclude review and retries.`,"plan-estimate"));
-  const graph=el("div",undefined,"plan-graph");graph.setAttribute("aria-label","Task dependency graph by step");
-  for(const depth of [...new Set(levels.values())].sort((a,b)=>a-b)){
-    const column=el("div",undefined,"plan-layer");column.append(el("h3",`Step ${depth}`));
-    for(const task of project.tasks.filter(t=>levels.get(t.task_id)===depth)){
-      const card=el("div",undefined,"plan-node");card.append(el("strong",task.title),el("small",`${task.estimate_minutes} min · ${task.depends_on.length?`after ${task.depends_on.join(", ")}`:"starts independently"}`));column.append(card);
-    }graph.append(column);
-  }plan.append(graph);
+  plan.append(dependencyGraph(project.tasks));
   for(const task of project.tasks){const detail=el("details",undefined,"task-detail");detail.append(el("summary",`${task.title} · ${task.state} · ${task.estimate_minutes} min`),el("p",task.description||"No description projected."),el("p",`Depends on: ${task.depends_on.join(", ")||"nothing"}`));if(task.acceptance_criteria?.length)detail.append(el("p",`Acceptance: ${task.acceptance_criteria.join("; ")}`));plan.append(detail);}
   return plan;
 }

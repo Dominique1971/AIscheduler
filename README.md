@@ -34,8 +34,11 @@ python -m scheduler serve
 Open [the local dashboard](http://127.0.0.1:8765), click Connect, and paste the
 appropriate token from your terminal environment. Read tokens inspect; control
 tokens change state. Do not publish this local bearer-token service directly.
-The local Draft project form uses a control token to preview an intake without
-importing it. It now lists two packaged six-task examples and shows the goal,
+The local **Import plan** dialog uses a control token to preview an external
+Markdown intake file without importing it. Download the
+[format specification](scheduler/static/intake-format.md) and
+[template](scheduler/static/intake-template.md) to prepare the file elsewhere.
+The dialog also lists two packaged six-task examples and shows the goal,
 estimate critical path, dependencies and task details before and after import.
 For the isolated example showcase already set up on this machine:
 
@@ -45,8 +48,8 @@ pwsh -NoProfile -File scripts/copy_example_showcase_token.ps1
 ```
 
 Open [the example dashboard](http://127.0.0.1:8877/), click **Connect**, and
-paste the copied token. **Draft project** lists the examples and lets you
-review and import a new disposable plan; each project has **View plan**. The
+paste the copied token. **Import plan** accepts a versioned `.md` file or a
+packaged example for review and guarded import; each project has **View plan**. The
 script keeps this showcase in `runtime/example-showcase/`, separate from the
 default scheduler database. It starts the local daemon and, where provisioned,
 the owner-private outbound Site bridge. These hidden processes do not restart

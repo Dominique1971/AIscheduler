@@ -20,6 +20,103 @@ SCHEMA_PATH = Path(__file__).parent / "schemas" / "intake-1.0.schema.json"
 TRANSFORM_VERSION = "intake-to-plan/1"
 POLICY_DEFAULTS = {"max_workers": 1, "min_workers": 0, "target_workers": 1,
                    "reserved_slots": 0, "merge": "manual", "full_regression": "manual"}
+MARKDOWN_INTAKE_VERSION = "markdown-intake/1"
+
+
+def parse_markdown_intake(source_text: str) -> dict:
+    """Parse the deliberately narrow Markdown intake contract without inferring facts."""
+    if not isinstance(source_text, str) or len(source_text.encode("utf-8")) > 1024 * 1024:
+        raise ValueError("Markdown intake must be UTF-8 text of at most 1 MiB")
+    if source_text.startswith("\ufeff"):
+        raise ValueError("Markdown intake must not start with a byte-order mark")
+    lines = source_text.splitlines()
+    index = 0
+
+    def skip_blank():
+        nonlocal index
+        while index < len(lines) and not lines[index].strip():
+            index += 1
+
+    def require(expected):
+        nonlocal index
+        skip_blank()
+        if index >= len(lines) or lines[index].strip() != expected:
+            raise ValueError(f"line {index + 1}: expected {expected!r}")
+        index += 1
+
+    def field(label):
+        nonlocal index
+        skip_blank()
+        prefix = label + ": "
+        if index >= len(lines) or not lines[index].startswith(prefix):
+            raise ValueError(f"line {index + 1}: expected {label}: value")
+        value = lines[index][len(prefix):].strip()
+        if not value:
+            raise ValueError(f"line {index + 1}: {label} cannot be empty")
+        index += 1
+        return value
+
+    require("# Scheduler project intake v1")
+    project_id = field("Project ID")
+    display_name = field("Project name")
+    repository_path = field("Repository path")
+    base_branch = field("Base branch")
+    max_workers_text = field("Maximum workers")
+    if not re.fullmatch(r"[1-9][0-9]*", max_workers_text):
+        raise ValueError(f"line {index}: Maximum workers must be a positive integer")
+    require("## Description")
+    description_lines = []
+    while index < len(lines) and lines[index].strip() != "## Tasks":
+        if lines[index].startswith("## "):
+            raise ValueError(f"line {index + 1}: unexpected section")
+        description_lines.append(lines[index].rstrip())
+        index += 1
+    description = "\n".join(description_lines).strip()
+    if not description:
+        raise ValueError(f"line {index + 1}: project description required")
+    require("## Tasks")
+    tasks = []
+    while True:
+        skip_blank()
+        if index >= len(lines):
+            break
+        match = re.fullmatch(r"### ([A-Za-z0-9][A-Za-z0-9_.-]{0,127}): (.+)", lines[index].strip())
+        if not match:
+            raise ValueError(f"line {index + 1}: expected '### task-id: Task title'")
+        task_id, title = match.groups()
+        index += 1
+        task_description = field("Description")
+        estimate_text = field("Estimate minutes")
+        if not re.fullmatch(r"(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)", estimate_text) or float(estimate_text) <= 0:
+            raise ValueError(f"line {index}: Estimate minutes must be a positive number")
+        dependencies_text = field("Depends on")
+        dependencies = [] if dependencies_text.lower() == "none" else [part.strip() for part in dependencies_text.split(",")]
+        if any(not part for part in dependencies):
+            raise ValueError(f"line {index}: Depends on must list task IDs separated by commas, or none")
+        require("Acceptance criteria:")
+        criteria = []
+        while index < len(lines):
+            if not lines[index].strip():
+                index += 1
+                continue
+            if lines[index].startswith("- "):
+                criterion = lines[index][2:].strip()
+                if not criterion:
+                    raise ValueError(f"line {index + 1}: empty acceptance criterion")
+                criteria.append(criterion)
+                index += 1
+                continue
+            break
+        if not criteria:
+            raise ValueError(f"line {index + 1}: at least one acceptance criterion required")
+        tasks.append({"task_id": task_id, "title": title, "description": task_description,
+                      "estimate_minutes": float(estimate_text), "depends_on": dependencies,
+                      "acceptance_criteria": criteria})
+    if not tasks:
+        raise ValueError("line 1: at least one task required")
+    return {"intake_version": "1.0", "project_id": project_id, "display_name": display_name,
+            "description": description, "repository": {"path": repository_path, "base_branch": base_branch},
+            "policy": {"max_workers": int(max_workers_text)}, "tasks": tasks}
 
 
 def plan_summary(plan: dict) -> dict:

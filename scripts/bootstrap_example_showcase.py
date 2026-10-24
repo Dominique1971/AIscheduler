@@ -72,8 +72,11 @@ def main() -> None:
                 raise ValueError(name + ": stored plan or source hash mismatch")
             print(f"{name}: {plan['summary']['task_count']} tasks, {plan['summary']['total_estimate_minutes']} minutes effort, {plan['summary']['critical_path_estimate_minutes']} minutes critical path")
         snapshot = call("snapshot", "/api/v1/snapshot")
-        if {p["project_id"] for p in snapshot["projects"]} != {"demo-weather", "demo-inventory"}:
-            raise ValueError("showcase database contains unexpected projects")
+        ids = {p["project_id"] for p in snapshot["projects"]}
+        if not {"demo-weather", "demo-inventory"}.issubset(ids) or any(
+            not project_id.startswith(("demo-", "dummy-")) for project_id in ids
+        ):
+            raise ValueError("showcase database is missing examples or contains a non-dummy project")
     finally:
         (run / "ledger.json").write_text(json.dumps(ledger, indent=2) + "\n", encoding="utf-8")
     print(f"Raw API evidence: {run}")
