@@ -1,4 +1,6 @@
-# Remote dashboard candidate
+# Earlier Cloudflare/Supabase remote candidate
+
+The selected remote target is now the private OpenAI Site under `sites/scheduler-dashboard`; see its README and `docs/SPEC.md` version 1.1. This Supabase-based Worker remains intact as diagnostic history and is not the publication target. The outbound bridge is shared, with `--site` enabling Sites service access. No Supabase scheduler project was created.
 
 This implements the hosting pattern reviewed in Oppo and Compass: Cloudflare
 hosting, Supabase-verified single-owner login, authenticated operations, and an

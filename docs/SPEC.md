@@ -1,4 +1,4 @@
-Standalone product requirements, technical architecture, integration validation and acceptance test plan \| Version 1.0 \| 23 October 2026
+Standalone product requirements, technical architecture, integration validation and acceptance test plan \| Version 1.1 \| 24 October 2026
 
 # 1. Product objective
 
@@ -10,7 +10,7 @@ Additive integration: preserve direct Codex use, native tools, context, models, 
 
 # 3. System architecture
 
-Independent repository/service, ideally Python orchestration daemon, SQLite in WAL mode for initial single-host operation, versioned REST API and optional MCP adapter, local executor adapter for Codex, simulation executor, responsive browser dashboard, and CLI. Separate planner/importer, dependency graph engine, admission controller, dispatcher, worker lifecycle manager, watchdog, event journal, reconciliation service, estimator, metrics aggregator and authentication gateway. All business logic behind stable interfaces. Do not assume desktop-app session APIs or session IDs exist; prove them first. If unsupported, run Codex CLI workers and store CLI execution identifiers while keeping desktop access independent.
+Independent repository/service, ideally Python orchestration daemon, SQLite in WAL mode for initial single-host operation, versioned REST API and optional MCP adapter, local executor adapter for Codex, simulation executor, responsive browser dashboard, and CLI. Separate planner/importer, dependency graph engine, admission controller, dispatcher, worker lifecycle manager, watchdog, event journal, reconciliation service, estimator, metrics aggregator and authentication gateway. All business logic behind stable interfaces. Do not assume desktop-app session APIs or session IDs exist; prove them first. If unsupported, run Codex CLI workers and store CLI execution identifiers while keeping desktop access independent. The remote phone dashboard target is a private OpenAI Site with supported hosted HTTP code and D1 storage; Python scheduling, SQLite authority, and Codex execution stay local. An outbound-only local bridge exchanges bounded projections and typed control requests with the Site. Site hosting must not be treated as a Python process host or a direct connection to the local scheduler.
 
 # 4. Canonical project input contract
 
@@ -74,7 +74,7 @@ Mobile-first, externally accessible, one-screen compact overview with no vertica
 
 # 13. Remote access and security
 
-Expose dashboard securely outside home LAN via authenticated HTTPS reverse tunnel (Cloudflare Tunnel or equivalent), no router port forwarding. Strong auth with MFA, session expiration, CSRF protection, role-based controls, rate limiting, input validation, audit logs, secrets management and encrypted transport. Never expose Codex credentials or arbitrary shell access through a public unauthenticated API. Read-only access separated from control actions; dangerous commands require confirmation. Android phone can inspect tasks, change worker allocations, pause/resume and invoke emergency stop. Test on cellular network, not only home Wi-Fi.
+Expose the remote dashboard through an owner-private OpenAI Site over HTTPS, with no router port forwarding. Keep the scheduler's Python API on loopback; its outbound-only bridge uses supported machine-to-Site access, distinct from visitor identity. Verify private audience enforcement, stable owner identity, service access availability and recovery, and the Site runtime's suitability experimentally before deployment. Strong auth with an independently verified MFA requirement, session expiration, CSRF protection, server-side role controls, rate limiting, input validation, audit logs, secrets management and encrypted transport remain mandatory. ChatGPT sign-in by itself is not evidence of MFA. If Sites cannot satisfy both MFA and unattended bridge access, keep remote control unpublished and escalate the specific gap; do not weaken this section or silently substitute another provider. Never expose Codex credentials or arbitrary shell access through a public unauthenticated API. Read-only access separated from control actions; dangerous commands require confirmation. Android phone can inspect tasks, change worker allocations, pause/resume and invoke emergency stop. Test on cellular network, not only home Wi-Fi. Do not create a Supabase scheduler project or disturb the existing Oppo/Compass Supabase connection.
 
 # 14. Persistence, history and forecasting
 
@@ -86,7 +86,7 @@ Expose stable documented operations: projects.list/get/create, plans.validate/pr
 
 # 16. Dummy-first verification program
 
-Phase 0: capability spike against real installed Codex interfaces; document verified vs unsupported operations. Phase 1: deterministic simulation with \>=12 tasks, two dummy projects, DAG forks/joins, varied estimates, 4 then 6 workers, artificial latency, failure, recovery, pauses and plan revision mid-run. Phase 2: real low-risk Codex tasks in disposable repositories (generate CSV, compute summary, write tests, compare results); independent tasks run in parallel and dependent tasks wait. Phase 3: remote Android control from cellular, auth/refresh and recovery after service/host restart. Phase 4: parity tests comparing same task direct Codex versus scheduled Codex for model, context, tools, approvals, debugging, outputs and Git. Only after passing gates attach real projects. Include test that one running task splits into two new dependent tasks without losing unrelated progress.
+Phase 0: capability spike against real installed Codex interfaces; document verified vs unsupported operations. Phase 1: deterministic simulation with \>=12 tasks, two dummy projects, DAG forks/joins, varied estimates, 4 then 6 workers, artificial latency, failure, recovery, pauses and plan revision mid-run. Phase 2: real low-risk Codex tasks in disposable repositories (generate CSV, compute summary, write tests, compare results); independent tasks run in parallel and dependent tasks wait. Phase 3: private Site capability spike and remote Android control from cellular, including actual owner MFA, anonymous/wrong-owner denial, machine-to-Site bridge authentication, auth/refresh, audit integrity, and recovery after service/host restart. Local mocks and a deployed read-only Site are intermediate diagnostics, not cellular control acceptance. Phase 4: parity tests comparing same task direct Codex versus scheduled Codex for model, context, tools, approvals, debugging, outputs and Git. Only after passing gates attach real projects. Include test that one running task splits into two new dependent tasks without losing unrelated progress.
 
 # 17. Quantitative acceptance criteria
 
@@ -98,7 +98,7 @@ Stage I (discovery): verify local OS, Codex app/CLI version, CLI/API interfaces,
 
 # 19. Risks, exclusions and decisions
 
-Risks: undocumented Codex desktop automation, unknown Pam tool support, subscription rate limits, machine sleep/reboots, multiple workers exhausting RAM/GPU, long test suites, remote attack surface and Git conflicts. Initial release is single-host, not distributed exactly-once execution; no claim of unlimited concurrency or subscription-token visibility. Do not build a custom LLM runtime, replace Codex UI, or require Pam for execution. Pending decisions after discovery: supported Codex adapter, secure tunnel provider, precise phone viewport, allowed autonomous shell permissions, token/compute budget controls and actual task throughput targets.
+Risks: undocumented Codex desktop automation, unknown Pam tool support, subscription rate limits, machine sleep/reboots, multiple workers exhausting RAM/GPU, long test suites, remote attack surface, Sites runtime/service-access limits and Git conflicts. Initial release is single-host, not distributed exactly-once execution; no claim of unlimited concurrency or subscription-token visibility. Do not build a custom LLM runtime, replace Codex UI, or require Pam for execution. Pending decisions after discovery: supported Codex adapter, verified private Site MFA and bridge access, precise phone viewport, allowed autonomous shell permissions, token/compute budget controls and actual task throughput targets.
 
 # 20. Handoff instructions for Codex
 

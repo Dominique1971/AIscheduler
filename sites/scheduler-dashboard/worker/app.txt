@@ -1,0 +1,34 @@
+"use strict";
+const $=id=>document.getElementById(id);
+const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+let csrf="",role="reader",cached=null,busy=false;
+function notice(value){$("notice").textContent=value;$("notice").style.display="block";}
+async function api(path,body,key){
+  const response=await fetch(path,{method:body===undefined?"GET":"POST",headers:{"Content-Type":"application/json",...(csrf?{"X-CSRF-Token":csrf}:{}),...(key?{"Idempotency-Key":key}:{})},body:body===undefined?undefined:JSON.stringify(body),cache:"no-store",credentials:"same-origin",signal:AbortSignal.timeout(15000)});
+  const data=await response.json();
+  if(!response.ok){if(response.status===401)locked();throw new Error(data.error??"Request failed");}return data;
+}
+function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();}
+const local=value=>new Date(value).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" NY";
+async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("logout").hidden=false;$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
+async function control(payload){try{const result=await api("/api/control",payload,crypto.randomUUID());notice(`Control ${result.state}; awaiting local acknowledgement.`);await refresh();}catch(error){notice(error.message);}}
+function render(){
+  const s=cached.snapshot;if(!s){$("projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));return;}
+  const tasks=s.projects.flatMap(p=>p.tasks),done=tasks.filter(t=>t.state==="completed").length;
+  $("metrics").replaceChildren(...[["Workers busy / cap",`${s.workers} / ${s.max_workers}`],["Simulation completed",`${done} / ${tasks.length}`],["Ready",tasks.filter(t=>t.state==="ready").length],["Awaiting review",tasks.filter(t=>t.state==="waiting-review").length]].map(([label,value])=>{const n=el("article",undefined,"metric");n.append(el("span",label),el("strong",String(value)));return n;}));
+  const selected=$("focus").value;$("focus").replaceChildren(new Option("All projects",""),...s.projects.map(p=>new Option(p.display_name,p.project_id)));$("focus").value=selected;
+  $("projects").classList.toggle("focused",!!selected);$("projects").replaceChildren();
+  for(const p of s.projects.filter(p=>!selected||p.project_id===selected)){
+    const section=el("article",undefined,"project"),head=el("div",undefined,"project-head"),name=el("div");name.append(el("strong",p.display_name),el("small",`${p.paused?"Ⅱ Paused":"● Dispatch enabled"} · ${p.tasks.filter(t=>t.state==="completed").length}/${p.tasks.length} completed`));head.append(name);
+    const controls=el("div",undefined,"controls"),toggle=el("button",p.paused?"Resume":"Pause"),cap=el("input"),set=el("button","Set cap");cap.type="number";cap.min="0";cap.max="128";cap.value=String(p.max_workers);cap.setAttribute("aria-label",p.display_name+" worker cap");toggle.onclick=()=>control({action:p.paused?"resume":"pause",project:p.project_id});set.onclick=()=>{if(cap.reportValidity())control({action:"allocate",project:p.project_id,value:Number(cap.value)});};
+    for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);
+    const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips);$("projects").append(section);
+  }
+  const age=Math.max(0,Math.floor((Date.now()-Date.parse(s.updated_at))/1000));
+  $("freshness").textContent=`Bridge ${cached.agent_online?"online":"offline"} at update · ${s.daemon.healthy?"daemon healthy at source":"daemon unhealthy at source"} · ${local(s.updated_at)} · ${age}s old${s.stopped?" · STOPPED":""}`;
+  $("stop").disabled=!cached.agent_online;
+}
+$("login").onsubmit=async event=>{event.preventDefault();const button=$("login").querySelector("button");button.disabled=true;try{await api("/auth/verify",{code:$("code").value});await refresh();}catch(error){notice(error.message);}finally{$("code").value="";button.disabled=false;}};
+$("logout").onclick=async()=>{try{await api("/auth/logout",{});}catch(error){notice(error.message);}finally{locked();}};
+$("refresh").onclick=refresh;$("focus").onchange=()=>{if(cached)render();};$("stop").onclick=()=>$("confirm").showModal();$("cancel-stop").onclick=()=>$("confirm").close();$("confirm-form").onsubmit=event=>{event.preventDefault();$("confirm").close();control({action:"emergency-stop",confirmed:true});};
+setInterval(refresh,300000);setInterval(()=>{if(cached)render();},10000);refresh();

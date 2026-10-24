@@ -57,8 +57,10 @@ def control_route(payload):
     return path+"/"+action, {"max_workers": payload["value"]} if action == "allocate" else {}
 
 
-def request(url, secret, payload=None, key=None):
+def request(url, secret, payload=None, key=None, site_access=None):
     headers = {"Authorization": "Bearer "+secret, "Content-Type": "application/json"}
+    if site_access:
+        headers["OAI-Sites-Authorization"] = "Bearer "+site_access
     if key:
         headers["Idempotency-Key"] = key
     req = urllib.request.Request(url, data=None if payload is None else json.dumps(payload).encode(), headers=headers)
@@ -82,6 +84,7 @@ def main():
     parser.add_argument("--journal", default="runtime/remote-bridge/journal.jsonl")
     parser.add_argument("--run-seconds", type=float, default=0)
     parser.add_argument("--local-development", action="store_true")
+    parser.add_argument("--site", action="store_true", help="use owner-private OpenAI Sites service access")
     args = parser.parse_args()
     cloud = urllib.parse.urlsplit(args.origin)
     local = urllib.parse.urlsplit(args.local_api)
@@ -94,9 +97,12 @@ def main():
     if not 1 <= args.interval <= 30 or args.run_seconds < 0:
         parser.error("interval must be 1..30s; run duration must be nonnegative")
     cloud_key = os.environ.get("SCHEDULER_REMOTE_AGENT_TOKEN", "")
+    site_access = os.environ.get("SCHEDULER_SITE_ACCESS_TOKEN", "") if args.site else None
     local_key = os.environ.get("SCHEDULER_CONTROL_TOKEN", "")
     if len(cloud_key) < 43 or len(local_key) < 32 or cloud_key == local_key:
         parser.error("distinct remote-agent and local control environment tokens required")
+    if args.site and (not site_access or len(site_access) < 32 or site_access in {cloud_key, local_key}):
+        parser.error("distinct Sites service access token required")
     journal = Path(args.journal)
     journal.parent.mkdir(parents=True, exist_ok=True)
 
@@ -125,7 +131,7 @@ def main():
             projection = project_snapshot(source)
             projected_raw = json.dumps(projection, sort_keys=True).encode()
             record("snapshot.read", raw_sha256=preserve(raw), projection_sha256=preserve(projected_raw), transformation="remote-snapshot/1")
-            status, _, response = request(args.origin.rstrip("/")+"/agent/poll", cloud_key, {"snapshot": projection})
+            status, _, response = request(args.origin.rstrip("/")+"/agent/poll", cloud_key, {"snapshot": projection}, site_access=site_access)
             if status != 200:
                 raise ValueError("remote poll denied")
             job = response.get("command")
@@ -149,7 +155,7 @@ def main():
                     except (OSError, TimeoutError, ValueError, urllib.error.URLError):
                         ack["status"] = "uncertain"
                         record("control.uncertain", id=job_id, fence=fence)
-                ack_status, _, _ = request(args.origin.rstrip("/")+"/agent/ack", cloud_key, ack)
+                ack_status, _, _ = request(args.origin.rstrip("/")+"/agent/ack", cloud_key, ack, site_access=site_access)
                 record("control.ack", id=job_id, fence=fence, http_status=ack_status, status=ack["status"])
         except (OSError, ValueError, TimeoutError, urllib.error.URLError):
             record("bridge.unavailable")

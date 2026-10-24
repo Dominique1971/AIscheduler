@@ -15,6 +15,7 @@ Implement a standalone, reusable multi-project scheduler based on `docs/SPEC.md`
 - Use dummy projects with real but harmless tasks, fake dependencies, injected failures, plan revisions, and multiple workers for acceptance tests.
 - Prioritize durable state, dependency-safe dispatch, automatic backfill, crash recovery, clear escalation, and remote security.
 - Keep the dashboard compact, mobile-friendly, and readable without vertical scrolling in its overview. Default to the last eight hours; refresh every five minutes with manual refresh.
+- Build the remote phone dashboard as an owner-private OpenAI Site. Keep Python scheduling and Codex execution local; use an outbound-only bridge. Prove Site visitor identity, independent MFA, and unattended machine access before publishing remote controls. Do not use or alter the Supabase connection serving Oppo and Compass.
 - Do not expose a remotely controllable executor without authentication, authorization, and audit logging.
 - Do not launch tasks against existing projects or incur external costs without authorization.
 
