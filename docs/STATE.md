@@ -27,8 +27,15 @@ plus synthetic failures/restarts. First batch completed. Inspect actual final
 report/hashes after deadline. Short 10.85s compressed trial passed separately.
 No host-start, host reboot, physical Android or continuous inference claim.
 
-Gates: real Codex inference authorization/authentication path, actual execution
-capabilities, optional Dot handshake, remote tunnel provider/MFA, Android cellular
+Additional real probes: ChatGPT login confirmed; API-key variables removed from
+child environments. Two concurrent harmless CLI executions completed with distinct
+IDs/usage. CLI resume retained identity/context. Own-thread app-server read/resume,
+explicit model/low effort, steer/interrupt and stored interrupted status were
+observed. CLI resume usage may be cumulative; app-server exposes total/last. See
+INTEGRATION_VALIDATION.md for exact scopes, original red probes and limitations.
+
+Gates: scheduled Codex execution/worktree isolation and artifact acceptance,
+tool/approval parity, optional Dot handshake, remote tunnel provider/MFA, Android cellular
 testing, 24h soak and host reboot. No real projects connected; no external API
 spend, remote publication, installs of persistent service or global settings edits.
 
@@ -39,6 +46,7 @@ daemon command exists, but this alone does not prove auto-start or continuous
 weeks-long operation. Source-faithful receipts cannot establish task semantics.
 
 Next: inspect soak outcome when available, then advance E1/E2 and remote gates.
-Two user decisions are pending: subscription-only Codex execution authorization
-and remote access provider. Full remaining scope is
+The subscription-route question was resolved from actual CLI login status under
+the original authorization for real dummy tests. Remote access provider remains
+a pending user choice. Full remaining scope is
 tracked in IMPLEMENTATION_PLAN.md and ARCHITECTURE.md; nothing is silently waived.

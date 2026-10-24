@@ -39,6 +39,13 @@ evidence for the simulation product; it is not real generator acceptance.
   `evidence/dashboard/ui-verification-receipt.json`. Overview has no vertical
   overflow at 1280×720 and 390×844. Project focus opens detailed timeline.
   Browser viewport emulation is not physical Android/cellular testing.
+- Real capability probes (separate from generator acceptance): two concurrent
+  ChatGPT-authenticated CLI runs and same-ID CLI resume passed under
+  `evidence/codex-runtime`. Own-thread app-server retrieval/resume, explicit
+  model/effort and active-turn steer/interrupt were exercised under
+  `evidence/codex-appserver`. Original red timing/harness probes retained.
+  Protocol IDs and raw token counters are confirmed; real scheduled artifacts,
+  worktree isolation, tool parity and rate-limit recovery are still unrun.
 - Short controller trial `evidence/soak/20261024T000554Z-4bc38639` passed 10.85s /
   three compressed batches. **Not 24-hour acceptance.**
 - Full soak **RUNNING, not passed**: `evidence/soak/20261024T001115Z-4cbca9a7`,
@@ -66,7 +73,7 @@ evidence for the simulation product; it is not real generator acceptance.
 | A11 Native parity | Unrun |
 | A12 24h soak | Running, not passed |
 | A13 Test scope | Targeted diagnostics then broad suite at slice boundary; worker validation profiles pending |
-| A14 Token reporting | Simulation labels unavailable; parser diagnostic only; real counters unrun |
+| A14 Token reporting | Simulation labels unavailable; real CLI/app-server counters captured, scheduler accounting not integrated |
 
 Manifests hash original files. Never regenerate one to bless changed artifacts.
 `python -m scheduler --db PATH verify` checks SQLite, immutable revisions and

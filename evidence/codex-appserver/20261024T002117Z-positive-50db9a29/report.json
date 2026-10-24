@@ -1,0 +1,24 @@
+{
+  "kind": "diagnostic positive sandbox control; no model invocation",
+  "argv": [
+    "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+    "app-server",
+    "--listen",
+    "stdio://"
+  ],
+  "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B",
+  "canary": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B\\sandbox-canary-20261024T001942Z-d985a303.txt",
+  "negative_evidence": "C:\\dev-codex\\scheduler\\evidence\\codex-appserver\\20261024T001942Z-d985a303",
+  "started_epoch": 1792801277.4836485,
+  "cost": null,
+  "passed": true,
+  "response": {
+    "exitCode": 0,
+    "stdout": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B\\sandbox-canary-20261024T001942Z-d985a303.txt\r\ndiagnostic-positive-control; never adopt as generated result\r\n",
+    "stderr": ""
+  },
+  "canary_exists": true,
+  "canary_sha256": "617154f05cd6ab85539f280623b638f51995c21294a15ae2ca4f3eb3c3c4712d",
+  "finished_epoch": 1792801277.7395725,
+  "process_exit_code": 0
+}

@@ -1,0 +1,1 @@
+Authorized disposable scheduler capability probe B. Do not use tools, read files, make network requests or change files. Reply exactly SCHEDULER_PROBE_B.

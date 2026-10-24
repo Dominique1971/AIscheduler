@@ -5,14 +5,14 @@ gates remain blocking even when structural unit tests pass.
 
 | ID | Task | Depends | Estimate | Acceptance | State |
 |---|---|---|---|---|---|
-| D1 | Inventory and capability evidence | — | 1–2h | Raw CLI evidence, verified/advertised distinction | Local probes done; runtime unrun |
+| D1 | Inventory and capability evidence | — | 1–2h | Raw CLI evidence, verified/advertised distinction | Real CLI/app-server probes partly verified |
 | D2 | Architecture and requirement gaps | D1 | 1h | Recorded decisions and full-stage ledger | Initial ADR done |
 | C1 | Strict portable plan contract and builder | D2 | 2–4h | Valid/invalid YAML, line errors, DAG/schema | Implemented, diagnostic tests |
 | C2 | Durable tasks, revisions, receipts | C1 | 3–5h | Untouched output, immutable history, integrity rejection | Implemented simulation slice |
 | C3 | Dispatcher, backfill, leases/restart | C2 | 3–5h | Normal daemon/API two-project forced restart | Fresh simulation passed; real lifecycle unrun |
 | C4 | Full min/target/reserved fairness and resources | C3 | 3–5h | Reservations, aging, resource exhaustion cases | Allocations/slots implemented; memory/skills pending |
 | C5 | Revisions, splits, rollback workflow | C2 | 2–4h | Active split preserves attempts/completions | Append splits implemented; rollback UX pending |
-| E1 | Real Codex capability spike | D1 | 2–5h | Actual launch/IDs/status/resume/cancel/usage with receipts | Await subscription authorization |
+| E1 | Real Codex capability spike | D1 | 2–5h | Actual launch/IDs/status/resume/cancel/usage with receipts | Parallel CLI, resume, own-thread app-server controls/usage verified; artifact/worktree/parity pending |
 | E2 | Worker worktrees and Codex lifecycle | E1,C3 | 5–10h | Disposable real tasks, crash reconciliation, no duplicates | Preparatory parser only |
 | E3 | Validation/tests/Git checkpoints and batch review | E2 | 5–8h | Source-faithful actual artifacts and narrow/full test policy | Unimplemented |
 | R1 | Watchdog/bounded recovery/alerts | C3,E2 | 3–6h | Stalls, network/rate limits, partial side effects | Simulation timeout/retry/warnings only |

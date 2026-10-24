@@ -1,0 +1,93 @@
+{
+  "run_id": "20261024T001621Z-05ccade5",
+  "passed": true,
+  "kind": "real installed CLI subscription-backed dummy probes",
+  "runs": [
+    {
+      "label": "A",
+      "argv": [
+        "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+        "--ask-for-approval",
+        "never",
+        "exec",
+        "--json",
+        "--ignore-user-config",
+        "--sandbox",
+        "read-only",
+        "--color",
+        "never",
+        "--cd",
+        "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\A",
+        "-"
+      ],
+      "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\A",
+      "pid": 28444,
+      "started_epoch": 1792800981.532931,
+      "auth": "ChatGPT status verified; API key vars removed",
+      "model": "CLI default; observed metadata if available",
+      "cost": null,
+      "exit_code": 0,
+      "finished_epoch": 1792800986.2071512,
+      "timed_out": false,
+      "prompt_sha256": "a87b36ab849765a48133f361fcb6f3506e40d5262d26f28eb5deb17ed8c3d1d9",
+      "execution_id": "01a16b44-031a-7541-8c0a-da5612a1110b",
+      "usage": {
+        "input_tokens": 22306,
+        "cached_input_tokens": 12416,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 11,
+        "reasoning_output_tokens": 0
+      },
+      "stream_completed": true,
+      "stdout_sha256": "86439257d1bfec82ad649b6c48e91516963699977844230c69b1ea8e95db107e",
+      "exact_response": true
+    },
+    {
+      "label": "B",
+      "argv": [
+        "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+        "--ask-for-approval",
+        "never",
+        "exec",
+        "--json",
+        "--ignore-user-config",
+        "--sandbox",
+        "read-only",
+        "--color",
+        "never",
+        "--cd",
+        "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B",
+        "-"
+      ],
+      "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B",
+      "pid": 36320,
+      "started_epoch": 1792800981.5919225,
+      "auth": "ChatGPT status verified; API key vars removed",
+      "model": "CLI default; observed metadata if available",
+      "cost": null,
+      "exit_code": 0,
+      "finished_epoch": 1792800986.2076545,
+      "timed_out": false,
+      "prompt_sha256": "99e0f463f0c635368d79b3527c4afc52edc288c5949f2a792dd3841fb112bbf3",
+      "execution_id": "01a16b44-0320-73e2-adc4-80053ba1cd4f",
+      "usage": {
+        "input_tokens": 22306,
+        "cached_input_tokens": 12416,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 11,
+        "reasoning_output_tokens": 0
+      },
+      "stream_completed": true,
+      "stdout_sha256": "93532bac97c86a5634a26b66d29d8051484a736311bd808fef786813add2d1a6",
+      "exact_response": true
+    }
+  ],
+  "native_cli_sha256": "0e2a4cd6ac1b329e64ec74745e38b71a3d4fa701102c86f49cf605d23a02c4df",
+  "harness_sha256": "deba794330111d38fb7aea82130cb1b0216f26b9fd06a6c5032b99206baefa51",
+  "limitations": [
+    "not scheduled generator acceptance",
+    "no writes or tool parity tested",
+    "stop/cancel not confirmed",
+    "dollars unavailable; no API key supplied"
+  ]
+}

@@ -1,0 +1,5 @@
+{"timestamp":"2026-10-24T00:19:42.275676Z","level":"WARN","fields":{"message":"recorded sandbox violation: resource=filesystem backend=windows_sandbox reason=permission_denied path=unknown"},"target":"codex_sandboxing::violation"}
+{"timestamp":"2026-10-24T00:19:42.324330Z","level":"WARN","fields":{"message":"ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/"},"target":"codex_skills::interface"}
+{"timestamp":"2026-10-24T00:19:42.324405Z","level":"WARN","fields":{"message":"ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/"},"target":"codex_skills::interface"}
+{"timestamp":"2026-10-24T00:19:42.332307Z","level":"WARN","fields":{"message":"Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell"},"target":"codex_core::shell_snapshot"}
+{"timestamp":"2026-10-24T00:19:42.473485Z","level":"WARN","fields":{"message":"Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell"},"target":"codex_core::shell_snapshot"}

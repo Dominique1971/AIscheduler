@@ -1,0 +1,12 @@
+{"id": 1, "method": "initialize", "params": {"clientInfo": {"name": "scheduler_dummy_capability_probe", "version": "0.1.0"}}}
+{"method": "initialized", "params": {}}
+{"id": 2, "method": "model/list", "params": {"limit": 100, "includeHidden": false}}
+{"id": 3, "method": "command/exec", "params": {"command": ["C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "-c", "from pathlib import Path; Path('C:\\\\dev-codex\\\\scheduler\\\\runtime\\\\codex-probes\\\\20261024T001621Z-05ccade5\\\\B\\\\sandbox-canary-20261024T001942Z-d985a303.txt').write_text('diagnostic-canary'); print('CANARY_WRITE_SUCCEEDED')"], "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "timeoutMs": 10000, "sandboxPolicy": {"type": "readOnly", "networkAccess": false}}}
+{"id": 4, "method": "thread/read", "params": {"threadId": "01a16b44-031a-7541-8c0a-da5612a1110b", "includeTurns": true}}
+{"id": 5, "method": "thread/read", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "includeTurns": true}}
+{"id": 6, "method": "thread/resume", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "approvalPolicy": "never", "sandbox": "read-only", "excludeTurns": true}}
+{"id": 7, "method": "thread/start", "params": {"cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "approvalPolicy": "never", "sandbox": "read-only", "model": "gpt-6.1-sol"}}
+{"id": 8, "method": "turn/start", "params": {"threadId": "01a16b47-12b5-7613-9b09-1f35c6a278bc", "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "approvalPolicy": "never", "sandboxPolicy": {"type": "readOnly", "networkAccess": false}, "model": "gpt-6.1-sol", "effort": "low", "input": [{"type": "text", "text": "Authorized disposable interruption probe. Do not use tools, read files, access network or modify files. Count integers from 1 through 100, separated by spaces."}]}}
+{"id": 9, "method": "turn/steer", "params": {"threadId": "01a16b47-12b5-7613-9b09-1f35c6a278bc", "expectedTurnId": "01a16b47-137d-7b63-8ce1-f93d5e7da8ff", "input": [{"type": "text", "text": "Do not use tools. Reply only APP_SERVER_STEER_OK."}]}}
+{"id": 10, "method": "turn/interrupt", "params": {"threadId": "01a16b47-12b5-7613-9b09-1f35c6a278bc", "turnId": "01a16b47-137d-7b63-8ce1-f93d5e7da8ff"}}
+{"id": 11, "method": "thread/read", "params": {"threadId": "01a16b47-12b5-7613-9b09-1f35c6a278bc", "includeTurns": true}}

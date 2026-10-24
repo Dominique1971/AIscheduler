@@ -1,0 +1,71 @@
+{
+  "run_id": "20261024T001726Z-cc469b01",
+  "kind": "real owned dummy app-server runtime capability probe",
+  "source_report": "C:\\dev-codex\\scheduler\\evidence\\codex-runtime\\20261024T001621Z-05ccade5\\report.json",
+  "argv": [
+    "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+    "app-server",
+    "--listen",
+    "stdio://",
+    "-c",
+    "sandbox_mode=\"read-only\"",
+    "-c",
+    "approval_policy=\"never\""
+  ],
+  "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B",
+  "started_at_epoch": 1792801114.190399,
+  "cost": null,
+  "checks": {
+    "initialize": {
+      "userAgent": "Codex Desktop/0.159.0 (Windows 10.0.26200; x86_64) dumb (scheduler_dummy_capability_probe; 0.1.0)",
+      "codexHome": "C:\\Users\\domin\\.codex",
+      "platformFamily": "windows",
+      "platformOs": "windows"
+    },
+    "model_list_count": 7,
+    "read_A": {
+      "id_matches": true,
+      "status": {
+        "type": "notLoaded"
+      },
+      "turn_count": 2
+    },
+    "read_B": {
+      "id_matches": true,
+      "status": {
+        "type": "notLoaded"
+      },
+      "turn_count": 1
+    },
+    "resume_id_matches": true,
+    "followup": {
+      "turn_id": "01a16b46-0939-7b40-81bd-150a803b848a",
+      "status": "completed",
+      "exact_response": true
+    },
+    "steer": {
+      "expected_turn_id": "01a16b46-1254-7623-ab87-566d2957d0b7",
+      "returned": {
+        "turnId": "01a16b46-1254-7623-ab87-566d2957d0b7"
+      }
+    }
+  },
+  "native_cli_sha256": "0e2a4cd6ac1b329e64ec74745e38b71a3d4fa701102c86f49cf605d23a02c4df",
+  "harness_sha256": "c67fc0426383774bd4ab58eb4612aff5a73d3c873451de27a68d770f67803fa5",
+  "pid": 24360,
+  "selected_model": "gpt-6.1-sol",
+  "selected_effort": "low",
+  "passed": false,
+  "error": "RuntimeError({'method': 'turn/interrupt', 'error': {'code': -32600, 'message': 'no active turn to interrupt'}})",
+  "process_exit_code": 0,
+  "notification_count": 41,
+  "finished_at_epoch": 1792801116.8325849,
+  "limitations": [
+    "not scheduler executor acceptance",
+    "no tool execution or sandbox enforcement test",
+    "no desktop UI parity",
+    "no Dot connectivity test",
+    "steer acceptance does not establish semantic adoption",
+    "dollar cost unavailable; ChatGPT login gate passed; API key environment removed"
+  ]
+}

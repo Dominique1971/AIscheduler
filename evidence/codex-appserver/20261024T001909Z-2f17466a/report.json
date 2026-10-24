@@ -1,0 +1,66 @@
+{
+  "run_id": "20261024T001909Z-2f17466a",
+  "kind": "real owned dummy app-server runtime capability probe",
+  "source_report": "C:\\dev-codex\\scheduler\\evidence\\codex-runtime\\20261024T001621Z-05ccade5\\report.json",
+  "argv": [
+    "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+    "app-server",
+    "--listen",
+    "stdio://",
+    "-c",
+    "sandbox_mode=\"read-only\"",
+    "-c",
+    "approval_policy=\"never\""
+  ],
+  "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B",
+  "started_at_epoch": 1792801149.11674,
+  "cost": null,
+  "checks": {
+    "initialize": {
+      "userAgent": "Codex Desktop/0.159.0 (Windows 10.0.26200; x86_64) dumb (scheduler_dummy_capability_probe; 0.1.0)",
+      "codexHome": "C:\\Users\\domin\\.codex",
+      "platformFamily": "windows",
+      "platformOs": "windows"
+    },
+    "model_list_count": 7,
+    "sandbox_canary": {
+      "rpc_error": "{'method': 'command/exec', 'error': {'code': -32603, 'message': 'exec failed: sandbox error: sandbox denied exec error, exit code: 1, stdout: , stderr: Traceback (most recent call last):\\r\\n  File \"<string>\", line 1, in <module>\\r\\n  File \"C:\\\\Users\\\\domin\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\Lib\\\\pathlib.py\", line 1047, in write_text\\r\\n    with self.open(mode=\\'w\\', encoding=encoding, errors=errors, newline=newline) as f:\\r\\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\r\\n  File \"C:\\\\Users\\\\domin\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\Lib\\\\pathlib.py\", line 1013, in open\\r\\n    return io.open(self, mode, buffering, encoding, errors, newline)\\r\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\r\\nPermissionError: [Errno 13] Permission denied: \\'C:\\\\\\\\dev-codex\\\\\\\\scheduler\\\\\\\\runtime\\\\\\\\codex-probes\\\\\\\\20261024T001621Z-05ccade5\\\\\\\\B\\\\\\\\sandbox-canary-20261024T001909Z-2f17466a.txt\\'\\r\\n'}}",
+      "canary_exists": false,
+      "path": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B\\sandbox-canary-20261024T001909Z-2f17466a.txt",
+      "classification": "diagnostic fault injection; enforcement unconfirmed on setup error"
+    },
+    "read_A": {
+      "id_matches": true,
+      "status": {
+        "type": "notLoaded"
+      },
+      "turn_count": 2
+    },
+    "read_B": {
+      "id_matches": true,
+      "status": {
+        "type": "notLoaded"
+      },
+      "turn_count": 3
+    },
+    "resume_id_matches": true
+  },
+  "native_cli_sha256": "0e2a4cd6ac1b329e64ec74745e38b71a3d4fa701102c86f49cf605d23a02c4df",
+  "harness_sha256": "f57e910aae15a4dee1b2794faf744fd918df898709483198b62975cdb280319e",
+  "pid": 17296,
+  "selected_model": "gpt-6.1-sol",
+  "selected_effort": "low",
+  "passed": false,
+  "error": "TypeError(\"'NoneType' object is not subscriptable\")",
+  "process_exit_code": 0,
+  "notification_count": 17,
+  "finished_at_epoch": 1792801149.4698043,
+  "limitations": [
+    "not scheduler executor acceptance",
+    "no tool execution or sandbox enforcement test",
+    "no desktop UI parity",
+    "no Dot connectivity test",
+    "steer acceptance does not establish semantic adoption",
+    "dollar cost unavailable; ChatGPT login gate passed; API key environment removed"
+  ]
+}

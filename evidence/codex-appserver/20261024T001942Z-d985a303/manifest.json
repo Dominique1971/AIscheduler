@@ -1,0 +1,9 @@
+{
+  "harness.py": "aad435722b8b511fbc9b479b6660075792d23d11a57d70e0b74ddd9c5ea0b2cb",
+  "inbound.jsonl": "6f8448a1bf51a103dba8714ee42ffccf70bd36f73129a82bc91182b305fad123",
+  "login-stderr.txt": "16118df3eb3595e44a4721878cef0f79910e6564e10ff0e78e451e7c4e478947",
+  "login-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "outbound.jsonl": "de80b5de98d2f81f4f486f68d3659fd93f57762890914105af90b8f7ee0ec81b",
+  "report.json": "9366bbcf07c5b1c0f6ed2ec0b38a06114d51aacc6d4504db3d53d6b3e8f1797d",
+  "stderr.txt": "d7cddd4f073b89c30a711b801772fede5277b0312259ad1f9ba3a0daa2ebc1c8"
+}

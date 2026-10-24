@@ -1,0 +1,3 @@
+{"id":1,"result":{"userAgent":"Codex Desktop/0.159.0 (Windows 10.0.26200; x86_64) dumb (scheduler_canary_control; 0.1.0)","codexHome":"C:\\Users\\domin\\.codex","platformFamily":"windows","platformOs":"windows"}}
+{"method":"remoteControl/status/changed","params":{"status":"disabled","serverName":"Lamia","installationId":"2aed0c61-fc4f-4ef5-addd-c3e539db47b3","environmentId":null},"emittedAtMs":1792801277602}
+{"id":2,"result":{"exitCode":0,"stdout":"C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B\\sandbox-canary-20261024T001942Z-d985a303.txt\r\ndiagnostic-positive-control; never adopt as generated result\r\n","stderr":""}}

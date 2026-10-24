@@ -1,0 +1,10 @@
+{"id": 1, "method": "initialize", "params": {"clientInfo": {"name": "scheduler_dummy_capability_probe", "version": "0.1.0"}}}
+{"method": "initialized", "params": {}}
+{"id": 2, "method": "model/list", "params": {"limit": 100, "includeHidden": false}}
+{"id": 3, "method": "thread/read", "params": {"threadId": "01a16b44-031a-7541-8c0a-da5612a1110b", "includeTurns": true}}
+{"id": 4, "method": "thread/read", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "includeTurns": true}}
+{"id": 5, "method": "thread/resume", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "approvalPolicy": "never", "sandbox": "read-only", "excludeTurns": true}}
+{"id": 6, "method": "turn/start", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "approvalPolicy": "never", "sandboxPolicy": {"type": "readOnly", "networkAccess": false}, "model": "gpt-6.1-sol", "effort": "low", "input": [{"type": "text", "text": "Authorized disposable follow-up. Do not use tools, read files, make network requests or modify files. Reply exactly APP_SERVER_RESUME_OK."}]}}
+{"id": 7, "method": "turn/start", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "cwd": "C:\\dev-codex\\scheduler\\runtime\\codex-probes\\20261024T001621Z-05ccade5\\B", "approvalPolicy": "never", "sandboxPolicy": {"type": "readOnly", "networkAccess": false}, "model": "gpt-6.1-sol", "effort": "low", "input": [{"type": "text", "text": "Authorized disposable interruption probe. Do not use tools, read files, access network or modify files. Count integers from 1 through 100, separated by spaces."}]}}
+{"id": 8, "method": "turn/steer", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "expectedTurnId": "01a16b46-1254-7623-ab87-566d2957d0b7", "input": [{"type": "text", "text": "Do not use tools. Reply only APP_SERVER_STEER_OK."}]}}
+{"id": 9, "method": "turn/interrupt", "params": {"threadId": "01a16b44-0320-73e2-adc4-80053ba1cd4f", "turnId": "01a16b46-1254-7623-ab87-566d2957d0b7"}}

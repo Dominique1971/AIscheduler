@@ -1,0 +1,1 @@
+diagnostic-positive-control; never adopt as generated result
