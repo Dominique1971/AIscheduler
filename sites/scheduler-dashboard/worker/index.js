@@ -77,11 +77,16 @@ async function login(request,env,local) {
 }
 async function session(request,env) {
   const id=owner(request,env);
+  // The viewing exception takes precedence over an old TOTP cookie so the UI
+  // cannot imply that Lock would restrict an owner-private Site visit.
+  if(env.READONLY_TOTP_BYPASS_ENABLED==="true" && env.REMOTE_CONTROL_ENABLED!=="true")
+    return {hash:await sha("site-owner-readonly:"+id),owner:id,csrf:null,role:"reader",expires:clock()+300,bypass:true};
   const value=request.headers.get("cookie")?.split(";").map(x=>x.trim()).find(x=>x.startsWith("scheduler_session="))?.slice(18);
-  if(!value || !/^[a-f0-9]{64}$/.test(value))throw new Failure(401,"sign_in_required");
-  const row=await env.SCHEDULER_REMOTE.prepare("SELECT * FROM sessions WHERE hash=? AND expires>?").bind(await sha(value),clock()).first();
-  if(!row || row.owner!==id)throw new Failure(401,"sign_in_required");
-  return row;
+  if(value && /^[a-f0-9]{64}$/.test(value)) {
+    const row=await env.SCHEDULER_REMOTE.prepare("SELECT * FROM sessions WHERE hash=? AND expires>?").bind(await sha(value),clock()).first();
+    if(row && row.owner===id)return row;
+  }
+  throw new Failure(401,"sign_in_required");
 }
 async function agent(request,env) {
   const supplied=request.headers.get("authorization")??"";
@@ -136,12 +141,13 @@ async function route(request,env) {
   }
   if(url.pathname.startsWith("/api/") || url.pathname==="/auth/logout") {
     const auth=await session(request,env);await rate(env,"session:"+auth.hash,180,60);
+    if(auth.bypass && request.method==="POST")throw new Failure(403,"read_only");
     if(request.method==="POST" && request.headers.get("x-csrf-token")!==auth.csrf)throw new Failure(403,"csrf_required");
     if(url.pathname==="/auth/logout" && request.method==="POST") {
       await db.prepare("DELETE FROM sessions WHERE hash=?").bind(auth.hash).run();await audit(env,auth.owner,"auth.logout");
       return json({ok:true},200,{"Set-Cookie":"scheduler_session=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0"});
     }
-    if(url.pathname==="/api/session" && request.method==="GET")return json({role:auth.role,csrf:auth.csrf,expires_at:new Date(auth.expires*1000).toISOString()});
+    if(url.pathname==="/api/session" && request.method==="GET")return json({role:auth.role,csrf:auth.csrf,expires_at:auth.bypass?null:new Date(auth.expires*1000).toISOString(),auth_mode:auth.bypass?"site-owner-readonly":"totp"});
     if(url.pathname==="/api/snapshot" && request.method==="GET") {
       const latest=await db.prepare("SELECT * FROM snapshots WHERE id=1").first();
       return json({snapshot:latest?JSON.parse(latest.value):null,received_at:latest?new Date(latest.received*1000).toISOString():null,agent_online:!!latest&&now-latest.received<=30,role:auth.role});

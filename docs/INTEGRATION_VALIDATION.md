@@ -408,6 +408,30 @@ machine-observed downstream state. The phone network for the Pause was not
 established. Fresh login/control over cellular, different signed-in account
 denial, real Codex dispatch, and long-duration reliability remain unrun.
 
+### Temporary read-only authenticator bypass
+
+On 24 October 2026 the owner asked to stop repeated authenticator prompts.
+The Worker had a fixed 900-second TOTP session and the Lock button deleted that
+session. Site source `df29d561220297a7cb9394fd7db2d95fffe980d3` adds a
+flagged owner-private read-only route that uses the exact Sites identity. It
+grants no application session or CSRF token; every POST from that path is
+rejected. The bypass is inactive whenever `REMOTE_CONTROL_ENABLED=true`. The
+dashboard labels read-only mode and hides Lock, since Lock would not restrict
+access while the Site itself still recognizes the owner.
+
+The existing owner-only access policy was confirmed before publishing. Site
+version 5 was published privately as deployment
+`appgdep_6adcfce1e71c8191a427e786e26d0067` with environment revision 7:
+`READONLY_TOTP_BYPASS_ENABLED=true`, `REMOTE_CONTROL_ENABLED=false`. The Sites
+deployment result was `succeeded` at 2026-10-24T18:45:58Z. Local Worker/SQLite
+tests passed 7/7, including owner read, anonymous/wrong-owner denial, write
+denial and bypass deactivation when controls are enabled. This is diagnostic
+evidence, not a fresh signed-in hosted browser test; the browser automation
+surface failed to initialize on this host. The owner should refresh the private
+Site once to confirm the read-only dashboard opens without a code. This
+exception does not meet the MFA control acceptance criterion and must be
+disabled before any real-project connection or renewed control trial.
+
 ### Codex invocation boundary after the disposable-worktree probe
 
 `CodexAdapter.prepare` can now construct an explicit workspace-write invocation
