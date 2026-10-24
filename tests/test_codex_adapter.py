@@ -29,6 +29,23 @@ class CodexBoundaryTests(unittest.TestCase):
             self.assertEqual(receipt["stdout_sha256"], hashlib.sha256(b"out").hexdigest())
             self.assertEqual(receipt["acceptance"], "unrun")
 
+    def test_write_invocation_requires_explicit_disposable_root(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            inside = root / "dummy"
+            outside = root / "outside"
+            for repo in (inside, outside):
+                (repo / ".git").mkdir(parents=True)
+            adapter = CodexAdapter(enabled=True, permitted_root=inside)
+            with self.assertRaises(ValueError):
+                adapter.prepare(outside, "write a file", write=True)
+            with self.assertRaises(ValueError):
+                CodexAdapter(enabled=True).prepare(inside, "write a file", write=True)
+            invocation = adapter.prepare(inside, "write a file", write=True)
+            self.assertIn("workspace-write", invocation.argv)
+            self.assertNotIn("--ignore-user-config", invocation.argv)
+            self.assertNotIn("--dangerously-bypass-approvals-and-sandbox", invocation.argv)
+
     def test_documented_synthetic_events(self):
         raw = b'\n'.join(json.dumps(x).encode() for x in [
             {"type": "thread.started", "thread_id": "fixture-id"},

@@ -1,7 +1,8 @@
-"""Disabled, preparatory Codex CLI boundary. This module never starts a process.
+"""Disabled-by-default Codex CLI invocation boundary; never starts a process.
 
-Help evidence establishes syntax only. Runtime launch and sandbox behavior must be
-verified in disposable repositories before wiring this boundary to dispatch.
+Read-only construction is preparatory. A disposable-worktree diagnostic verified
+that writing requires the ordinary user configuration and workspace-write mode.
+The write path additionally requires an explicit resolved repository root.
 """
 from __future__ import annotations
 
@@ -26,24 +27,30 @@ class Invocation:
 class CodexAdapter:
     """Build explicit argv, with no shell, config mutation or inferred model."""
 
-    def __init__(self, executable: tuple[str, ...] = ("codex",), *, enabled: bool = False):
+    def __init__(self, executable: tuple[str, ...] = ("codex",), *, enabled: bool = False,
+                 permitted_root: str | Path | None = None):
         if not executable or any(not isinstance(x, str) or not x for x in executable):
             raise ValueError("Executable must be a nonempty argument vector")
         self.executable = executable
         self.enabled = enabled
+        self.permitted_root = Path(permitted_root).resolve(strict=True) if permitted_root is not None else None
 
     def prepare(self, repository: str | Path, prompt: str, *, model: str | None = None,
-                reasoning_effort: str | None = None) -> Invocation:
+                reasoning_effort: str | None = None, write: bool = False) -> Invocation:
         if not self.enabled:
             raise CodexUnavailable("Codex execution is disabled; runtime acceptance is unrun")
         root = Path(repository).resolve(strict=True)
         if not root.is_dir() or not (root / ".git").exists():
             raise ValueError("A disposable Git repository or worktree is required")
+        if write and (self.permitted_root is None or not root.is_relative_to(self.permitted_root)):
+            raise ValueError("Write mode requires a repository inside an explicit permitted root")
         if not isinstance(prompt, str) or not prompt.strip():
             raise ValueError("Prompt must be nonempty")
-        argv = [*self.executable, "--ask-for-approval", "never", "exec", "--json",
-                "--ignore-user-config", "--sandbox", "read-only", "--color", "never",
-                "--cd", str(root)]
+        argv = [*self.executable, "--ask-for-approval", "never", "exec", "--json"]
+        if not write:
+            argv.append("--ignore-user-config")
+        argv.extend(["--sandbox", "workspace-write" if write else "read-only",
+                     "--color", "never", "--cd", str(root)])
         if model is not None:
             if not model or model.startswith("-") or any(c.isspace() for c in model):
                 raise ValueError("Invalid model identifier")

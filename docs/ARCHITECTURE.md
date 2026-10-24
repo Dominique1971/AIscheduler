@@ -16,7 +16,11 @@ The v0.1 enabled executor is deliberately simulation only. Its output is a
 synthetic receipt, not generated source code, CSV or independently validated task
 semantics. Only the `simulation-receipt` validation profile is enabled. Codex CLI
 command construction and JSONL parsing are preparatory; runtime execution must
-pass capability and authorization gates first. Desktop and Dot are optional
+pass capability and authorization gates first. The invocation builder has an
+explicit disposable-root gate for workspace-write mode, uses the existing
+ChatGPT user configuration needed by the verified CLI write probe, and never
+starts a process itself. It is not scheduled Codex execution or artifact
+acceptance. Desktop and Dot are optional
 peers. Nothing changes their configuration or intercepts native tasks.
 
 Each plan revision stores the canonical input and hash. Active/completed task

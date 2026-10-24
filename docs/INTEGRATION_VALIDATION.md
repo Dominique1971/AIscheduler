@@ -408,6 +408,18 @@ machine-observed downstream state. The phone network for the Pause was not
 established. Fresh login/control over cellular, different signed-in account
 denial, real Codex dispatch, and long-duration reliability remain unrun.
 
+### Codex invocation boundary after the disposable-worktree probe
+
+`CodexAdapter.prepare` can now construct an explicit workspace-write invocation
+only when enabled and given a resolved permitted root containing the target
+repository. This matches the prior real dummy worktree probe: its ordinary user
+configuration plus `--sandbox workspace-write` wrote exact files, whereas its
+`--ignore-user-config` variant was refused by read-only policy. The default
+adapter remains disabled; the read-only path still ignores user configuration.
+The adapter neither launches processes nor makes task acceptance decisions.
+Targeted tests cover the write gate and argv, but this change is preparatory;
+normal scheduler dispatch of Codex work remains unrun.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),

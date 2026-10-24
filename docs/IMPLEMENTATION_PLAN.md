@@ -13,7 +13,7 @@ gates remain blocking even when structural unit tests pass.
 | C4 | Full min/target/reserved fairness and resources | C3 | 3–5h | Reservations, aging, resource exhaustion cases | Allocations/slots implemented; memory/skills pending |
 | C5 | Revisions, splits, rollback workflow | C2 | 2–4h | Active split preserves attempts/completions | Append splits implemented; rollback UX pending |
 | E1 | Real Codex capability spike | D1 | 2–5h | Actual launch/IDs/status/resume/cancel/usage with receipts | Parallel CLI, resume, own-thread app-server controls/usage verified; artifact/worktree/parity pending |
-| E2 | Worker worktrees and Codex lifecycle | E1,C3 | 5–10h | Disposable real tasks, crash reconciliation, no duplicates | Preparatory parser only |
+| E2 | Worker worktrees and Codex lifecycle | E1,C3 | 5–10h | Disposable real tasks, crash reconciliation, no duplicates | Parser and root-gated write invocation prepared; launch/reconciliation unimplemented |
 | E3 | Validation/tests/Git checkpoints and batch review | E2 | 5–8h | Source-faithful actual artifacts and narrow/full test policy | Unimplemented |
 | R1 | Watchdog/bounded recovery/alerts | C3,E2 | 3–6h | Stalls, network/rate limits, partial side effects | Simulation timeout/retry/warnings only |
 | A1 | Versioned local API and CLI | C3 | 3–5h | Auth/RBAC/idempotency and normal API pipeline | Initial subset implemented |
