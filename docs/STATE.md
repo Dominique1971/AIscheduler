@@ -4,30 +4,27 @@ Updated 2026-10-24. Initial delivery in progress; **not production ready**.
 
 Remote setup: reviewed Oppo/Compass locally, read-only. Their current hosted
 pattern is Cloudflare + Supabase owner authentication, not the older Compass
-Tailscale-only baseline. Added a separate optional Worker/D1 dashboard and
-outbound-only local bridge under `remote/`; scheduler source remains untouched.
-Owner TOTP/AAL2, 15-minute opaque HttpOnly sessions, CSRF, default read-only role,
-bounded typed controls, leases/fencing, idempotency, expiry/uncertainty, audit and
-status projection are implemented. No cloud resource or public endpoint created.
+Tailscale-only baseline. The separate Supabase scheduler Auth project was
+refused at the free-project limit; no paid plan or alteration of either app was
+authorized. The user then chose a private OpenAI Site instead. Its Cloudflare
+Worker/D1 dashboard lives under `sites/scheduler-dashboard/`, while the
+Python/SQLite scheduler and outbound-only bridge remain local and independent.
+The earlier `remote/` Supabase candidate is retained as diagnostic history.
 
-Remote validation: 14 Worker diagnostics, six new bridge diagnostics, full Python
-suite 58 pass, dry-run build passes, npm audit zero findings. Real local
-Worker/D1/bridge/API/daemon pipeline passed with explicitly mocked Auth at
-`evidence/remote-local/20261024T124234Z-21f59291`; 88 artifact hashes verify. Hosted
-Supabase MFA, cellular access and deployment remain unrun. See REMOTE_SETUP.md.
-
-User selected the same Supabase organization as Oppo/Compass for a dedicated
-scheduler Auth project and confirmed the connector's $0/month quote. Creation
-was refused: the organization owner has reached its two-active-free-project
-limit. Raw refusal is preserved in `evidence/remote-setup/20261024-prepublication/`.
-No paid upgrade or alteration/reuse of either existing application's resources
-is authorized. Cloudflare account read-only inventory confirmed the expected
-account, an existing `compass` Worker and no D1 databases; no new resource was
-created there.
-The user then selected a different Supabase account with free capacity. The
-current connector still lists only the original account's organization, so Auth
-provisioning awaits connection to that distinct account. A new organization under
-the same owner account would retain the account-wide free-project limit.
+The owner-private Site is deployed with exact owner Site ID, separate TOTP,
+15-minute opaque HttpOnly sessions, CSRF, read-only role, typed controls,
+idempotent command queue, audit and bounded status projection. Temporary
+identity and TOTP enrollment routes are off; remote controls remain off.
+The owner completed TOTP login on PC and phone over Wi-Fi, then reported that
+the read-only dashboard opened on the phone over mobile data. D1 corroborates
+reader sessions, but does not prove a fresh cellular login. A fresh dummy CLI →
+local API → outbound Python bridge → hosted Site run had three successful polls;
+hosted forged identity headers were denied. One normal phone Pause of disposable
+Demo Weather succeeded through the Site, D1 queue, outbound bridge and local API;
+Demo Inventory remained unpaused. Controls were then disabled again. Raw evidence
+and limitations are in `docs/INTEGRATION_VALIDATION.md`. Alternate signed-in
+user denial, fresh cellular control, endurance and real Codex scheduling remain
+unrun.
 
 Completed: repository discovery, independent Git initialization, capability help
 probes with raw hashes, ADR, schema/validator and builder, two 6-task dummy plans,
@@ -52,7 +49,7 @@ run `20261024T001115Z-4cbca9a7`. Started October 23 at 8:11:15pm New York; deadl
 October 24 at 8:11:15pm. Independent process and child daemon; hourly 12-task bursts
 plus synthetic failures/restarts. First batch completed. Inspect actual final
 report/hashes after deadline. Short 10.85s compressed trial passed separately.
-No host-start, host reboot, physical Android or continuous inference claim.
+No host-start, host reboot, eight-hour phone endurance or continuous inference claim.
 
 Additional real probes: ChatGPT login confirmed; API-key variables removed from
 child environments. Two concurrent harmless CLI executions completed with distinct
@@ -70,9 +67,10 @@ This establishes only direct CLI isolation in dummy repositories; scheduled
 Codex dispatch and artifact acceptance remain unrun.
 
 Gates: scheduled Codex execution/worktree isolation and artifact acceptance,
-tool/approval parity, optional Dot handshake, remote tunnel provider/MFA, Android cellular
-testing, 24h soak and host reboot. No real projects connected; no external API
-spend, remote publication, installs of persistent service or global settings edits.
+tool/approval parity, optional Dot handshake, fresh cellular control and
+session renewal, alternate signed-in user denial, 24h soak and host reboot. No
+real projects connected; no persistent service or global settings edits. The
+private read-only Site is published; Sites reported no dollar cost.
 
 Decisions: simulation-only execution until capabilities proven; every plan
 revision requires explicit approval; incompatible active/completed contracts are
@@ -82,7 +80,6 @@ weeks-long operation. Source-faithful receipts cannot establish task semantics.
 
 Next: inspect soak outcome when available, then advance E1/E2 and remote gates.
 The subscription-route question was resolved from actual CLI login status under
-the original authorization for real dummy tests. Remote access provider remains
-resolved user choice: follow the hosted Cloudflare/Supabase pattern; dedicated
-resource provisioning and publication still require their gates. Full remaining scope is
+the original authorization for real dummy tests. Remote access uses a separate
+private OpenAI Site without changing Oppo or Compass. Full remaining scope is
 tracked in IMPLEMENTATION_PLAN.md and ARCHITECTURE.md; nothing is silently waived.

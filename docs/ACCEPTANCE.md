@@ -1,4 +1,4 @@
-# Acceptance ledger — 23 October 2026
+# Acceptance ledger — 24 October 2026
 
 The full specification is not accepted yet. A fresh simulation run is useful
 evidence for the simulation product; it is not real generator acceptance.
@@ -48,6 +48,16 @@ evidence for the simulation product; it is not real generator acceptance.
   worktree isolation, tool parity and rate-limit recovery are still unrun.
 - Short controller trial `evidence/soak/20261024T000554Z-4bc38639` passed 10.85s /
   three compressed batches. **Not 24-hour acceptance.**
+- Dummy phone control trial `evidence/remote-sites/20261024T155802Z-f92958ea-control/`
+  passed through the normal owner-private Site → D1 command → outbound bridge →
+  loopback API path. After a fresh TOTP controller login, the owner reported
+  tapping Pause for Demo Weather on the phone. The hosted command and audit
+  recorded one successful pause; the raw bridge journal recorded HTTP 200
+  acknowledgment, and the untouched local snapshot shows Weather paused while
+  Inventory remains unpaused. All 10 raw-output hashes, journal hash, two input
+  hashes and 170 receipt filename hashes verified. The bounded five-minute run
+  used disposable projects only; no scheduled Codex task or fresh cellular
+  control was exercised. Site controls were disabled again after the trial.
 - Full soak **RUNNING, not passed**: `evidence/soak/20261024T001115Z-4cbca9a7`,
   supervisor PID 43032. Started October 23 at 8:11:15pm New York; deadline
   October 24 at 8:11:15pm. Independent hidden Python process and child daemon;
@@ -65,9 +75,9 @@ evidence for the simulation product; it is not real generator acceptance.
 | A3 Backfill <=15s | Automatic continuation exercised; dedicated quantitative stress gate pending |
 | A4 Recovery | Forced daemon restart passed; host reboot / real-process reconciliation unrun |
 | A5 4/1/1 ->2/2/2 | Three-project diagnostic passed; fresh two-project allocation controls passed |
-| A6 Cellular MFA | Unrun, no tunnel/publication |
+| A6 Cellular MFA | Owner TOTP and dummy phone Pause verified; read-only cellular reachability user-observed; fresh login/control over cellular unrun |
 | A7 Refresh/manual/stale | 300s source timer + live manual controls; elapsed timer/staleness test unrun |
-| A8 Compact 8h overview | Browser viewport checks passed; physical phone unrun |
+| A8 Compact 8h overview | Browser viewport checks passed; physical phone read-only view and one dummy Pause observed; 8h endurance unrun |
 | A9 Preserve completed | Fresh revision/split/receipt preservation passed; rollback UX pending |
 | A10 Recovery states | Synthetic retries/review/blocking passed; real recovery unrun |
 | A11 Native parity | Unrun |
@@ -80,6 +90,6 @@ Manifests hash original files. Never regenerate one to bless changed artifacts.
 attempt hashes; trace rejects changed receipts. This establishes consistency,
 not semantic correctness, tamper-proof logs or subscription allowance.
 
-Real Codex, tool parity, reboot, remote identity/cellular, forecasting, resource
+Real Codex, tool parity, reboot, fresh cellular control, forecasting, resource
 pressure and long-term reliability remain uncertain. No real-project onboarding
 until gates pass and explicit project authorization is recorded.

@@ -375,6 +375,41 @@ different signed-in account test. Controls remain disabled.
 
 ## Official documentation consulted
 
+### Bounded dummy phone control trial
+
+Run `20261024T155802Z-f92958ea` used the normal CLI to import fresh disposable
+Demo Weather and Demo Inventory plans into an isolated SQLite database. The
+normal local API served port 8876; the DPAPI-backed outbound bridge polled the
+private Site for five minutes. The owner tapped Lock, signed in again with TOTP,
+and reported tapping Pause for Demo Weather on the phone. The hosted D1 audit
+recorded `auth.logout`, a new `controller` TOTP login, one `command.requested`,
+one `command.claimed` and one `command.succeeded` for that pause. The command
+row ended `succeeded` with HTTP 200. The bridge journal recorded one HTTP 200
+control acknowledgment, 56 successful status polls, and no bridge failure.
+The untouched final local snapshot shows `demo-weather` paused and
+`demo-inventory` unpaused.
+
+The normal runner's inputs, raw process outputs, SQLite database, bridge
+journal, 170 response receipts, source hashes, configuration and manifest are
+in `evidence/remote-sites/20261024T155802Z-f92958ea-control/`. Post-run
+verification found all 10 raw-output hashes, the journal hash, both input
+hashes and all receipt filename hashes match. No generated output was edited.
+Site version 4/source `77349ba15def44aec241a8dce79dc5dc5fc63624` ran with
+temporary environment revision 5 and private deployment
+`appgdep_6adcd59b5464819199066e9b63a6c0fb` while controls were enabled.
+After acknowledgment, `REMOTE_CONTROL_ENABLED=false` was applied in revision 6
+and private deployment `appgdep_6adcd6e56024819191de11f570d6c826`
+(`succeeded`); a separate environment read confirmed the flag remains `false`.
+Both identity and enrollment probes remain off. Sites and the local API did
+not report dollar costs.
+
+This is a green dummy phone control trial with user-observed device action and
+machine-observed downstream state. The phone network for the Pause was not
+established. Fresh login/control over cellular, different signed-in account
+denial, real Codex dispatch, and long-duration reliability remain unrun.
+
+## Official documentation consulted
+
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
 fetched 23 October 2026, documents `exec --json`, stream identity/usage fields,
 saved authentication reuse and per-invocation configuration controls. This is
