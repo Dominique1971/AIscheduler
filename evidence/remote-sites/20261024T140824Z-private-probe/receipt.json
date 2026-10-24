@@ -1,0 +1,34 @@
+{
+  "entry_point": "runtime/sites-access-probe.py urllib.request",
+  "test_class": "hosted dispatch diagnostic, not scheduler acceptance",
+  "site_project_id": "appgprj_6adcbab3ab1c81919496cad194193625",
+  "site_version": 1,
+  "site_source_sha": "ba4b1643cc25a21c2fc906ebf32967f694659f13",
+  "deployment_id": "appgdep_6adcbbd1dd008191a851a9f3872f2a70",
+  "environment_revision": 1,
+  "remote_control_enabled": false,
+  "credential": "Sites get_site service token, value not recorded",
+  "cost": "unreported by Sites tool",
+  "results": [
+    {
+      "case": "anonymous",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/setup/identity",
+      "request_header_names": [],
+      "status": 403,
+      "content_type": "text/plain; charset=UTF-8",
+      "response_sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "response_bytes": 17
+    },
+    {
+      "case": "service",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/setup/identity",
+      "request_header_names": [
+        "OAI-Sites-Authorization"
+      ],
+      "status": 401,
+      "content_type": "text/html; charset=utf-8",
+      "response_sha256": "635d8efe12fcb1415eb93a0f7c28cbed7770d56ed93175bf366a94a3e3c3db8e",
+      "response_bytes": 4441
+    }
+  ]
+}

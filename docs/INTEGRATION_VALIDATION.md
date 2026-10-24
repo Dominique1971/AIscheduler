@@ -175,6 +175,39 @@ helper unit tests and CLI help do not satisfy them. Sustained concurrency,
 broader sandbox/approval behavior, costs, semantic correctness and desktop UI
 parity remain uncertain.
 
+## Private OpenAI Sites remote diagnostic (24 October)
+
+The migration source is committed on GitHub `master` at `130c21f`, pushed to the
+separate Sites source repository at `ba4b1643cc25a21c2fc906ebf32967f694659f13`,
+and saved as Site version 1. The owner-private diagnostic deployment
+`appgdep_6adcbbd1dd008191a851a9f3872f2a70` succeeded at
+`https://autonomous-scheduler.jetpack71.chatgpt.site`. Environment revision 1
+sets only `APP_ORIGIN`, `IDENTITY_PROBE_ENABLED=true`, and
+`REMOTE_CONTROL_ENABLED=false`. There is no bridge connection, TOTP enrollment,
+owner identity configuration, or live scheduler control. The Site access policy
+reported one owner and no external visitors; its account user ID has **not** been
+assumed to equal the per-Site authenticated-user header.
+
+The normal local Worker bundle validated and four direct Worker/SQLite diagnostic
+tests passed. The Python bridge's seven targeted tests passed. These tests inject
+the Sites identity header and therefore cannot establish hosted identity or MFA.
+The deployed `/setup/identity` probe was then requested without credentials and
+with the `siwc_bypass_bearer_token` returned by the Sites `get_site` tool. Raw
+responses and hashes are in `evidence/remote-sites/20261024T140824Z-private-probe/`.
+The anonymous request returned Cloudflare HTTP 403 (`error code: 1010`); the
+service-token request returned a Sites HTML **401 Sign in required** rather than
+the Worker's JSON 401. Thus the service request did not reach the Worker, and
+unattended bridge access is **red/unverified** despite the token being listed.
+The token value was neither logged nor stored. Sites reported no dollar cost.
+
+The in-app browser and Node REPL diagnostic tools failed to initialize with
+`failed to write kernel assets`, so an owner-signed-in browser request and Android
+cellular test were not run. Do not enable controls or connect a bridge until the
+actual Sites visitor ID, private audience denial, separate TOTP, D1 migration,
+and an unattended authenticated bridge request are observed through the normal
+hosted path. The failed service request is not evidence that Sites cannot support
+service access generally; its cause remains unresolved.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
