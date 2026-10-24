@@ -31,6 +31,15 @@ defaults, risks, accepted outputs and dependencies with the actual goal before
 using the separate `import` command. Plan revisions continue to require explicit
 approval and immutable task identity.
 
+The package includes two disposable catalog examples, `demo-weather` and
+`demo-inventory`, each with six synthetic tasks, a fork/join dependency graph,
+authored estimates, descriptions and acceptance criteria. Their declared
+repositories sit below `./runtime/examples/`; simulation emits receipts and
+does not create the described business artifacts. The catalog is available at
+`GET /api/v1/examples` and in the local dashboard's **Draft project** dialog.
+Reviewing an example uses the same server preview path as a manually authored
+intake, and never imports it automatically.
+
 The authenticated **local** dashboard has a Draft project form. It collects
 the description and task fields, calls `POST /api/v1/intake/preview` followed by
 `POST /api/v1/plans/preview`, and shows the source description, estimates,
@@ -41,9 +50,16 @@ response; the API also reports the raw HTTP request hash. A control token is
 required. After an explicit review checkbox, the dashboard can import only a
 **new** `demo-` or `dummy-` simulation plan with a declared path below
 `./runtime/`. It rechecks the preview and submits it as `expected_preview`;
-the server rejects a changed preview in the same transaction as import. Import
+the server rejects a changed preview in the same transaction as import. The
+`POST /api/v1/intake/import` operation also recomputes and checks the canonical
+intake source hash, and records that source, transform version and defaults
+with the plan revision. `GET /api/v1/projects/{project}/plan` checks stored
+hashes and returns the current goal, task details and dependency layers; the
+project card's **View plan** button renders these on demand. Import
 queues synthetic tasks for a running daemon. Browser interaction is still
-unverified, and this form is not deployed in the private phone Site. The path
+unverified. The private phone Site displays a bounded read-only projection
+of the goal, task descriptions, criteria, estimates and dependency layers
+for projects reported by its outbound bridge; importing remains local. The path
 check applies to this UI workflow only; a future real executor must validate
 the resolved repository path independently before any launch.
 

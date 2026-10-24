@@ -31,4 +31,6 @@
 .intake-node small{color:var(--muted);margin-top:4px}
 .intake-approval{display:flex!important;align-items:flex-start;gap:9px;margin:12px 0!important}
 .intake-approval input{width:auto!important;margin:3px 0 0;flex:none}
+.example-card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0}
+.example-card p{margin:7px 0}.example-card small{color:var(--muted)}
 .intake-success{color:#72dfb2!important}.intake-error{color:#ff9b9b!important}

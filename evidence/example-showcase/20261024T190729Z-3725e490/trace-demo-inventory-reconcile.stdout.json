@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-inventory",
+  "task_id": "reconcile",
+  "attempts": [
+    {
+      "id": "a5d2764d-e805-4690-b18e-25c19f119c66",
+      "project": "demo-inventory",
+      "task": "reconcile",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Mismatch categories and expected checks are listed.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"normalize\",\"categories\",\"valuation\"],\"description\":\"Define checks for unmatched products, quantities, and category totals.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":3,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic reconciliation receipt; no checks executed.\"},\"task_id\":\"reconcile\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Design reconciliation checks\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "c1f153812454ac6e5b567cab6be2a92a55182fc9b2d4fd2b52cf116183f160ab",
+      "state": "completed",
+      "started": 1792868851.7045038,
+      "due": 1792868852.1045039,
+      "ended": 1792868852.2137327,
+      "output": "{\"attempt_id\":\"a5d2764d-e805-4690-b18e-25c19f119c66\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic reconciliation receipt; no checks executed.\",\"synthetic\":true}",
+      "output_hash": "e181c057b24f9d56a6e99bce8e1e97144c3f75fb42ad57a14bcc76bc9cca5730",
+      "error": null,
+      "heartbeat": 1792868851.9586883
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.433189+00:00"
+}

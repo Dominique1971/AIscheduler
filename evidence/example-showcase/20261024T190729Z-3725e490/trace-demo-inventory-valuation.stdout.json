@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-inventory",
+  "task_id": "valuation",
+  "attempts": [
+    {
+      "id": "7496e959-bcbd-44ac-965b-57341a51d37f",
+      "project": "demo-inventory",
+      "task": "valuation",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Formula and rounding convention are specified.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"normalize\"],\"description\":\"Define quantity-times-price totals and currency rounding.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":3,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic valuation receipt; no totals calculated.\"},\"task_id\":\"valuation\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Specify stock valuation\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "80a71474a5fa41ef6328a701e7d6c6c03af6a8022fa3ce8b39c16d4876ffba7d",
+      "state": "completed",
+      "started": 1792868851.194409,
+      "due": 1792868851.594409,
+      "ended": 1792868851.7045038,
+      "output": "{\"attempt_id\":\"7496e959-bcbd-44ac-965b-57341a51d37f\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic valuation receipt; no totals calculated.\",\"synthetic\":true}",
+      "output_hash": "9168ff2f450f4a002b5a0406d695fa2471fa61df707f0f1515d1a6048902e8e9",
+      "error": null,
+      "heartbeat": 1792868851.4504642
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.767647+00:00"
+}

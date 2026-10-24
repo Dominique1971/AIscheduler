@@ -102,12 +102,14 @@
     const busy = project.tasks.filter(t => active.has(t.state)).reduce((sum,t)=>sum+(Number(t.resources?.slots)||1),0);
     description.append(node("div",`${project.paused ? "Ⅱ Paused" : "● Dispatch enabled"} · ${busy} busy / ${project.max_workers ?? "—"} cap · ${project.tasks.length} tasks`,"project-meta"));
     const actions = node("div",undefined,"project-actions");
+    const viewPlan = node("button","View plan");
+    viewPlan.addEventListener("click",()=>showProjectPlan(project));
     const toggle = node("button",project.paused ? "Resume" : "Pause");
     toggle.addEventListener("click", () => action(`/projects/${encodeURIComponent(project.project_id)}/${project.paused ? "resume" : "pause"}`,{},toggle));
     const allocation = node("input"); allocation.type = "number"; allocation.min = "0"; allocation.max = String(snapshot.max_workers || 1000); allocation.step = "1"; allocation.value = project.max_workers ?? 0; allocation.setAttribute("aria-label",`${project.display_name || project.project_id} maximum workers`);
     const apply = node("button","Set cap");
     apply.addEventListener("click",() => { if (!allocation.checkValidity()) { allocation.reportValidity(); return; } action(`/projects/${encodeURIComponent(project.project_id)}/allocate`,{max_workers:Number(allocation.value)},apply); });
-    actions.append(toggle,allocation,apply); head.append(description,actions); section.append(head);
+    actions.append(viewPlan,toggle,allocation,apply); head.append(description,actions); section.append(head);
     const timeline = node("div",undefined,"timeline"), axis = node("div",undefined,"axis");
     for(let i=0;i<=4;i++) axis.append(node("span",new Date(start+(end-start)*i/4).toLocaleTimeString("en-US",{timeZone:"America/New_York",hour:"numeric",minute:"2-digit"})));
     timeline.append(axis);
@@ -215,6 +217,53 @@
     }
     return graph;
   }
+  async function showProjectPlan(project) {
+    const content = $("plan-content"); content.replaceChildren(node("p","Loading reviewed plan…"));
+    $("plan-title").textContent = `${project.display_name || project.project_id} · plan`;
+    $("plan-dialog").showModal();
+    try {
+      const result = await request(`/projects/${encodeURIComponent(project.project_id)}/plan`);
+      const summary = result.summary;
+      content.replaceChildren(node("p",summary.description),
+        node("p",`${summary.task_count} tasks · ${summary.total_estimate_minutes} minutes authored effort · ${summary.critical_path_estimate_minutes} minute dependency critical path. ${summary.estimate_note}`),
+        node("p",`Revision ${result.revision} · plan SHA-256 ${result.plan_sha256}`),
+        node("h3","Dependency graph"),intakeGraph(summary.tasks));
+      if (result.source) content.append(node("p",`Intake SHA-256 ${result.source.source_sha256} · ${result.source.transform_version}`));
+      const list = node("ol");
+      for (const task of summary.tasks) {
+        const item = node("li");
+        item.append(node("strong",`${task.title} (${task.task_id})`),node("p",task.description),
+          node("p",`${task.estimate_minutes} min · after ${task.depends_on.join(", ") || "nothing"}`),
+          node("p",`Acceptance: ${task.acceptance_criteria.join("; ")}`));
+        list.append(item);
+      }
+      content.append(node("h3","Task details"),list);
+    } catch(error) {content.replaceChildren(node("p",error.message,"intake-error"));}
+  }
+  async function loadExamples() {
+    const catalog = $("example-catalog"); catalog.replaceChildren(node("p","Loading packaged examples…"));
+    try {
+      const data = await request("/examples"); catalog.replaceChildren(node("h3","Packaged examples"));
+      for (const example of data.items) {
+        const card = node("div",undefined,"example-card");
+        const button = node("button",`Review ${example.intake.display_name}`); button.type = "button";
+        button.addEventListener("click",async()=>{
+          button.disabled=true; intakeGeneration++; const generation=intakeGeneration;
+          try {
+            const draft=await request("/intake/preview",{intake:example.intake});
+            const diff=await request("/plans/preview",{plan:draft.plan});
+            if(generation!==intakeGeneration)return;
+            reviewedIntake={draft,diff}; showIntakeResult(draft,example.intake,diff);
+            $("intake-result").scrollIntoView({behavior:"smooth",block:"start"});
+          } catch(error) {$("intake-result").replaceChildren(node("p",error.message,"intake-error"));}
+          finally {button.disabled=false;}
+        });
+        card.append(button,node("p",example.intake.description),
+          node("small",`${example.summary.task_count} tasks · ${example.summary.total_estimate_minutes} min effort · ${example.summary.critical_path_estimate_minutes} min critical path`));
+        catalog.append(card);
+      }
+    } catch(error) {catalog.replaceChildren(node("p",error.message,"intake-error"));}
+  }
   function showIntakeResult(draft, source, diff) {
     const target = $("intake-result"); target.replaceChildren();
     target.append(node("h3","Review before import"),node("p",`${source.display_name} (${source.project_id}) · ${source.repository.path} at ${source.repository.base_branch}`),
@@ -261,7 +310,7 @@
           if (generation !== intakeGeneration) throw new Error("Inputs changed. Preview the intake again before importing.");
           const formControls = [...$("intake-form").elements]; formControls.forEach(control=>{control.disabled=true;});
           let result;
-          try { result = await request("/plans/apply",{plan:draft.plan,approved:true,expected_preview:diff}); }
+          try { result = await request("/intake/import",{intake:source,expected_source_sha256:draft.source_sha256,expected_preview:diff,approved:true}); }
           finally { formControls.forEach(control=>{control.disabled=false;}); }
           reviewedIntake = null; check.disabled = true;
           target.append(node("p",`Imported ${result.project_id} revision ${result.to_revision}. Refreshing authoritative state.`,"intake-success"));
@@ -276,7 +325,8 @@
     target.append(node("p","Preview and downloads do not import or start work. Import may make queued simulation tasks eligible for a running daemon."));
   }
   $("refresh").addEventListener("click",refresh);
-  $("intake-open").addEventListener("click",()=>$("intake-dialog").showModal());
+  $("intake-open").addEventListener("click",()=>{$("intake-dialog").showModal();loadExamples();});
+  $("plan-close").addEventListener("click",()=>$("plan-dialog").close());
   $("intake-close").addEventListener("click",()=>$("intake-dialog").close());
   $("intake-add").addEventListener("click",addIntakeTask);
   $("intake-form").addEventListener("input",()=>{intakeGeneration++;reviewedIntake=null;$("intake-result").replaceChildren(node("p","Inputs changed; preview again before importing or using a downloaded draft."));});

@@ -18,7 +18,7 @@ scheduler = "scheduler.__main__:main"
 include = ["scheduler*"]
 
 [tool.setuptools.package-data]
-scheduler = ["static/*", "schemas/*.json"]
+scheduler = ["static/*", "schemas/*.json", "examples/*.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

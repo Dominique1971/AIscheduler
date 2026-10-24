@@ -23,11 +23,12 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 def project_snapshot(source):
     """Versioned allowlist, preserving source timestamps and local raw-output hash."""
-    return {"schema_version": "remote-snapshot/1", "updated_at": source["updated_at"],
+    return {"schema_version": "remote-snapshot/2", "updated_at": source["updated_at"],
             "max_workers": source["max_workers"], "workers": source["workers"], "stopped": source["stopped"],
             "daemon": {"healthy": source["daemon"]["healthy"]}, "projects": [
-                {"project_id": p["project_id"], "display_name": p["display_name"], "paused": p["paused"], "max_workers": p["max_workers"],
-                 "tasks": [{k: t[k] for k in ("task_id", "title", "state", "depends_on", "estimate_minutes", "started_at", "ended_at", "attempt_count")}
+                {"project_id": p["project_id"], "display_name": p["display_name"], "goal": p.get("goal", "")[:500], "paused": p["paused"], "max_workers": p["max_workers"],
+                 "tasks": [{**{k: t[k] for k in ("task_id", "title", "state", "depends_on", "estimate_minutes", "started_at", "ended_at", "attempt_count")},
+                            "description": t.get("description", "")[:500], "acceptance_criteria": [str(c)[:300] for c in t.get("acceptance_criteria", [])[:8]]}
                            for t in p["tasks"]]} for p in source["projects"]]}
 
 
@@ -130,7 +131,7 @@ def main():
                 raise ValueError("local snapshot unavailable")
             projection = project_snapshot(source)
             projected_raw = json.dumps(projection, sort_keys=True).encode()
-            record("snapshot.read", raw_sha256=preserve(raw), projection_sha256=preserve(projected_raw), transformation="remote-snapshot/1")
+            record("snapshot.read", raw_sha256=preserve(raw), projection_sha256=preserve(projected_raw), transformation="remote-snapshot/2")
             status, remote_raw, response = request(args.origin.rstrip("/")+"/agent/poll", cloud_key, {"snapshot": projection}, site_access=site_access)
             record("site.poll", http_status=status, raw_sha256=preserve(remote_raw))
             if status != 200:

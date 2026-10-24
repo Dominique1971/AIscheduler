@@ -12,17 +12,39 @@ function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hi
 const local=value=>new Date(value).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" NY";
 async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("logout").hidden=auth.auth_mode==="site-owner-readonly";$("auth-mode").hidden=auth.auth_mode!=="site-owner-readonly";$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
 async function control(payload){try{const result=await api("/api/control",payload,crypto.randomUUID());notice(`Control ${result.state}; awaiting local acknowledgement.`);await refresh();}catch(error){notice(error.message);}}
+function planView(project,opened=false){
+  const plan=el("details",undefined,"plan-view"),summary=el("summary","Tasks, estimates and dependencies");plan.append(summary);
+  plan.open=opened;
+  if(project.goal)plan.append(el("p",project.goal,"plan-goal"));
+  const byId=new Map(project.tasks.map(t=>[t.task_id,t])),levels=new Map(),visiting=new Set();
+  function level(id){if(levels.has(id))return levels.get(id);if(visiting.has(id))return 0;visiting.add(id);const task=byId.get(id);const depth=task?1+Math.max(0,...task.depends_on.map(level)):0;visiting.delete(id);levels.set(id,depth);return depth;}
+  for(const task of project.tasks)level(task.task_id);
+  const total=project.tasks.reduce((sum,t)=>sum+t.estimate_minutes,0);
+  const longest=new Map();function critical(id){if(longest.has(id))return longest.get(id);const task=byId.get(id);if(!task)return 0;const value=task.estimate_minutes+Math.max(0,...task.depends_on.map(critical));longest.set(id,value);return value;}
+  const path=Math.max(0,...project.tasks.map(t=>critical(t.task_id)));
+  plan.append(el("p",`${project.tasks.length} tasks · ${total} min authored effort · ${path} min dependency critical path. Estimates exclude review and retries.`,"plan-estimate"));
+  const graph=el("div",undefined,"plan-graph");graph.setAttribute("aria-label","Task dependency graph by step");
+  for(const depth of [...new Set(levels.values())].sort((a,b)=>a-b)){
+    const column=el("div",undefined,"plan-layer");column.append(el("h3",`Step ${depth}`));
+    for(const task of project.tasks.filter(t=>levels.get(t.task_id)===depth)){
+      const card=el("div",undefined,"plan-node");card.append(el("strong",task.title),el("small",`${task.estimate_minutes} min · ${task.depends_on.length?`after ${task.depends_on.join(", ")}`:"starts independently"}`));column.append(card);
+    }graph.append(column);
+  }plan.append(graph);
+  for(const task of project.tasks){const detail=el("details",undefined,"task-detail");detail.append(el("summary",`${task.title} · ${task.state} · ${task.estimate_minutes} min`),el("p",task.description||"No description projected."),el("p",`Depends on: ${task.depends_on.join(", ")||"nothing"}`));if(task.acceptance_criteria?.length)detail.append(el("p",`Acceptance: ${task.acceptance_criteria.join("; ")}`));plan.append(detail);}
+  return plan;
+}
 function render(){
   const s=cached.snapshot;if(!s){$("projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));return;}
   const tasks=s.projects.flatMap(p=>p.tasks),done=tasks.filter(t=>t.state==="completed").length;
   $("metrics").replaceChildren(...[["Workers busy / cap",`${s.workers} / ${s.max_workers}`],["Simulation completed",`${done} / ${tasks.length}`],["Ready",tasks.filter(t=>t.state==="ready").length],["Awaiting review",tasks.filter(t=>t.state==="waiting-review").length]].map(([label,value])=>{const n=el("article",undefined,"metric");n.append(el("span",label),el("strong",String(value)));return n;}));
   const selected=$("focus").value;$("focus").replaceChildren(new Option("All projects",""),...s.projects.map(p=>new Option(p.display_name,p.project_id)));$("focus").value=selected;
+  const openPlans=new Set([...$("projects").querySelectorAll(".project[data-project-id]")].filter(node=>node.querySelector(".plan-view")?.open).map(node=>node.dataset.projectId));
   $("projects").classList.toggle("focused",!!selected);$("projects").replaceChildren();
   for(const p of s.projects.filter(p=>!selected||p.project_id===selected)){
-    const section=el("article",undefined,"project"),head=el("div",undefined,"project-head"),name=el("div");name.append(el("strong",p.display_name),el("small",`${p.paused?"Ⅱ Paused":"● Dispatch enabled"} · ${p.tasks.filter(t=>t.state==="completed").length}/${p.tasks.length} completed`));head.append(name);
+    const section=el("article",undefined,"project"),head=el("div",undefined,"project-head"),name=el("div");section.dataset.projectId=p.project_id;name.append(el("strong",p.display_name),el("small",`${p.paused?"Ⅱ Paused":"● Dispatch enabled"} · ${p.tasks.filter(t=>t.state==="completed").length}/${p.tasks.length} completed`));head.append(name);
     const controls=el("div",undefined,"controls"),toggle=el("button",p.paused?"Resume":"Pause"),cap=el("input"),set=el("button","Set cap");cap.type="number";cap.min="0";cap.max="128";cap.value=String(p.max_workers);cap.setAttribute("aria-label",p.display_name+" worker cap");toggle.onclick=()=>control({action:p.paused?"resume":"pause",project:p.project_id});set.onclick=()=>{if(cap.reportValidity())control({action:"allocate",project:p.project_id,value:Number(cap.value)});};
     for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);
-    const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips);$("projects").append(section);
+    const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips,planView(p,openPlans.has(p.project_id)));$("projects").append(section);
   }
   const age=Math.max(0,Math.floor((Date.now()-Date.parse(s.updated_at))/1000));
   $("freshness").textContent=`Bridge ${cached.agent_online?"online":"offline"} at update · ${s.daemon.healthy?"daemon healthy at source":"daemon unhealthy at source"} · ${local(s.updated_at)} · ${age}s old${s.stopped?" · STOPPED":""}`;

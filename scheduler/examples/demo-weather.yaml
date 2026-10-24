@@ -1,0 +1,51 @@
+intake_version: "1.0"
+project_id: demo-weather
+display_name: Demo Weather
+description: >-
+  Plan a fictitious weather report from deterministic sample observations.
+  Scheduler simulation receipts illustrate the workflow; they do not create a CSV or chart.
+repository: {path: ./runtime/examples/demo-weather, base_branch: main}
+policy: {max_workers: 2}
+tasks:
+  - task_id: observations
+    title: Specify sample observations
+    description: Describe a fixed 30-row sample temperature table and its columns.
+    acceptance_criteria: [Sample columns and row count are specified.]
+    estimate_minutes: 4
+    depends_on: []
+    simulation: {duration_seconds: 0.4, output: "Synthetic observation specification receipt; no table generated."}
+  - task_id: quality
+    title: Check sample quality rules
+    description: Define missing-value and range checks for the sample table.
+    acceptance_criteria: [Quality rules are documented for later real validation.]
+    estimate_minutes: 2
+    depends_on: [observations]
+    simulation: {duration_seconds: 0.4, output: "Synthetic quality-rule receipt; no checks executed."}
+  - task_id: averages
+    title: Specify daily averages
+    description: Define the grouping and arithmetic mean calculation.
+    acceptance_criteria: [Aggregation rule is stated unambiguously.]
+    estimate_minutes: 3
+    depends_on: [observations]
+    simulation: {duration_seconds: 0.4, output: "Synthetic averaging receipt; no calculation executed."}
+  - task_id: anomalies
+    title: Define anomaly flags
+    description: Specify which sample temperatures would receive warning flags.
+    acceptance_criteria: [Threshold and warning semantics are specified.]
+    estimate_minutes: 2
+    depends_on: [quality, averages]
+    simulation: {duration_seconds: 0.4, output: "Synthetic anomaly-rule receipt; no flags generated."}
+  - task_id: chart
+    title: Design trend chart
+    description: Specify chart axes, labels, and accessible text alternatives.
+    acceptance_criteria: [Chart design and alternative text are described.]
+    estimate_minutes: 3
+    depends_on: [averages]
+    simulation: {duration_seconds: 0.4, output: "Synthetic chart-design receipt; no image generated."}
+  - task_id: report
+    title: Review weather report plan
+    description: Combine the quality, anomaly, and chart specifications into a report outline.
+    acceptance_criteria: [All predecessor specifications are referenced in the outline.]
+    estimate_minutes: 4
+    depends_on: [anomalies, chart]
+    simulation: {duration_seconds: 0.4, output: "Synthetic report-outline receipt; no report produced."}

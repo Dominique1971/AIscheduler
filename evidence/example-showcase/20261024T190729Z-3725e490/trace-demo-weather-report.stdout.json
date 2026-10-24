@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-weather",
+  "task_id": "report",
+  "attempts": [
+    {
+      "id": "b2cb2741-4c38-4c99-b3e6-40f44b20db90",
+      "project": "demo-weather",
+      "task": "report",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"All predecessor specifications are referenced in the outline.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"anomalies\",\"chart\"],\"description\":\"Combine the quality, anomaly, and chart specifications into a report outline.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":4,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic report-outline receipt; no report produced.\"},\"task_id\":\"report\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Review weather report plan\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "b21356c1ec9600a7ec0f6ec86ddd808ed79b5872b5f6e9faea55f71e0287a0c1",
+      "state": "completed",
+      "started": 1792868851.7045038,
+      "due": 1792868852.1045039,
+      "ended": 1792868852.2137327,
+      "output": "{\"attempt_id\":\"b2cb2741-4c38-4c99-b3e6-40f44b20db90\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic report-outline receipt; no report produced.\",\"synthetic\":true}",
+      "output_hash": "e71b03f9c5177f6ab3d76ef72ca4a759192de7a3e35d5cf0d745a5e399c1d3b7",
+      "error": null,
+      "heartbeat": 1792868851.9586883
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:05.442897+00:00"
+}

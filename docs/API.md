@@ -13,7 +13,10 @@ shared local roles; per-person identity/MFA is not implemented.
 | GET /projects?offset=0&limit=50 | Project listing (limit 1..100) | read/control |
 | GET /projects/{id}/tasks/{task}/trace | Original attempts and verified input/output hashes | read/control |
 | GET /projects/{id}/plans/history?offset=0&limit=50 | Immutable plans, hashes and timestamps | read/control |
+| GET /projects/{id}/plan | Hash-checked current plan summary, task DAG and intake receipt | read/control |
+| GET /examples | Two packaged disposable intake plans with summaries and file hashes | read/control |
 | POST /intake/preview | `{intake: authoredIntake}`; returns draft plan, per-task explanation, estimates, defaults and source provenance; no import | control |
+| POST /intake/import | `{intake, expected_source_sha256, expected_preview, approved: true}`; hash-bound guarded import for `demo-`/`dummy-` simulation plans under `./runtime/` | control |
 | POST /plans/validate | `{plan: canonicalPlan}` | control |
 | POST /plans/preview | `{plan: canonicalPlan}` | control |
 | POST /plans/apply | `{plan: canonicalPlan, approved: true, expected_preview?: previewResponse}`; an exact expected preview rejects a changed plan state; approval required on revisions | control |
@@ -49,4 +52,6 @@ The intake API hashes a canonical JSON rendering of the inbound `intake`
 object and returns those exact source bytes as `source_text` for download;
 `request_sha256` separately identifies the raw HTTP envelope. The local
 dashboard's Draft project form uses this route. Neither preview nor download
-creates a project. The standalone CLI hashes the original intake file bytes.
+creates a project. Import recomputes the canonical source and exact reviewed
+preview, then stores the source, transform version and defaults with the plan
+revision. The standalone CLI hashes the original intake file bytes.

@@ -14,7 +14,7 @@ IDs below identify deliverables, not permission to attach real repositories.
 | D2 | Architecture and requirement gaps | D1 | 1h | Recorded decisions and full-stage ledger | Initial ADR done |
 | I1 | Versioned project intake description | C1 | 2–4h | Authored tasks/estimates/dependencies -> canonical draft with defaults, hashes and critical path; no auto-import | Fresh dummy CLI-to-simulation intake run passed; real-project authoring unrun |
 | I2 | Assisted goal-to-task authoring | I1 | 3–6h | Skill drafts tasks from an incomplete goal, marks unknowns, validates DAG, preserves the authored brief | Plan Builder skill updated; interactive authoring acceptance unrun |
-| I3 | Project review and approval surface | I1,A1,U1 | 5–9h | Local UI/API shows inbound description, task details, dependency graph, estimates, defaults, diff and explicit apply | Local review graph, diff and guarded dummy import implemented; browser interaction and phone Site parity pending |
+| I3 | Project review and approval surface | I1,A1,U1 | 5–9h | Local UI/API shows inbound description, task details, dependency graph, estimates, defaults, diff and explicit apply | Two packaged 6-task examples, catalog, hash-bound import, stored plan view and bounded private Site projection implemented; local HTTP run passed; browser interaction pending |
 | C1 | Strict portable plan contract and builder | D2 | 2–4h | Valid/invalid YAML, line errors, DAG/schema | Implemented, diagnostic tests |
 | C2 | Durable tasks, revisions, receipts | C1 | 3–5h | Untouched output, immutable history, integrity rejection | Implemented simulation slice |
 | C3 | Dispatcher, backfill, leases/restart | C2 | 3–5h | Normal daemon/API two-project forced restart | Fresh simulation passed; real lifecycle unrun |
@@ -34,7 +34,7 @@ IDs below identify deliverables, not permission to attach real repositories.
 | A3 | Optional MCP/Dot adapter | A2 | 3–6h | Same permissioned operations and actual Dot handshake; native Dot workflow remains independent | Unrun |
 | U1 | Dashboard overview and controls | A1 | 4–7h | Live desktop/mobile screenshots and controls | Local viewport/controls passed; private phone read-only view and one dummy Pause observed |
 | U2 | Attempt phases/dependency graph/revisions/forecasts | U1,R1 | 4–7h | Actual history/trends, estimates and uncertainty | Partial current timestamps only |
-| U3 | Full compact and accessible device UX | U2,I3 | 4–8h | 1h/8h/24h/7d pan/zoom, graph, source plans, retry phases, labels, no overflow on physical phone | Partial local timeline and viewport emulation |
+| U3 | Full compact and accessible device UX | U2,I3 | 4–8h | 1h/8h/24h/7d pan/zoom, graph, source plans, retry phases, labels, no overflow on physical phone | Site plan graph/details deployed; physical phone layout and broader timeline modes unverified |
 | S1 | HTTPS remote interface, MFA and controls | A1,U1 | 3–6h | Outside-LAN Android MFA/CSRF/RBAC audit | Private Site, owner TOTP, dummy bridge and phone Pause verified; cellular control and alternate-owner denial pending |
 | S2 | Remote security and cellular completion | S1,U3 | 4–8h | Fresh mobile-data login/control, wrong-owner denial, expiry/refresh/replay/rate tests, recovery and audit integrity | Dummy phone Pause and read-only cellular reachability only |
 | P1 | History/retention/backup/restore/monitoring | C2 | 3–6h | Restore and retention preserve durable project state | Backup/restore passed; configurable cleanup/aggregation pending |

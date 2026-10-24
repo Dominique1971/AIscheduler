@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import worker from "../dist/server/index.js";
+import {projectSnapshot} from "../worker/contract.mjs";
 
 const owner="site-user-fixture-owner", secret="JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP";
 function setup() {
@@ -39,3 +40,16 @@ test("temporary owner-only bypass can view but cannot issue commands or log out"
   assert.equal((await call("/api/control",{body:{action:"emergency-stop",confirmed:true}})).status,401);
 }finally{db.close();}});
 test("bridge agent requires a distinct credential",async()=>{const {call,db}=setup();try{assert.equal((await call("/agent/poll",{body:{}})).status,401);assert.equal((await call("/agent/poll",{body:{},agent:true})).status,422);}finally{db.close();}});
+test("bounded plan descriptions and dependencies survive the remote projection",()=>{
+  const source={schema_version:"remote-snapshot/2",updated_at:new Date().toISOString(),max_workers:2,workers:0,stopped:false,daemon:{healthy:true},projects:[{project_id:"demo-weather",display_name:"Weather",goal:"Compare synthetic forecasts",paused:false,max_workers:1,tasks:[{task_id:"collect",title:"Collect",description:"Gather synthetic observations",acceptance_criteria:["Receipt exists"],state:"queued",depends_on:[],estimate_minutes:4,started_at:null,ended_at:null,attempt_count:0},{task_id:"compare",title:"Compare",description:"Compare samples",acceptance_criteria:["Comparison recorded"],state:"dependency-blocked",depends_on:["collect"],estimate_minutes:5,started_at:null,ended_at:null,attempt_count:0}]}]};
+  const projected=projectSnapshot(source);
+  assert.equal(projected.schema_version,"remote-snapshot/2");
+  assert.equal(projected.projects[0].goal,source.projects[0].goal);
+  assert.deepEqual(projected.projects[0].tasks[1].depends_on,["collect"]);
+  assert.deepEqual(projected.projects[0].tasks[1].acceptance_criteria,["Comparison recorded"]);
+  source.projects[0].tasks[1].description="x".repeat(501);
+  assert.throws(()=>projectSnapshot(source));
+  source.projects[0].tasks[1].description="Compare samples";
+  source.projects[0].tasks[0].depends_on=["compare"];
+  assert.throws(()=>projectSnapshot(source),/cyclic_dependencies/);
+});

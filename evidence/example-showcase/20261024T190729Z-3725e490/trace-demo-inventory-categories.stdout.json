@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-inventory",
+  "task_id": "categories",
+  "attempts": [
+    {
+      "id": "cb1a8a71-039a-4bfb-ab37-c2836c21dcc7",
+      "project": "demo-inventory",
+      "task": "categories",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Every sample product has one category rule.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"sample\"],\"description\":\"Map each sample product to a simple category for reporting.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":2,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic category-rule receipt; no mapping executed.\"},\"task_id\":\"categories\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Define product categories\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "f9d269a4847a5a714bc0cc097fafb48f75295670a54eb2914c5f844587a36d3a",
+      "state": "completed",
+      "started": 1792868850.6847584,
+      "due": 1792868851.0847585,
+      "ended": 1792868851.194409,
+      "output": "{\"attempt_id\":\"cb1a8a71-039a-4bfb-ab37-c2836c21dcc7\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic category-rule receipt; no mapping executed.\",\"synthetic\":true}",
+      "output_hash": "9c7cd86586446c6f9e3fce71cc2d982ec1ebf7dadd5664580a93e1e6314269dd",
+      "error": null,
+      "heartbeat": 1792868850.9407356
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.208720+00:00"
+}

@@ -35,8 +35,25 @@ Open [the local dashboard](http://127.0.0.1:8765), click Connect, and paste the
 appropriate token from your terminal environment. Read tokens inspect; control
 tokens change state. Do not publish this local bearer-token service directly.
 The local Draft project form uses a control token to preview an intake without
-importing it. The separate private Site has its own MFA and outbound bridge;
-fresh cellular control testing is still open. No inbound router ports are
+importing it. It now lists two packaged six-task examples and shows the goal,
+estimate critical path, dependencies and task details before and after import.
+For the isolated example showcase already set up on this machine:
+
+```powershell
+pwsh -NoProfile -File scripts/start_example_showcase.ps1
+pwsh -NoProfile -File scripts/copy_example_showcase_token.ps1
+```
+
+Open [the example dashboard](http://127.0.0.1:8877/), click **Connect**, and
+paste the copied token. **Draft project** lists the examples and lets you
+review and import a new disposable plan; each project has **View plan**. The
+script keeps this showcase in `runtime/example-showcase/`, separate from the
+default scheduler database. It starts the local daemon and, where provisioned,
+the owner-private outbound Site bridge. These hidden processes do not restart
+after a host reboot; run the start script again. The separate private Site has
+owner sign-in and an outbound bridge; its temporary read-only TOTP bypass is
+active, so remote controls remain disabled. Fresh cellular control testing is
+still open. No inbound router ports are
 required or configured. No credentials belong in plans or Git.
 
 ```powershell

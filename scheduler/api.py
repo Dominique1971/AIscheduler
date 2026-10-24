@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .contracts import validate_plan
 from .core import Conflict, Store, stamp
-from .intake import build_intake
+from .intake import TRANSFORM_VERSION, build_intake, load_intake, plan_summary
 
 
 def create_app(store: Store, read_token=None, control_token=None):
@@ -128,6 +128,23 @@ def create_app(store: Store, read_token=None, control_token=None):
         with store.connect() as db:
             return {"items": [dict(r) for r in db.execute("SELECT * FROM revisions WHERE project=? ORDER BY revision DESC LIMIT ? OFFSET ?", (project, limit, offset))], "updated_at": stamp()}
 
+    @app.get("/api/v1/projects/{project}/plan")
+    def current_plan(project: str, role=Depends(identity)):
+        result = store.current_plan(project)
+        return {"summary": plan_summary(result["plan"]), "revision": result["plan"]["revision"],
+                "plan_sha256": result["plan_sha256"], "source": result["source"]}
+
+    @app.get("/api/v1/examples")
+    def examples(role=Depends(identity)):
+        root = Path(__file__).parent / "examples"
+        items = []
+        for name in ("demo-weather.yaml", "demo-inventory.yaml"):
+            intake, source_hash = load_intake(root / name)
+            draft = build_intake(intake, source_hash)
+            items.append({"id": name.removesuffix(".yaml"), "intake": intake,
+                          "summary": draft["summary"], "example_file_sha256": source_hash})
+        return {"items": items}
+
     @app.post("/api/v1/intake/preview")
     async def intake_preview(request: Request, role=Depends(controller)):
         raw = await request.body()
@@ -138,6 +155,26 @@ def create_app(store: Store, read_token=None, control_token=None):
         draft = build_intake(data["intake"], hashlib.sha256(source_text.encode()).hexdigest(),
                              source_kind="canonical-json-intake/1")
         return {**draft, "source_text": source_text, "request_sha256": hashlib.sha256(raw).hexdigest()}
+
+    @app.post("/api/v1/intake/import")
+    async def intake_import(request: Request, role=Depends(controller)):
+        data = await object_body(request)
+        if set(data) != {"intake", "expected_source_sha256", "expected_preview", "approved"}:
+            raise ValueError("intake import requires intake, expected_source_sha256, expected_preview and approved")
+        if data["approved"] is not True or not isinstance(data["expected_preview"], dict):
+            raise ValueError("reviewed preview and explicit approval required")
+        source_text = json.dumps(data["intake"], sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        source_hash = hashlib.sha256(source_text.encode()).hexdigest()
+        if source_hash != data["expected_source_sha256"]:
+            raise Conflict("intake changed; preview again")
+        draft = build_intake(data["intake"], source_hash, source_kind="canonical-json-intake/1")
+        path = draft["plan"]["repository"]["path"].replace("\\", "/")
+        if not draft["plan"]["project_id"].startswith(("demo-", "dummy-")) or not path.startswith(("./runtime/", "runtime/")) or ".." in path.split("/") or not all(t["executor"] == "simulation" for t in draft["plan"]["tasks"]):
+            raise ValueError("dashboard import is limited to disposable simulation projects under ./runtime/")
+        return store.apply(draft["plan"], approved=True, key=request.headers["idempotency-key"],
+                           expected_preview=data["expected_preview"],
+                           source_receipt={"source": source_text, "source_hash": source_hash,
+                                           "transform_version": TRANSFORM_VERSION, "defaults": draft["defaults_applied"]})
 
     @app.post("/api/v1/plans/{operation}")
     async def plan(operation: str, request: Request, role=Depends(controller)):

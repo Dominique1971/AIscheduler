@@ -88,6 +88,37 @@ def test_intake_preview_is_authenticated_draft_without_project_mutation(client, 
     assert client.post(url, headers=headers(), json={"intake": intake}).status_code == 422
 
 
+def test_packaged_examples_review_import_and_plan_view(client, store):
+    catalog = client.get("/api/v1/examples", headers=headers(READ))
+    assert catalog.status_code == 200
+    examples = catalog.json()["items"]
+    assert {item["id"] for item in examples} == {"demo-weather", "demo-inventory"}
+    assert all(item["summary"]["task_count"] == 6 for item in examples)
+    for example in examples:
+        intake = example["intake"]
+        draft_response = client.post("/api/v1/intake/preview", headers=headers(key="preview-"+example["id"]), json={"intake": intake})
+        assert draft_response.status_code == 200, draft_response.text
+        draft = draft_response.json()
+        preview_response = client.post("/api/v1/plans/preview", headers=headers(key="plan-"+example["id"]), json={"plan": draft["plan"]})
+        assert preview_response.status_code == 200, preview_response.text
+        body = {"intake": intake, "expected_source_sha256": draft["source_sha256"],
+                "expected_preview": preview_response.json(), "approved": True}
+        changed = {**body, "expected_source_sha256": "0"*64}
+        assert client.post("/api/v1/intake/import", headers=headers(key="reject-"+example["id"]), json=changed).status_code == 409
+        imported = client.post("/api/v1/intake/import", headers=headers(key="import-"+example["id"]), json=body)
+        assert imported.status_code == 200, imported.text
+        plan_view = client.get("/api/v1/projects/"+example["id"]+"/plan", headers=headers(READ))
+        assert plan_view.status_code == 200, plan_view.text
+        shown = plan_view.json()
+        assert shown["plan_sha256"] == draft["plan_sha256"]
+        assert shown["source"]["source_sha256"] == draft["source_sha256"]
+        assert shown["summary"]["tasks"] == draft["summary"]["tasks"]
+    assert len(store.snapshot()["projects"]) == 2
+    with store.connect() as db:
+        db.execute("UPDATE intake_sources SET source=source||' ' WHERE project=?", ("demo-weather",))
+    assert client.get("/api/v1/projects/demo-weather/plan", headers=headers(READ)).status_code == 409
+
+
 def test_intake_reviewed_import_checks_the_exact_preview(client, store):
     intake, _ = load_intake(ROOT / "examples/intake-demo-weather.yaml")
     draft = client.post("/api/v1/intake/preview", headers=headers(), json={"intake": intake}).json()

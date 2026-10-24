@@ -94,6 +94,18 @@ evidence for the simulation product; it is not real generator acceptance.
   Anonymous access and stale previews were rejected; the exact reviewed plan
   imported once. Six raw request/response receipts and 17 file hashes verified.
   Browser interaction and real Codex execution remain unrun.
+- Fresh isolated example showcase `evidence/example-showcase/20261024T190729Z-3725e490`
+  imported packaged Weather and Inventory intakes through the normal loopback
+  `/examples` → `/intake/preview` → `/plans/preview` → `/intake/import` path.
+  Stored source and plan hashes matched the reviewed drafts. The normal daemon
+  completed all 12 synthetic tasks; untouched CLI traces show one attempt each,
+  hash-consistent raw inputs/outputs and dependency precedence. `verify.json`
+  passed. The outbound bridge recorded successful Site polls of the bounded
+  `remote-snapshot/2` projection, and a live Site D1 read showed that schema.
+  The Site was owner-private at version 7 with remote controls disabled and the
+  temporary read-only TOTP bypass active. Browser import interaction and
+  physical phone rendering of this version remain unrun; synthetic receipts
+  are not the described CSV, chart or inventory artifacts.
 
 ## Requirement gates
 

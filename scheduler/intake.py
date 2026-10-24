@@ -22,6 +22,38 @@ POLICY_DEFAULTS = {"max_workers": 1, "min_workers": 0, "target_workers": 1,
                    "reserved_slots": 0, "merge": "manual", "full_regression": "manual"}
 
 
+def plan_summary(plan: dict) -> dict:
+    """Summarize an authored canonical DAG without claiming a delivery forecast."""
+    plan = validate_plan(plan)
+    by_id = {task["task_id"]: task for task in plan["tasks"]}
+    successors = {task_id: [] for task_id in by_id}
+    remaining = {task_id: len(task["depends_on"]) for task_id, task in by_id.items()}
+    for task_id, task in by_id.items():
+        for dependency in task["depends_on"]:
+            successors[dependency].append(task_id)
+    longest, layers = {}, {}
+    ready = [task_id for task_id, count in remaining.items() if count == 0]
+    while ready:
+        task_id = ready.pop()
+        task = by_id[task_id]
+        longest[task_id] = task["estimate_minutes"] + max((longest[dep] for dep in task["depends_on"]), default=0)
+        layers[task_id] = 1 + max((layers[dep] for dep in task["depends_on"]), default=0)
+        for successor in successors[task_id]:
+            remaining[successor] -= 1
+            if remaining[successor] == 0:
+                ready.append(successor)
+    return {"project_id": plan["project_id"], "description": plan["goal"],
+            "task_count": len(by_id),
+            "total_estimate_minutes": sum(task["estimate_minutes"] for task in plan["tasks"]),
+            "critical_path_estimate_minutes": max(longest.values()),
+            "estimate_note": "Authored estimates only; excludes review, retries and overhead. Not a forecast.",
+            "tasks": [{"task_id": task["task_id"], "title": task["title"],
+                       "description": task["description"], "estimate_minutes": task["estimate_minutes"],
+                       "depends_on": task["depends_on"], "dependency_layer": layers[task["task_id"]],
+                       "executor": task["executor"], "acceptance_criteria": task["acceptance_criteria"]}
+                      for task in plan["tasks"]]}
+
+
 def load_intake(path: str | Path) -> tuple[dict, str]:
     source = Path(path)
     raw = source.read_bytes()

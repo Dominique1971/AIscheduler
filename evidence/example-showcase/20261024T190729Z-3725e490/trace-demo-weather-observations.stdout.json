@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-weather",
+  "task_id": "observations",
+  "attempts": [
+    {
+      "id": "babf9c0d-94d8-4bc2-93da-d602f80952c7",
+      "project": "demo-weather",
+      "task": "observations",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Sample columns and row count are specified.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[],\"description\":\"Describe a fixed 30-row sample temperature table and its columns.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":4,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic observation specification receipt; no table generated.\"},\"task_id\":\"observations\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Specify sample observations\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "88379a65743359f3dc75c8a87cf6ec2bfdb244faaf9ebd4ea744ac52eaff45b0",
+      "state": "completed",
+      "started": 1792868850.175914,
+      "due": 1792868850.5759141,
+      "ended": 1792868850.6847584,
+      "output": "{\"attempt_id\":\"babf9c0d-94d8-4bc2-93da-d602f80952c7\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic observation specification receipt; no table generated.\",\"synthetic\":true}",
+      "output_hash": "3ead46953033d69319fef979faca79cac7cda026b1e09d99ad0ccc8eeaf3feeb",
+      "error": null,
+      "heartbeat": 1792868850.43047
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:05.217751+00:00"
+}

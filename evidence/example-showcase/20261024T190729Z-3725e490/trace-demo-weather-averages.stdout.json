@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-weather",
+  "task_id": "averages",
+  "attempts": [
+    {
+      "id": "c56683f7-78b6-4024-a1ca-33f2e34e12f2",
+      "project": "demo-weather",
+      "task": "averages",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Aggregation rule is stated unambiguously.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"observations\"],\"description\":\"Define the grouping and arithmetic mean calculation.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":3,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic averaging receipt; no calculation executed.\"},\"task_id\":\"averages\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Specify daily averages\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "bcd5a6d5de878312776da7e03f790a01e7393e4c3241c05e75d93b86e4487f34",
+      "state": "completed",
+      "started": 1792868850.6847584,
+      "due": 1792868851.0847585,
+      "ended": 1792868851.194409,
+      "output": "{\"attempt_id\":\"c56683f7-78b6-4024-a1ca-33f2e34e12f2\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic averaging receipt; no calculation executed.\",\"synthetic\":true}",
+      "output_hash": "87106ec90947bc56967d6fa0d569cd96212c3f67bda449addacad9b880bee99b",
+      "error": null,
+      "heartbeat": 1792868850.9407356
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.994693+00:00"
+}

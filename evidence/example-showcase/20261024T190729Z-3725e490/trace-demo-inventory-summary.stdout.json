@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-inventory",
+  "task_id": "summary",
+  "attempts": [
+    {
+      "id": "10097574-e2a6-4622-8c50-a68dc716ae0b",
+      "project": "demo-inventory",
+      "task": "summary",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Outline references valuation and reconciliation results.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"reconcile\"],\"description\":\"Outline the final inventory table and discrepancy summary.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":2,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic summary-outline receipt; no report produced.\"},\"task_id\":\"summary\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Review inventory summary plan\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "0a14075be0ab9473b02230e60d2b56487da8af8f1fc9353489c155b8a997c72d",
+      "state": "completed",
+      "started": 1792868852.2137327,
+      "due": 1792868852.6137328,
+      "ended": 1792868852.7228534,
+      "output": "{\"attempt_id\":\"10097574-e2a6-4622-8c50-a68dc716ae0b\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic summary-outline receipt; no report produced.\",\"synthetic\":true}",
+      "output_hash": "c91a86633f4e35a8c3729f04231c11eb709240218df79efa1b2e3a9ed32cd588",
+      "error": null,
+      "heartbeat": 1792868852.4693174
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.657110+00:00"
+}

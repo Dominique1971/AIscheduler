@@ -78,7 +78,8 @@ Codex dispatch and artifact acceptance remain unrun.
 Gates: scheduled Codex execution/worktree isolation and artifact acceptance,
 tool/approval parity, optional Dot handshake, fresh cellular control and
 session renewal, alternate signed-in user denial, 24h soak and host reboot. No
-real projects connected; no persistent service or global settings edits. The
+real projects connected; the new example-only processes are hidden but not
+installed as a persistent host service; no global settings edits. The
 private read-only Site is published; Sites reported no dollar cost.
 
 Decisions: simulation-only execution until capabilities proven; every plan
@@ -86,6 +87,17 @@ revision requires explicit approval; incompatible active/completed contracts are
 rejected, split by append; loopback API requires bearer tokens. A background
 daemon command exists, but this alone does not prove auto-start or continuous
 weeks-long operation. Source-faithful receipts cannot establish task semantics.
+
+The isolated example showcase now runs from `runtime/example-showcase/` on
+loopback port 8877, with two six-task dummy projects imported through the
+normal HTTP review path. All 12 simulations completed with input/output hash
+and DAG precedence checks. The private Site at version 7 displays the bounded
+goal, task details, estimates and dependency graph from the outbound bridge;
+hosted D1 received `remote-snapshot/2`. Its controls remain off and the
+owner-only read-only TOTP bypass remains active. The local catalog/import and
+stored-plan view are implemented; signed-in browser and physical phone layout
+verification of this version remain unrun. Raw receipts and scope are under
+`evidence/example-showcase/20261024T190729Z-3725e490`.
 
 Next: inspect soak outcome when available, then advance E1/E2 and remote gates.
 The subscription-route question was resolved from actual CLI login status under

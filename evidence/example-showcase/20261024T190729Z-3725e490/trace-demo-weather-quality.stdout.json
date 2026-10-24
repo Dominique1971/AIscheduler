@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-weather",
+  "task_id": "quality",
+  "attempts": [
+    {
+      "id": "cce35117-e99e-49b2-9209-c78d15262860",
+      "project": "demo-weather",
+      "task": "quality",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Quality rules are documented for later real validation.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"observations\"],\"description\":\"Define missing-value and range checks for the sample table.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":2,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic quality-rule receipt; no checks executed.\"},\"task_id\":\"quality\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Check sample quality rules\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "522eef27e6e0d63239210e9ffe22bce7a45166abb7e522674a655f8e3fdb02f3",
+      "state": "completed",
+      "started": 1792868850.6847584,
+      "due": 1792868851.0847585,
+      "ended": 1792868851.194409,
+      "output": "{\"attempt_id\":\"cce35117-e99e-49b2-9209-c78d15262860\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic quality-rule receipt; no checks executed.\",\"synthetic\":true}",
+      "output_hash": "4a1df65f88fc92773bbb93beb8b2293fdba01e31eab5f8d29199ac005163f43f",
+      "error": null,
+      "heartbeat": 1792868850.9407356
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:05.329789+00:00"
+}

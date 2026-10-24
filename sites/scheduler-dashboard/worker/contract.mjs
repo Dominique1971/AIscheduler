@@ -24,14 +24,28 @@ export function projectSnapshot(input) {
   let count=0;
   const projects=input.projects.map(p => {
     if (!id(p.project_id) || typeof p.display_name !== "string" || p.display_name.length > 200 || !Array.isArray(p.tasks) || !Number.isInteger(p.max_workers) || p.max_workers < 0 || p.max_workers > 128) throw new Failure(422,"invalid_project_snapshot");
-    return {project_id:p.project_id,display_name:p.display_name,paused:p.paused === true,max_workers:p.max_workers,tasks:p.tasks.map(t => {
+    if(p.goal!==undefined&&(typeof p.goal!=="string"||p.goal.length>500))throw new Failure(422,"invalid_project_goal");
+    const tasks=p.tasks.map(t => {
       if (++count > 1000 || !id(t.task_id) || typeof t.title !== "string" || t.title.length > 300 || !states.has(t.state) || !Array.isArray(t.depends_on) || t.depends_on.some(d => !id(d)) || !Number.isFinite(t.estimate_minutes) || t.estimate_minutes <= 0) throw new Failure(422,"invalid_task_snapshot");
       for (const key of ["started_at","ended_at"]) if (t[key] != null && !Number.isFinite(Date.parse(t[key]))) throw new Failure(422,"invalid_task_timestamp");
-      return {task_id:t.task_id,title:t.title,state:t.state,depends_on:t.depends_on,estimate_minutes:t.estimate_minutes,started_at:t.started_at??null,ended_at:t.ended_at??null,attempt_count:Number.isInteger(t.attempt_count)?t.attempt_count:0};
-    })};
+      if(t.description!==undefined&&(typeof t.description!=="string"||t.description.length>500))throw new Failure(422,"invalid_task_description");
+      if(t.acceptance_criteria!==undefined&&(!Array.isArray(t.acceptance_criteria)||t.acceptance_criteria.length>8||t.acceptance_criteria.some(c=>typeof c!=="string"||c.length>300)))throw new Failure(422,"invalid_task_acceptance");
+      return {task_id:t.task_id,title:t.title,description:t.description??"",acceptance_criteria:t.acceptance_criteria??[],state:t.state,depends_on:t.depends_on,estimate_minutes:t.estimate_minutes,started_at:t.started_at??null,ended_at:t.ended_at??null,attempt_count:Number.isInteger(t.attempt_count)?t.attempt_count:0};
+    });
+    const byId=new Map(tasks.map(t=>[t.task_id,t]));
+    if(byId.size!==tasks.length)throw new Failure(422,"duplicate_task_id");
+    const visiting=new Set(),done=new Set();
+    function visit(taskId){
+      if(done.has(taskId))return;
+      if(visiting.has(taskId))throw new Failure(422,"cyclic_dependencies");
+      const task=byId.get(taskId);if(!task)throw new Failure(422,"unknown_dependency");
+      visiting.add(taskId);for(const dependency of task.depends_on)visit(dependency);visiting.delete(taskId);done.add(taskId);
+    }
+    for(const task of tasks)visit(task.task_id);
+    return {project_id:p.project_id,display_name:p.display_name,goal:p.goal??"",paused:p.paused === true,max_workers:p.max_workers,tasks};
   });
   // Explicit reusable projection. Never send prompts, repository paths, stdout,
   // arbitrary errors, environment, credentials or complete task contracts to cloud.
-  return {schema_version:"remote-snapshot/1",updated_at:input.updated_at,max_workers:input.max_workers,workers:input.workers,
+  return {schema_version:"remote-snapshot/2",updated_at:input.updated_at,max_workers:input.max_workers,workers:input.workers,
     stopped:input.stopped === true,daemon:{healthy:input.daemon?.healthy === true},executor:"simulation-only",projects};
 }

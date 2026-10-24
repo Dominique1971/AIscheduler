@@ -60,6 +60,9 @@ class Store:
               FOREIGN KEY(project) REFERENCES projects(id));
             CREATE TABLE IF NOT EXISTS revisions(project TEXT NOT NULL,revision INTEGER NOT NULL,
               plan TEXT NOT NULL,hash TEXT NOT NULL,created REAL NOT NULL,PRIMARY KEY(project,revision));
+            CREATE TABLE IF NOT EXISTS intake_sources(project TEXT NOT NULL,revision INTEGER NOT NULL,
+              source TEXT NOT NULL,source_hash TEXT NOT NULL,transform_version TEXT NOT NULL,
+              defaults TEXT NOT NULL,PRIMARY KEY(project,revision));
             CREATE TABLE IF NOT EXISTS tasks(project TEXT NOT NULL,id TEXT NOT NULL,contract TEXT NOT NULL,
               hash TEXT NOT NULL,state TEXT NOT NULL,created REAL NOT NULL,started REAL,ended REAL,
               attempt_count INTEGER NOT NULL DEFAULT 0,error TEXT,hold INTEGER NOT NULL DEFAULT 0,
@@ -156,13 +159,17 @@ class Store:
         with self.connect() as db:
             return self._preview(db, plan)
 
-    def apply(self, plan, approved=False, key=None, expected_preview=None):
+    def apply(self, plan, approved=False, key=None, expected_preview=None, source_receipt=None):
         from .contracts import validate_plan
         plan = validate_plan(plan)
         with self.transaction() as db:
             request = {"plan": plan, "approved": approved}
             if expected_preview is not None:
                 request["expected_preview"] = expected_preview
+            if source_receipt is not None:
+                if hashlib.sha256(source_receipt["source"].encode()).hexdigest() != source_receipt["source_hash"]:
+                    raise Conflict("intake source integrity failure")
+                request["source_receipt"] = source_receipt
             if key:
                 prior = db.execute("SELECT * FROM requests WHERE key=?", (key,)).fetchone()
                 if prior:
@@ -205,6 +212,10 @@ class Store:
             db.execute("INSERT OR REPLACE INTO allocations VALUES(?,?,?,?)",
                        (pid, allocation["min_workers"], allocation["target_workers"], allocation["reserved_slots"]))
             db.execute("INSERT INTO revisions VALUES(?,?,?,?,?)", (pid, rev, encoded(plan), digest(plan), now))
+            if source_receipt is not None:
+                db.execute("INSERT INTO intake_sources VALUES(?,?,?,?,?,?)",
+                           (pid, rev, source_receipt["source"], source_receipt["source_hash"],
+                            source_receipt["transform_version"], encoded(source_receipt["defaults"])))
             for tid, task in new.items():
                 if tid not in previous:
                     db.execute("INSERT INTO tasks(project,id,contract,hash,state,created) VALUES(?,?,?,?,?,?)",
@@ -218,6 +229,27 @@ class Store:
             if key:
                 db.execute("INSERT INTO requests VALUES(?,?,?)", (key, digest(request), encoded(diff)))
             return diff
+
+    def current_plan(self, project):
+        with self.connect() as db:
+            row = db.execute("SELECT plan,revision FROM projects WHERE id=?", (project,)).fetchone()
+            if row is None:
+                raise KeyError("unknown project")
+            plan = json.loads(row["plan"])
+            history = db.execute("SELECT hash FROM revisions WHERE project=? AND revision=?",
+                                 (project, row["revision"])).fetchone()
+            if history is None or digest(plan) != history["hash"]:
+                raise Conflict("plan integrity failure")
+            source = db.execute("SELECT * FROM intake_sources WHERE project=? AND revision=?",
+                                (project, row["revision"])).fetchone()
+            receipt = None
+            if source is not None:
+                if hashlib.sha256(source["source"].encode()).hexdigest() != source["source_hash"]:
+                    raise Conflict("intake source integrity failure")
+                receipt = {"source_sha256": source["source_hash"],
+                           "transform_version": source["transform_version"],
+                           "defaults_applied": json.loads(source["defaults"])}
+            return {"plan": plan, "plan_sha256": history["hash"], "source": receipt}
 
     def control(self, action, project=None, task=None, value=None, key=None, actor="local-cli"):
         """Audit runtime controls independently of immutable canonical revisions.
@@ -438,7 +470,7 @@ class Store:
                           "ready": sum(t["resources"]["slots"] for t in tasks if t["state"] == "ready"),
                           "blocked": sum(t["resources"]["slots"] for t in tasks if t["state"] in {"dependency-blocked", "waiting-review", "paused"}),
                           "idle": max(0, allocated-busy_slots)}
-                projects.append({"project_id": p["id"], "display_name": p["name"], "revision": p["revision"],
+                projects.append({"project_id": p["id"], "display_name": p["name"], "goal": json.loads(p["plan"])["goal"], "revision": p["revision"],
                                  "paused": bool(p["paused"]), "max_workers": p["max_workers"], "tasks": tasks,
                                  "min_workers": allocation["min_workers"], "target_workers": allocation["target_workers"],
                                  "reserved_slots": allocation["reserved_slots"], **counts})

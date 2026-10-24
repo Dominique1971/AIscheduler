@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-inventory",
+  "task_id": "normalize",
+  "attempts": [
+    {
+      "id": "792a93df-6d90-4530-953f-66286daf242d",
+      "project": "demo-inventory",
+      "task": "normalize",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Normalization rules cover identifiers and units.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"sample\"],\"description\":\"State how product IDs and units would be normalized.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":4,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic normalization-rule receipt; no data transformed.\"},\"task_id\":\"normalize\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Define normalization rules\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "71617af46c25fdb65790410c74cc5b7ac4c0b0eb4829a8674fd95f085f45b9a0",
+      "state": "completed",
+      "started": 1792868850.6847584,
+      "due": 1792868851.0847585,
+      "ended": 1792868851.194409,
+      "output": "{\"attempt_id\":\"792a93df-6d90-4530-953f-66286daf242d\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic normalization-rule receipt; no data transformed.\",\"synthetic\":true}",
+      "output_hash": "0d9bc86ce13d9b2b0b32d797d543c37d52eae4d8dcf9f9af30469d1b0cdeb39a",
+      "error": null,
+      "heartbeat": 1792868850.9407356
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.324672+00:00"
+}

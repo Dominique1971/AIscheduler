@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-weather",
+  "task_id": "anomalies",
+  "attempts": [
+    {
+      "id": "fc009610-93d3-4bd0-ad68-c70765717da2",
+      "project": "demo-weather",
+      "task": "anomalies",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Threshold and warning semantics are specified.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"quality\",\"averages\"],\"description\":\"Specify which sample temperatures would receive warning flags.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":2,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic anomaly-rule receipt; no flags generated.\"},\"task_id\":\"anomalies\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Define anomaly flags\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "167953ff251338eecbeaa7a842cc8d5a2fe620925f700f2b3dd64b525466ab6b",
+      "state": "completed",
+      "started": 1792868851.194409,
+      "due": 1792868851.594409,
+      "ended": 1792868851.7045038,
+      "output": "{\"attempt_id\":\"fc009610-93d3-4bd0-ad68-c70765717da2\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic anomaly-rule receipt; no flags generated.\",\"synthetic\":true}",
+      "output_hash": "9704ec939af6bdf02db9e2554b179499fa2565fa6eec6413f633250a4d1e4060",
+      "error": null,
+      "heartbeat": 1792868851.4504642
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.879148+00:00"
+}

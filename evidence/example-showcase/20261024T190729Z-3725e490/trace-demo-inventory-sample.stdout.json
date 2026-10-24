@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-inventory",
+  "task_id": "sample",
+  "attempts": [
+    {
+      "id": "10b6dec8-a9cd-4f6f-bd23-8a6234b301f2",
+      "project": "demo-inventory",
+      "task": "sample",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Sample fields and record count are specified.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[],\"description\":\"Define a deterministic list of sample product IDs, quantities, and prices.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":3,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic sample-product receipt; no inventory file generated.\"},\"task_id\":\"sample\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Specify sample products\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "0ebf35f5f292c09681979aaae2180aa28f7a296b1b4eaeb704c8102c22659ec3",
+      "state": "completed",
+      "started": 1792868850.175914,
+      "due": 1792868850.5759141,
+      "ended": 1792868850.6847584,
+      "output": "{\"attempt_id\":\"10b6dec8-a9cd-4f6f-bd23-8a6234b301f2\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic sample-product receipt; no inventory file generated.\",\"synthetic\":true}",
+      "output_hash": "551d4c2690ab481048059cb1df623b5f778bae8fd673f160b5b7002129a4533e",
+      "error": null,
+      "heartbeat": 1792868850.43047
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:04.548596+00:00"
+}

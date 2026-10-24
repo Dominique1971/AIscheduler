@@ -1,0 +1,72 @@
+[
+  {
+    "step": "catalog",
+    "path": "/api/v1/examples",
+    "status": 200,
+    "request_sha256": null,
+    "response_sha256": "5df906d86eacf0089cd0a38431459ab18f803911cfacd20896a8117fdc2d0a14"
+  },
+  {
+    "step": "demo-weather.draft",
+    "path": "/api/v1/intake/preview",
+    "status": 200,
+    "request_sha256": "b9b967edc9b32c2107d36f6f12c7337681907e5f0bb6227d85b08c6dda0609a1",
+    "response_sha256": "bdce113717f1e5a65bbcf6509bc84952e31b88bd17239dde75f621d448384f85"
+  },
+  {
+    "step": "demo-weather.preview",
+    "path": "/api/v1/plans/preview",
+    "status": 200,
+    "request_sha256": "85db859df96e81bab623348c799cf5ba474c5fac66483f717a0c2aac39d2757a",
+    "response_sha256": "5729e392d041a9e1e3c890124afd9a6e05d6e438ee55357ec1c9a90ce32fcf12"
+  },
+  {
+    "step": "demo-weather.import",
+    "path": "/api/v1/intake/import",
+    "status": 200,
+    "request_sha256": "aa033fe184818d389a510d1f37a1b967fac28bd51e2977d70f4408f60eae3f02",
+    "response_sha256": "5729e392d041a9e1e3c890124afd9a6e05d6e438ee55357ec1c9a90ce32fcf12"
+  },
+  {
+    "step": "demo-weather.stored",
+    "path": "/api/v1/projects/demo-weather/plan",
+    "status": 200,
+    "request_sha256": null,
+    "response_sha256": "a02b71e1ccc66ee5e01dcf1e12a751efad3b6d5d6e989acb0aae04a919c843f0"
+  },
+  {
+    "step": "demo-inventory.draft",
+    "path": "/api/v1/intake/preview",
+    "status": 200,
+    "request_sha256": "14a2707f37150f9191719399ca335ed721d1a7f94ff5be07dfaa6027d8e00f51",
+    "response_sha256": "1190353c8ae5b475dfc7de8d4338bab3963fe4f97ae8a6293a7e56ed3a96376b"
+  },
+  {
+    "step": "demo-inventory.preview",
+    "path": "/api/v1/plans/preview",
+    "status": 200,
+    "request_sha256": "5e758f30ce87f5df7efcdba420bbcb63f0198006b33c147f9f0be8f7191748ea",
+    "response_sha256": "0d945abde958f11d53b7d50d5490c56b9f4086fa27501fd6a1045a5090f5491a"
+  },
+  {
+    "step": "demo-inventory.import",
+    "path": "/api/v1/intake/import",
+    "status": 200,
+    "request_sha256": "47825b8cf4c2d50ce0d1350231d6aed33c78112304fd7c751dff9c1ef239e7cc",
+    "response_sha256": "0d945abde958f11d53b7d50d5490c56b9f4086fa27501fd6a1045a5090f5491a"
+  },
+  {
+    "step": "demo-inventory.stored",
+    "path": "/api/v1/projects/demo-inventory/plan",
+    "status": 200,
+    "request_sha256": null,
+    "response_sha256": "b376e81141530007eab212b05f94f31821c638e8b00438df81077dfde05054b3"
+  },
+  {
+    "step": "snapshot",
+    "path": "/api/v1/snapshot",
+    "status": 200,
+    "request_sha256": null,
+    "response_sha256": "19827f7c8d5298f39a65e33578dbc23cc9a386a710135ec5354b8d856158d2b2"
+  }
+]

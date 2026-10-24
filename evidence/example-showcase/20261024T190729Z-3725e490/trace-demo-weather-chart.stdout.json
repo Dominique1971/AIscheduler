@@ -1,0 +1,23 @@
+{
+  "project_id": "demo-weather",
+  "task_id": "chart",
+  "attempts": [
+    {
+      "id": "e3928ba7-fa3f-44f8-a246-9cfafd0aa35d",
+      "project": "demo-weather",
+      "task": "chart",
+      "number": 1,
+      "input": "{\"acceptance_criteria\":[\"Chart design and alternative text are described.\"],\"allowed_operations\":[],\"artifact_outputs\":[],\"depends_on\":[\"averages\"],\"description\":\"Specify chart axes, labels, and accessible text alternatives.\",\"escalation_conditions\":[\"Human review if acceptance is unverified or retry budget is exhausted\"],\"estimate_minutes\":3,\"executor\":\"simulation\",\"model\":{\"preference\":\"default\"},\"priority\":50,\"resources\":{\"slots\":1},\"risk_class\":\"low\",\"simulation\":{\"duration_seconds\":0.4,\"output\":\"Synthetic chart-design receipt; no image generated.\"},\"task_id\":\"chart\",\"timeout_policy\":{\"escalation_multiplier\":4,\"execution_seconds\":300,\"max_retries\":0,\"warning_multiplier\":2},\"title\":\"Design trend chart\",\"validation_profile\":\"simulation-receipt\"}",
+      "input_hash": "282909d5f6ed734fc66ca0dd66cd3a08ea5ce02829af1c5dbe08549d04881ebf",
+      "state": "completed",
+      "started": 1792868851.194409,
+      "due": 1792868851.594409,
+      "ended": 1792868851.7045038,
+      "output": "{\"attempt_id\":\"e3928ba7-fa3f-44f8-a246-9cfafd0aa35d\",\"error\":null,\"executor\":\"simulation\",\"result\":\"Synthetic chart-design receipt; no image generated.\",\"synthetic\":true}",
+      "output_hash": "984c5358040c6e177de913d37f80a810af31d6b09ed9cc0907320f3e16c332fb",
+      "error": null,
+      "heartbeat": 1792868851.4504642
+    }
+  ],
+  "updated_at": "2026-10-24T19:10:05.107236+00:00"
+}

@@ -1,0 +1,1 @@
+{"project_id":"demo-inventory","from_revision":null,"to_revision":1,"added":["categories","normalize","reconcile","sample","summary","valuation"],"removed":[],"modified":[],"requires_approval":false,"risk":"initial-dummy-import"}
