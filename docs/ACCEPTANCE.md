@@ -17,8 +17,9 @@ evidence for the simulation product; it is not real generator acceptance.
   preceding source revision. The fresh run above covers the current intake
   transform after its source-kind provenance update.
 - Intake UI source passed JavaScript syntax check and its preview API passed
-  authenticated TestClient diagnostics. Browser automation did not initialize,
-  so form interaction and visual layout are **unrun**, not accepted.
+  authenticated TestClient diagnostics. The browser automation runtime did not
+  initialize; a separate isolated headless Chrome diagnostic launch was blocked
+  by tool policy. Form interaction and visual layout are **unrun**, not accepted.
 - The preceding intake run `20261024T161835Z-95724fdc` reported green during
   execution but its manifest captured transient SQLite sidecars that vanished
   after exit. **Rejected as consumable acceptance evidence**, not patched.
