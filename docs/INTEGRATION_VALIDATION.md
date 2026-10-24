@@ -28,7 +28,7 @@ The scheduler remains simulation-only pending its own executor acceptance gate.
 | Token counts | Real CLI JSONL and app-server `thread/tokenUsage/updated` | Raw usage confirmed; app-server distinguishes `total` and `last`; do not sum cumulative CLI-resume counters |
 | Rate limits/costs | App-server emitted `account/rateLimits/updated` | Account window status available; real rate-limit failure/recovery unrun; dollar cost unavailable |
 | Approvals/sandbox | Explicit never/readOnly settings; own-repository write denied; same-path workspaceWrite positive control succeeded | Narrow write-policy distinction verified; broad tool/network/approval parity unrun |
-| Worktrees | Help advertises `--worktree` | Isolation and lifecycle unrun; no application-created worktree |
+| Worktrees | Real CLI diagnostic `20261024T130534Z-f438b82a` | Two separately created disposable Git worktrees accepted exact file writes in parallel with distinct thread IDs; scheduler-created worktree lifecycle remains unrun |
 | Desktop interoperability | CLI thread read/resume through independent app-server works | CLI/app-server storage interoperability confirmed; desktop UI parity remains unrun |
 | Dot/Pam | No Dot-side endpoint handshake performed | Unsupported/unverified; HTTP contract is only a prospective integration surface |
 | Tool/context parity | No matched direct/scheduled task | Acceptance A11 unrun |
@@ -128,6 +128,34 @@ CLI resume counters appeared cumulative as well. Preserve original counters and
 scope rather than silently treating each event as incremental task consumption.
 
 ## Remaining scheduler-runtime gate
+
+### Disposable worktree write diagnostic (24 October)
+
+`tests/codex_worktree_probe.py` initialized one new dummy Git repository, created
+two branches/worktrees through normal Git commands, then launched two concurrent
+installed `codex exec --json --sandbox workspace-write` turns using the existing
+ChatGPT login. API-key and custom endpoint variables were removed from each child
+environment. Prompts, original JSONL/stderr, emitted file bytes, Git status,
+CLI/harness hashes and manifest are retained under `evidence/codex-worktree/`.
+Both run manifests independently verify after completion.
+
+- `20261024T130451Z-e44b58e2` is **red**. With `--ignore-user-config`, both
+  turns exited 0 and reported completion, but shell writes were rejected by the
+  runtime's read-only policy. No marker file existed. This illustrates why CLI
+  exit and `turn.completed` alone cannot count as artifact acceptance.
+- `20261024T130534Z-f438b82a` is a **green diagnostic**. The only intended
+  command-line difference was removal of `--ignore-user-config`; each turn wrote
+  its own exact expected UTF-8 bytes, neither wrote in the other worktree, and
+  the two thread IDs differ. The original red output was not repaired or reused.
+
+This difference implicates per-invocation configuration loading, but does not
+prove which policy setting controlled the result. The green diagnostic runs
+direct CLI commands, not the scheduler's dispatch pipeline. The preparatory
+adapter still uses `--ignore-user-config` and remains disabled. A real adapter
+must make its selected policy explicit, verify effective behavior in its own
+normal task path, and preserve native config/tool access expectations without
+silently relaxing controls. Dollar cost and broad desktop/tool parity remain
+unavailable.
 
 1. Implement an explicitly enabled adapter with owned IDs, bounded lifecycle and
    authentication/billing guardrails. Current harness evidence does not wire it.

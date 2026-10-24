@@ -1,0 +1,99 @@
+{
+  "run_id": "20261024T130534Z-f438b82a",
+  "kind": "real installed CLI dummy worktree diagnostic",
+  "native_cli_sha256": "0e2a4cd6ac1b329e64ec74745e38b71a3d4fa701102c86f49cf605d23a02c4df",
+  "harness_sha256": "c52e727ca795adcedcab90410d78ea1d31ce8a11e36e6b8bb499da7a44b745f1",
+  "auth": "ChatGPT status verified; API-key and custom endpoint variables removed",
+  "cost_usd": null,
+  "runs": [
+    {
+      "label": "A",
+      "argv": [
+        "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+        "--ask-for-approval",
+        "never",
+        "exec",
+        "--json",
+        "--sandbox",
+        "workspace-write",
+        "--color",
+        "never",
+        "--cd",
+        "C:\\Users\\domin\\.codex\\worktrees\\codex-executor\\scheduler\\runtime\\codex-worktree\\20261024T130534Z-f438b82a\\A",
+        "-"
+      ],
+      "cwd": "C:\\Users\\domin\\.codex\\worktrees\\codex-executor\\scheduler\\runtime\\codex-worktree\\20261024T130534Z-f438b82a\\A",
+      "pid": 56348,
+      "started_epoch": 1792847134.682055,
+      "prompt_sha256": "ba386f46a11d07aeb395e73c60a5f53771f2f534b862838bfe9a14a45e4cc8b6",
+      "expected_sha256": "4462476c6346174bf3e8ca4334604e00884dbbff3cbeaf14c8f9a7dce7e42dc1",
+      "model": "CLI default",
+      "cost_usd": null,
+      "exit_code": 0,
+      "finished_epoch": 1792847144.0024083,
+      "execution_id": "01a16e04-4078-71d0-858d-d15e5ab42662",
+      "usage": {
+        "input_tokens": 35746,
+        "cached_input_tokens": 31104,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 132,
+        "reasoning_output_tokens": 0
+      },
+      "stream_completed": true,
+      "stdout_sha256": "863ff904803f2adcce57cfd62a9e2a605bb5e1bf0511dedf5a09f75811a76e09",
+      "file_exists": true,
+      "emitted_sha256": "4462476c6346174bf3e8ca4334604e00884dbbff3cbeaf14c8f9a7dce7e42dc1",
+      "exact_bytes": true,
+      "other_marker_A_present": false,
+      "other_marker_B_present": false
+    },
+    {
+      "label": "B",
+      "argv": [
+        "C:\\Users\\domin\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+        "--ask-for-approval",
+        "never",
+        "exec",
+        "--json",
+        "--sandbox",
+        "workspace-write",
+        "--color",
+        "never",
+        "--cd",
+        "C:\\Users\\domin\\.codex\\worktrees\\codex-executor\\scheduler\\runtime\\codex-worktree\\20261024T130534Z-f438b82a\\B",
+        "-"
+      ],
+      "cwd": "C:\\Users\\domin\\.codex\\worktrees\\codex-executor\\scheduler\\runtime\\codex-worktree\\20261024T130534Z-f438b82a\\B",
+      "pid": 11056,
+      "started_epoch": 1792847134.7791355,
+      "prompt_sha256": "6c9b27923e39ce4305420b07ddc37d078857ee8594385d7639674bb47b3d8a38",
+      "expected_sha256": "431370de4a2cd9be417e526153490b48bc484652403a17e1ea96798348b048bb",
+      "model": "CLI default",
+      "cost_usd": null,
+      "exit_code": 0,
+      "finished_epoch": 1792847144.0434272,
+      "execution_id": "01a16e04-4089-7e42-a0a1-0fa0dd1734f9",
+      "usage": {
+        "input_tokens": 35748,
+        "cached_input_tokens": 26880,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 126,
+        "reasoning_output_tokens": 0
+      },
+      "stream_completed": true,
+      "stdout_sha256": "8405fde0c1f423a10c9eccb5e1d4240c4d4b6e88fcbf3fd2d1008b973a4edfbe",
+      "file_exists": true,
+      "emitted_sha256": "431370de4a2cd9be417e526153490b48bc484652403a17e1ea96798348b048bb",
+      "exact_bytes": true,
+      "other_marker_A_present": false,
+      "other_marker_B_present": false
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "not scheduler dispatch acceptance",
+    "not native desktop parity",
+    "no broad approval/tool parity",
+    "dollar cost unavailable"
+  ]
+}
