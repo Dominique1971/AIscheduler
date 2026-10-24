@@ -44,3 +44,15 @@ request and response are preserved in
 `evidence/remote-setup/20261024-prepublication/supabase-create-refused.json`.
 No project was created. Do not upgrade billing, pause another project or reuse
 an existing app's Auth configuration without a specific new decision.
+
+The user chose a different Supabase account with free capacity. The current
+connector still exposes only `Dominique1971's Org` under the original account;
+there is no alternate organization available through this connection. Supabase's
+documented free-project limit applies across organizations where a member is an
+Owner or Administrator, so another organization owned by the same account would
+not resolve this refusal. Continue only after the connector is authenticated to
+the separate account or a separate existing project is explicitly identified;
+then inspect that account's organization, quote its cost and provision a dedicated
+Auth project. Do not infer the new account or reuse a reference app's Auth project.
+
+Supabase policy source, checked October 24: https://supabase.com/docs/guides/platform/billing-on-supabase

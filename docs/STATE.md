@@ -24,6 +24,10 @@ No paid upgrade or alteration/reuse of either existing application's resources
 is authorized. Cloudflare account read-only inventory confirmed the expected
 account, an existing `compass` Worker and no D1 databases; no new resource was
 created there.
+The user then selected a different Supabase account with free capacity. The
+current connector still lists only the original account's organization, so Auth
+provisioning awaits connection to that distinct account. A new organization under
+the same owner account would retain the account-wide free-project limit.
 
 Completed: repository discovery, independent Git initialization, capability help
 probes with raw hashes, ADR, schema/validator and builder, two 6-task dummy plans,
