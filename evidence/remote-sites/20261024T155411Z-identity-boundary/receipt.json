@@ -1,0 +1,51 @@
+{
+  "entry_point": "runtime/sites-identity-boundary-probe.py urllib.request",
+  "test_class": "hosted identity boundary diagnostic, not MFA or control acceptance",
+  "site_project_id": "appgprj_6adcbab3ab1c81919496cad194193625",
+  "site_source_sha": "77349ba15def44aec241a8dce79dc5dc5fc63624",
+  "deployment_id": "appgdep_6adcd37756908191930bac68fb71b8f4",
+  "environment_revision": 4,
+  "remote_control_enabled": false,
+  "credentials": "rotated Site bypass token only for service cases, value omitted",
+  "cost": "unreported by Sites tool",
+  "results": [
+    {
+      "case": "anonymous_spoof_owner",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/index.html",
+      "request_header_names": [
+        "oai-authenticated-user-id"
+      ],
+      "request_header_values": "omitted",
+      "status": 403,
+      "content_type": "text/plain; charset=UTF-8",
+      "response_sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "response_bytes": 17
+    },
+    {
+      "case": "service_spoof_other",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/index.html",
+      "request_header_names": [
+        "OAI-Sites-Authorization",
+        "oai-authenticated-user-id"
+      ],
+      "request_header_values": "omitted",
+      "status": 403,
+      "content_type": "application/json",
+      "response_sha256": "8728639ecbc4928cc35c6a60a26d7376e5ee677f5c0df7af73e383ca5f088b82",
+      "response_bytes": 26
+    },
+    {
+      "case": "service_spoof_owner",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/index.html",
+      "request_header_names": [
+        "OAI-Sites-Authorization",
+        "oai-authenticated-user-id"
+      ],
+      "request_header_values": "omitted",
+      "status": 403,
+      "content_type": "application/json",
+      "response_sha256": "8728639ecbc4928cc35c6a60a26d7376e5ee677f5c0df7af73e383ca5f088b82",
+      "response_bytes": 26
+    }
+  ]
+}

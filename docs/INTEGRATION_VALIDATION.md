@@ -354,6 +354,25 @@ cellular-network test. The owner has been asked to lock the phone session and
 sign in again with Wi-Fi off and mobile data on. Remote control is still
 disabled.
 
+The owner subsequently confirmed that the read-only dashboard opened on the
+phone with Wi-Fi off and mobile data on. This is user-observed evidence of
+cellular reachability. D1 still showed three `reader` sessions and three
+`auth.login` events after that report, with no `auth.logout` event. Therefore
+the available hosted records do **not** establish a fresh TOTP login over
+cellular; the existing phone session may have been reused. Control actions and
+session renewal over cellular remain unrun.
+
+A separate hosted identity-boundary diagnostic sent a forged owner identity
+header with no Site credential, then forged other and owner identity headers
+with the Site bypass credential. The unauthenticated request was denied at the
+edge with HTTP 403. Both service requests reached the Worker and returned JSON
+403 `owner_required`, including the one with the real owner ID. This shows that
+Sites dispatch did not pass through these caller-supplied identity headers on
+the tested path. Untouched responses and SHA-256 receipts are in
+`evidence/remote-sites/20261024T155411Z-identity-boundary/`; all three hashes
+were verified. This is strong spoofing-denial evidence but does not replace a
+different signed-in account test. Controls remain disabled.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
