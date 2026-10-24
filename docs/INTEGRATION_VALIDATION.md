@@ -208,6 +208,15 @@ and an unattended authenticated bridge request are observed through the normal
 hosted path. The failed service request is not evidence that Sites cannot support
 service access generally; its cause remains unresolved.
 
+The hosted Worker log for an authenticated browser rendering request reached
+the deployed Worker with `oai-authenticated-user-email` and optional name
+headers, but no `oai-authenticated-user-id` header in the recorded request.
+The root route returned 503 because the full owner/TOTP/agent configuration is
+intentionally absent. This is a real hosted observation, not proof that every
+visitor request omits the ID. Source after version 1 now supports exact
+platform-authenticated owner email as a fallback; that new source needs its own
+normal build and deployment before it can count as hosted evidence.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),

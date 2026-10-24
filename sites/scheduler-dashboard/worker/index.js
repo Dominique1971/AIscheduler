@@ -20,7 +20,9 @@ async function objectBody(request,limit=16384) {
 function config(env,url) {
   const local=env.DEV_MODE==="local-only" && ["127.0.0.1","localhost"].includes(url.hostname);
   if (url.origin!==env.APP_ORIGIN || !local && url.protocol!=="https:") throw new Failure(503,"origin_not_configured");
-  if (typeof env.OWNER_SITE_USER_ID!=="string" || env.OWNER_SITE_USER_ID.length<8 ||
+  const idConfigured=typeof env.OWNER_SITE_USER_ID==="string" && env.OWNER_SITE_USER_ID.length>=8;
+  const emailConfigured=typeof env.OWNER_SITE_EMAIL==="string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(env.OWNER_SITE_EMAIL) && env.OWNER_SITE_EMAIL===env.OWNER_SITE_EMAIL.toLowerCase();
+  if (idConfigured===emailConfigured ||
       typeof env.AGENT_TOKEN!=="string" || env.AGENT_TOKEN.length<43 ||
       typeof env.OWNER_TOTP_SECRET!=="string" || !/^[A-Z2-7]{32,}$/.test(env.OWNER_TOTP_SECRET)) throw new Failure(503,"configuration_required");
   return {local};
@@ -34,10 +36,15 @@ async function rate(env,key,limit,seconds) {
   if(row.count>limit)throw new Failure(429,"rate_limited");
 }
 function owner(request,env) {
-  // Sites dispatch owns this header. Private audience is still required at the platform edge.
+  // Sites dispatch owns these headers. Private audience is still required at the platform edge.
   const id=request.headers.get("oai-authenticated-user-id");
-  if (!id || id!==env.OWNER_SITE_USER_ID) throw new Failure(403,"owner_required");
-  return id;
+  const email=request.headers.get("oai-authenticated-user-email")?.toLowerCase();
+  if (env.OWNER_SITE_USER_ID) {
+    if (!id || id!==env.OWNER_SITE_USER_ID) throw new Failure(403,"owner_required");
+    return "site:"+id;
+  }
+  if (!email || email!==env.OWNER_SITE_EMAIL) throw new Failure(403,"owner_required");
+  return "email:"+email;
 }
 function decodeBase32(value) {
   let bits=0, buffer=0; const bytes=[];
@@ -85,8 +92,9 @@ async function route(request,env) {
   // Owner-private, read-only bootstrap diagnostic. Disable before enabling controls.
   if(url.pathname==="/setup/identity" && request.method==="GET" && env.IDENTITY_PROBE_ENABLED==="true" && env.REMOTE_CONTROL_ENABLED!=="true") {
     const id=request.headers.get("oai-authenticated-user-id");
-    if(!id)throw new Failure(401,"site_sign_in_required");
-    return json({site_user_id:id});
+    const email=request.headers.get("oai-authenticated-user-email");
+    if(!id && !email)throw new Failure(401,"site_sign_in_required");
+    return json({site_user_id:id,site_user_email:email});
   }
   const {local}=config(env,url);const db=env.SCHEDULER_REMOTE;const now=clock();
   if(!["GET","POST"].includes(request.method))throw new Failure(405,"method_not_allowed");
