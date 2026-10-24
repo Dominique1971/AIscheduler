@@ -1,0 +1,8 @@
+{"at": 1792855711.2363338, "kind": "started", "protocol": "outbound-bridge/1", "source_sha256": "decf74845580db9a24aa8b91139e030a59893ab30648cc8234d39fd5a22296c6"}
+{"at": 1792855711.2943401, "kind": "snapshot.read", "raw_sha256": "eb0bb417f0c96011dea24fed4970d7bbfa77767286064cf4ab10b1e892e8cc3e", "projection_sha256": "8645fd388bc1e90e8bdea16a3c1aeed97d4c57595020ef9abf66a47be7673a3a", "transformation": "remote-snapshot/1"}
+{"at": 1792855712.2706063, "kind": "site.poll", "http_status": 200, "raw_sha256": "3c5ec5fc5a9263443f22369f1bef4192c6ccf1a7dbcf4a22b8e4e04104bf2051"}
+{"at": 1792855717.2876644, "kind": "snapshot.read", "raw_sha256": "1cf732e560447e48daa27bc94986f893b719211eab19b6f561c3dde43458d744", "projection_sha256": "f0b9a000774838cd33820b4f748a9ede2dfc084c2c38f97b49a31301be3ccaec", "transformation": "remote-snapshot/1"}
+{"at": 1792855717.622663, "kind": "site.poll", "http_status": 200, "raw_sha256": "5dedacea844ad0fe1adbc6333c35bbb0659242126cdb7f26e08013d83ff6d45f"}
+{"at": 1792855722.639178, "kind": "snapshot.read", "raw_sha256": "d479e1f41de23b29d72e6a355fd75426d80b1f73e18fd3b3c6da75fb8da7dc87", "projection_sha256": "d5bde2154bc5167a34dcafa277c2e32ba4ba5ea7b5d620dfee06d617acbdad8a", "transformation": "remote-snapshot/1"}
+{"at": 1792855723.0085323, "kind": "site.poll", "http_status": 200, "raw_sha256": "9c22a8edcce2538d03530dc567b6650c705b69dd2dec35a688367de450820cac"}
+{"at": 1792855728.0098045, "kind": "stopped"}

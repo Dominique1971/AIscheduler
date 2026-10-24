@@ -1,0 +1,59 @@
+{
+  "run_id": "20261024T152829Z-8e037522",
+  "started_at": "2026-10-24T15:28:29.520225+00:00",
+  "finished_at": "2026-10-24T15:28:48.056822+00:00",
+  "entry_point": "python tests/acceptance_remote_site_bridge.py",
+  "test_class": "fresh dummy-project normal API and Python bridge to hosted Site; no visitor MFA or control acceptance",
+  "site_source_sha": "77349ba15def44aec241a8dce79dc5dc5fc63624",
+  "site_deployment_id": "appgdep_6adcce77c2f481919ee2d29b02ce9eb5",
+  "site_environment_revision": 3,
+  "remote_control_enabled": false,
+  "plans": {
+    "demo-weather.yaml": "aa588de95ad36ebac7a5e07a2b8bf316deef430a3f029201e9cf632708c399f4",
+    "demo-inventory.yaml": "88bde3539a88486139cd0ca0cd564bbbae0e44ca3126ffaa6628286849298e91"
+  },
+  "code_sha256": {
+    "remote\\bridge.py": "decf74845580db9a24aa8b91139e030a59893ab30648cc8234d39fd5a22296c6",
+    "remote\\site_bridge.ps1": "6e6a1ded1897d6795a744b9d2275755cce3294d0d057896ce41935002dc2df58",
+    "tests\\acceptance_remote_site_bridge.py": "9377a62f6335c4be2aaf298b47bf06afa2a3be71736e4427b0470f7c6d463dcc"
+  },
+  "config": {
+    "port": 8876,
+    "bridge_run_seconds": 12,
+    "credential_storage": "Windows CurrentUser DPAPI, values omitted",
+    "local_control_token": "fresh random 32 bytes, value omitted"
+  },
+  "processes": [
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler --db import demo-weather.yaml --approve",
+      "exit_code": 0,
+      "stdout_sha256": "d188e1f2788eeae97d816fc13354b00f7f391c1581c3a9bf9a3081fee71ed281",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "entry_point": "C:\\Users\\domin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m scheduler --db import demo-inventory.yaml --approve",
+      "exit_code": 0,
+      "stdout_sha256": "05426c72baa5ffac4be67663b110085efd1017337ab350a4e0a3f998825f5ff9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "entry_point": "remote/site_bridge.ps1 -Action run -> remote/bridge.py --site",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "raw_hashes": {
+    "api.stderr.raw": "3ce6e3800fbf4ead031bf94fdb11d314322fb6e7df589b42f283867dbe1b4fe5",
+    "api.stdout.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bridge.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bridge.stdout.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "import-demo-inventory.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "import-demo-inventory.stdout.raw": "05426c72baa5ffac4be67663b110085efd1017337ab350a4e0a3f998825f5ff9",
+    "import-demo-weather.stderr.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "import-demo-weather.stdout.raw": "d188e1f2788eeae97d816fc13354b00f7f391c1581c3a9bf9a3081fee71ed281"
+  },
+  "journal_sha256": "9ea3761197fdf53bfdc1766dc1d1655f4fd340c0028dc681a44612ef932de5a6",
+  "cost": "unreported by Sites and local API",
+  "result": "green_bridge_diagnostic"
+}

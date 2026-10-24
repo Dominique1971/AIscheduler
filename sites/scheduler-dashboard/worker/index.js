@@ -102,6 +102,11 @@ async function route(request,env) {
     return json({site_user_id:id,site_user_email:email});
   }
   const {local}=config(env,url);const db=env.SCHEDULER_REMOTE;const now=clock();
+  if(url.pathname==="/setup/totp" && request.method==="GET" && env.TOTP_ENROLLMENT_ENABLED==="true" && env.REMOTE_CONTROL_ENABLED!=="true") {
+    const id=owner(request,env);
+    if(await db.prepare("SELECT 1 FROM mfa_counters WHERE owner=?").bind(id).first())throw new Failure(404,"not_found");
+    return new Response(`<!doctype html><html lang="en"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Scheduler authenticator setup</title><main><h1>Set up your authenticator</h1><ol><li>In your authenticator app, choose Add account, then Enter a setup key.</li><li>Name the account Autonomous Scheduler. Select Time based and enter the key below exactly.</li><li>Open the dashboard and enter the current six-digit code.</li></ol><p><strong>Manual setup key:</strong> <code>${env.OWNER_TOTP_SECRET}</code></p><p>This page closes after the first successful verification. Keep the key private.</p><p><a href="/index.html">Open dashboard</a></p></main></html>`,{headers:{"Content-Type":"text/html; charset=utf-8"}});
+  }
   if(!["GET","POST"].includes(request.method))throw new Failure(405,"method_not_allowed");
   if(request.method==="POST" && !url.pathname.startsWith("/agent/") && request.headers.get("origin")!==url.origin)throw new Failure(403,"same_origin_required");
   if(url.pathname.startsWith("/agent/")) {

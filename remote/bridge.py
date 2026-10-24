@@ -131,7 +131,8 @@ def main():
             projection = project_snapshot(source)
             projected_raw = json.dumps(projection, sort_keys=True).encode()
             record("snapshot.read", raw_sha256=preserve(raw), projection_sha256=preserve(projected_raw), transformation="remote-snapshot/1")
-            status, _, response = request(args.origin.rstrip("/")+"/agent/poll", cloud_key, {"snapshot": projection}, site_access=site_access)
+            status, remote_raw, response = request(args.origin.rstrip("/")+"/agent/poll", cloud_key, {"snapshot": projection}, site_access=site_access)
+            record("site.poll", http_status=status, raw_sha256=preserve(remote_raw))
             if status != 200:
                 raise ValueError("remote poll denied")
             job = response.get("command")
@@ -155,8 +156,8 @@ def main():
                     except (OSError, TimeoutError, ValueError, urllib.error.URLError):
                         ack["status"] = "uncertain"
                         record("control.uncertain", id=job_id, fence=fence)
-                ack_status, _, _ = request(args.origin.rstrip("/")+"/agent/ack", cloud_key, ack, site_access=site_access)
-                record("control.ack", id=job_id, fence=fence, http_status=ack_status, status=ack["status"])
+                ack_status, ack_raw, _ = request(args.origin.rstrip("/")+"/agent/ack", cloud_key, ack, site_access=site_access)
+                record("control.ack", id=job_id, fence=fence, http_status=ack_status, status=ack["status"], raw_sha256=preserve(ack_raw))
         except (OSError, ValueError, TimeoutError, urllib.error.URLError):
             record("bridge.unavailable")
         time.sleep(args.interval)

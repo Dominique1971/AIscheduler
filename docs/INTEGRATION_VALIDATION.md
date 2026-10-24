@@ -252,9 +252,82 @@ bearer value. Its untouched raw results and receipt remain in
 `evidence/remote-sites/20261024T151703Z-rotated-token/`, with a separate note
 correcting the receipt's inaccurate credential description. That attempt is
 **not** evidence for the new token. The valid probe establishes Site dispatch
-reachability only. Agent authentication, D1 migration, owner TOTP, bridge polling,
+reachability only. Agent authentication, owner TOTP, bridge polling,
 private audience denial for a different signed-in user, mobile cellular access,
 and scheduler control are still unrun. Remote controls remain disabled.
+
+A subsequent read-only Sites database overview reported the
+`SCHEDULER_REMOTE` binding with all six tables from the initial migration:
+`audit`, `commands`, `mfa_counters`, `rate_limits`, `sessions`, and `snapshots`.
+This corrects the earlier claim in this section that the D1 migration was
+pending. Table presence is a hosted schema observation, not an end-to-end data
+flow or TOTP acceptance test.
+
+### Version 3: owner enrollment and agent boundary
+
+The first-time TOTP enrollment requirement was added to `docs/SPEC.md` before
+implementation. Site source commit `bd55f969e1ee7fddfd412091aaef7fd0bd592faa`
+builds an owner-only `/setup/totp` page. It shows the seed only while controls
+are disabled and no TOTP verification counter exists for the owner; successful
+verification closes the page. Six direct Worker/SQLite diagnostic tests passed,
+including wrong-owner denial, first verification, and enrollment closure. The
+Site source package was built, tested, validated, pushed, and deployed privately
+as version 3, deployment `appgdep_6adccd5f3884819197191c6839f953b6`
+(`succeeded`). Environment revision 3 has the exact Site user ID and separate
+TOTP and agent secrets, all hidden as Site secrets. The identity probe is off,
+temporary enrollment is on, and `REMOTE_CONTROL_ENABLED=false`.
+
+A hosted service probe used the rotated Sites bypass token and the distinct
+agent token. Without a visitor identity, `/setup/totp` returned Worker's JSON
+403 `owner_required`. The disabled `/setup/identity` returned Worker's JSON 404.
+An agent-authenticated `/agent/poll` request with an intentionally invalid
+snapshot returned Worker's JSON 422 `invalid_snapshot`, showing that the
+request passed the two service credential checks and reached contract validation.
+The untouched bodies, SHA-256 hashes, and request receipt are in
+`evidence/remote-sites/20261024T152354Z-v3-access/`; all three body hashes were
+verified. This is an access diagnostic, not a successful poll or bridge test.
+Sites did not report dollar costs.
+
+The Site access and agent tokens are stored locally in an ignored Windows
+CurrentUser DPAPI file for `remote/site_bridge.ps1`; a decryption round trip
+confirmed their lengths without revealing either token. The local API control
+token has not been provisioned to that launcher, and the normal Python bridge
+has not been run against the hosted Site. The owner has been asked to enroll an
+authenticator through the signed-in private Site and report the resulting
+read-only dashboard. Until that user-observed step, hosted TOTP acceptance is
+unrun. Wrong-owner signed-in access, cellular access, persistent bridge polling,
+command execution, and real-project access remain unrun; controls stay off.
+
+### Version 4 and a fresh dummy-project bridge run
+
+The owner reported that the authenticator app link on the enrollment page was
+not clickable. The page now makes manual key entry the primary path, with
+explicit account name and time-based setting. Site source commit
+`77349ba15def44aec241a8dce79dc5dc5fc63624` passed build, six direct
+Worker tests and validation, then deployed privately as version 4,
+`appgdep_6adcce77c2f481919ee2d29b02ce9eb5` (`succeeded`), under the same
+environment revision 3. The owner was asked to refresh the setup page and try
+manual enrollment. The live signed-in result is pending.
+
+Run `20261024T152829Z-8e037522` invoked
+`tests/acceptance_remote_site_bridge.py` with fresh dummy Weather and Inventory
+plans. It imported both through the normal CLI into a new SQLite database,
+started the normal loopback API, and ran `remote/site_bridge.ps1` →
+`remote/bridge.py --site` for 12 seconds using the stored Site and agent
+credentials and a fresh local control token. The bridge wrote three `site.poll`
+events with HTTP 200 and no `bridge.unavailable` events. Its journal contains
+source and projection hashes; all three hosted response receipts and top-level
+raw process output hashes were verified. Untouched inputs, raw outputs, database,
+bridge journal/receipts, code hashes, configuration, and manifest are in
+`evidence/remote-sites/20261024T152829Z-8e037522-bridge/`.
+
+A read-only D1 query found one hosted snapshot row with the run's recent
+`source_updated_at`. The Sites row-view tool truncated its JSON value, so this
+query does not independently verify every projected field. The normal bridge
+path demonstrated repeated status delivery for dummy projects, but the runner
+had no scheduler daemon or control command. It is a **green hosted bridge
+diagnostic**, not phone, MFA, command-control, or real Codex acceptance. Site
+cost was not reported; controls are still disabled.
 
 ## Official documentation consulted
 

@@ -1,0 +1,55 @@
+{
+  "entry_point": "runtime/sites-v3-access-probe.py urllib.request",
+  "test_class": "hosted auth diagnostic, not scheduler or cellular acceptance",
+  "site_project_id": "appgprj_6adcbab3ab1c81919496cad194193625",
+  "site_version": 3,
+  "site_source_sha": "bd55f969e1ee7fddfd412091aaef7fd0bd592faa",
+  "deployment_id": "appgdep_6adccd5f3884819197191c6839f953b6",
+  "environment_revision": 3,
+  "remote_control_enabled": false,
+  "credentials": "newly generated Site bypass and distinct agent token, values omitted",
+  "cost": "unreported by Sites tool",
+  "results": [
+    {
+      "case": "enrollment_without_visitor",
+      "method": "GET",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/setup/totp",
+      "request_header_names": [
+        "OAI-Sites-Authorization"
+      ],
+      "request_body_sha256": null,
+      "status": 403,
+      "content_type": "application/json",
+      "response_sha256": "8728639ecbc4928cc35c6a60a26d7376e5ee677f5c0df7af73e383ca5f088b82",
+      "response_bytes": 26
+    },
+    {
+      "case": "identity_probe_disabled",
+      "method": "GET",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/setup/identity",
+      "request_header_names": [
+        "OAI-Sites-Authorization"
+      ],
+      "request_body_sha256": null,
+      "status": 404,
+      "content_type": "application/json",
+      "response_sha256": "d2dfdc9511fbeaa0701d1f8730f4989313b062ca1b61a2bd8bed8f4f5d654b5d",
+      "response_bytes": 21
+    },
+    {
+      "case": "agent_auth_with_invalid_snapshot",
+      "method": "POST",
+      "request_url": "https://autonomous-scheduler.jetpack71.chatgpt.site/agent/poll",
+      "request_header_names": [
+        "OAI-Sites-Authorization",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_body_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": 422,
+      "content_type": "application/json",
+      "response_sha256": "2d3b14f21ef55433382006fd1fc14d141b1cb5cff56a41fc426d4f158370b827",
+      "response_bytes": 28
+    }
+  ]
+}
