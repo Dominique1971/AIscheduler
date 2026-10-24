@@ -345,6 +345,15 @@ The owner has been asked to verify the read-only dashboard on Android over
 mobile data with Wi-Fi off. Until that result is observed, cellular access is
 unrun. No command-control or real-project access has been enabled or tested.
 
+The owner subsequently reported that the dashboard also worked on the phone,
+then clarified that Wi-Fi was **on**. A read-only D1 inspection found a third
+`reader` session and a third `auth.login` event. These records corroborate
+another successful TOTP login, but they do not identify the device or network;
+the phone result is user-observed. This is a phone-on-Wi-Fi check, **not** a
+cellular-network test. The owner has been asked to lock the phone session and
+sign in again with Wi-Fi off and mobile data on. Remote control is still
+disabled.
+
 ## Official documentation consulted
 
 [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode),
