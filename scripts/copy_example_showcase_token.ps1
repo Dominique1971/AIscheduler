@@ -1,4 +1,5 @@
 $ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.Security
 $root = Split-Path -Parent $PSScriptRoot
 $tokenPath = Join-Path $root 'runtime/example-showcase/control-token.dpapi'
 if (-not (Test-Path -LiteralPath $tokenPath -PathType Leaf)) { throw 'Start the example showcase first.' }

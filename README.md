@@ -47,7 +47,7 @@ For the isolated example showcase already set up on this machine:
 
 ```powershell
 pwsh -NoProfile -File scripts/start_example_showcase.ps1
-pwsh -NoProfile -File scripts/copy_example_showcase_token.ps1
+powershell.exe -NoProfile -File .\scripts\copy_example_showcase_token.ps1
 ```
 
 Open [the example dashboard](http://127.0.0.1:8877/), click **Connect**, and
