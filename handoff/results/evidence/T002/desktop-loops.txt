@@ -1,0 +1,106 @@
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+PRIVATE · READ-ONLY
+Owner-only view · Authenticator paused
+FOREMAN/LOOPS AND CHECKS
+Refresh now
+AUTONOMOUS BY DESIGN
+LOOPS AND CHECKS
+
+The cycle, the mailbox, the runner script and the guardrails, modeled on the Koboo launcher. The scheduler does not run it yet.
+
+Proposed design
+Claude
+writes tasks, reviews
+Markdown mailbox
+inbox, queue, done
+Runner script
+.cmd restarts .ps1
+One cycle per task, no human in the loop
+Builder
+Codex, no network
+Hard checks
+paths, size, tests
+Review
+read-only session
+Keep or undo
+commit or evidence
+Fail: up to 2 repair rounds in the same Codex thread, then undo and park
+Pass: commit, push, copy task, result and review to history
+Watchdog, every 15 minutes
+Heartbeat, time box, quota, idle worker, queue depth
+Ledger and logs
+cycles, decisions
+Dashboard
+status, 5 min refresh
+Escalation
+money, keys, kill rules
+LOOPS
+LOOP	CADENCE	WHAT IT CHECKS	IF IT FAILS
+Cycle	per task	Build, run hard checks, run a read-only review, keep or undo.	Undo and keep a patch as failure evidence.
+Runner poll	every 15 seconds	Worker alive, time box not passed, status refreshed.	Past the time box: stop the process tree and undo.
+Watchdog	every 15 minutes	Heartbeat, log growth, elapsed vs estimate, idle worker with ready work, queue depth.	Nudge, restart the runner, then escalate. Warn at 2x the estimate, escalate at 4x.
+Allowance retry	every 15 minutes	Provider usage allowance.	Wait and keep checking; other lanes continue.
+Test cap	10 minutes	Test run finishes.	Stop the tests and send the hang back as a repair instruction.
+Reviewer	scheduled	Review kept and undone tasks, keep at least 5 queued.	After 3 failures, park the task with a diagnosis.
+Standalone planner	queue empty	Plans 1 to 3 small tasks through the same checks.	3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes.
+Self-update	between tasks	New launcher or guide files wait in the mailbox, get installed, runner reloads.	A bad update falls back to the last good launcher.
+THE MARKDOWN MAILBOX
+inbox\	New tasks written while the builder is busy; moved into the queue between tasks.
+inbox\files\<path>	New versions of tracked files, installed and committed between tasks.
+queue\ done\ failed\	One task file per task; names sort in execution order.
+results\	Result and review verdict per task, as JSON.
+BUSY.txt	Exists while the builder works.
+claude-reviewed.txt	Last commit reviewed, for catch-up.
+
+Each message gets a sequence number and an acknowledgement file, and is written to a temporary name then renamed, so a half-written task is never picked up.
+
+TASK FILE HEADER
+Allowed: app/
+Allowed: judges/
+Line limit: 300
+Time box: 90
+Effort: high
+
+## Goal
+## Context
+## Constraints
+## Done when
+Claude checks (not Codex): ...
+HARD CHECKS AFTER EVERY BUILD
+Only the Allowed paths changed
+No protected file changed
+Under the line limit; no file over 400 lines
+No forbidden machinery added
+Nothing written under state\
+The builder made no commit itself
+Result status is done
+Tests pass, with a 10 minute cap
+ESCALATION LADDER
+
+Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.
+
+The owner hears only about money, kill criteria, visible product changes, credentials, and an unreachable machine for 2 hours.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971680s old

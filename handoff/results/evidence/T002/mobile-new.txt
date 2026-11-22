@@ -1,0 +1,96 @@
+Viewport 390x844; document client width 375.
+Selected: tab-new
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/NEW PROJECT
+Refresh now
+PLAN IT. ROUTE IT.
+NEW PROJECT
+
+Create a harness instance from a plan and a template. This Site is read-only, so creation happens locally.
+
+Proposed design
+EXAMPLE HARNESS.YAML
+project: example-project
+harness: software
+roles:
+  planner:    anthropic/opus
+  builder:    openai/codex-latest
+  judge:      anthropic/fable     # different family than the builder
+  artist:     local/flux3         # or local/flux2
+gates:
+  accept_score: 4.5
+  attempts_per_stage_per_day: 2
+  daily_cap_usd: 10
+execution:
+  runner: cmd
+  mailbox: state/harness/inbox
+  watchdog_minutes: 15
+  default_time_box_minutes: 45
+  max_repair_rounds: 2
+  min_queued_tasks: 5
+  review: read_only_second_session
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview"
+    - tab "Projects"
+    - tab "Harness map"
+    - tab "Loops and checks"
+    - tab "Models and keys"
+    - tab "Usage and cost"
+    - tab "New project" [selected]
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/NEW PROJECT
+  - button "Refresh now"
+- main:
+  - tabpanel "New project":
+    - generic: PLAN IT. ROUTE IT.
+    - heading "New project" [level=1]
+    - paragraph: Create a harness instance from a plan and a template. This Site is read-only, so creation happens locally.
+    - generic: Proposed design
+    - heading "Example harness.yaml" [level=3]
+    - generic: "project: example-project harness: software roles: planner: anthropic/opus builder: openai/codex-latest judge: anthropic/fable # different family than the builder artist: local/flux3 # or local/flux2 gates: accept_score: 4.5 attempts_per_stage_per_day: 2 daily_cap_usd: 10 execution: runner: cmd mailbox: state/harness/inbox watchdog_minutes: 15 default_time_box_minutes: 45 max_repair_rounds: 2 min_queued_tasks: 5 review: read_only_second_session"
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old

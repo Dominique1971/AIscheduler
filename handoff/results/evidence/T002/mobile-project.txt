@@ -1,0 +1,196 @@
+Viewport 390x844; document client width 375.
+Selected: tab-project
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/PROJECTS
+Refresh now
+EVERY HARNESS INSTANCE
+PROJECTS
+
+One project at a time. Pick one here or from the rail.
+
+Project
+Demo Inventory
+Demo Weather
+Sequential and branching sample
+Multi-branch dependency sample
+Second Markdown sample plan
+Sample project plan
+DEMO INVENTORY
+● Dispatch enabled · 6/6 completed
+Pause
+Set cap
+Completed
+6 / 6
+Worker cap
+2
+Ready
+0
+Awaiting review
+0
+✓ Define product categories · completed
+✓ Define normalization rules · completed
+✓ Design reconciliation checks · completed
+✓ Specify sample products · completed
+✓ Review inventory summary plan · completed
+✓ Specify stock valuation · completed
+Tasks, estimates and dependencies
+
+Plan a fictitious inventory reconciliation from fixed sample products. Scheduler simulation receipts illustrate the workflow; they do not produce a stock report.
+
+6 tasks · 17 min authored effort · 15 min dependency critical path. Estimates exclude review and retries.
+
+sample
+Specify sample products
+3 min
+categories
+Define product categories
+2 min
+normalize
+Define normalization rul…
+4 min
+valuation
+Specify stock valuation
+3 min
+reconcile
+Design reconciliation ch…
+3 min
+summary
+Review inventory summary…
+2 min
+Define product categories · completed · 2 min
+Define normalization rules · completed · 4 min
+Design reconciliation checks · completed · 3 min
+Specify sample products · completed · 3 min
+Review inventory summary plan · completed · 2 min
+Specify stock valuation · completed · 3 min
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview"
+    - tab "Projects" [selected]
+    - tab "Harness map"
+    - tab "Loops and checks"
+    - tab "Models and keys"
+    - tab "Usage and cost"
+    - tab "New project"
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/PROJECTS
+  - button "Refresh now"
+- main:
+  - tabpanel "Projects":
+    - generic: EVERY HARNESS INSTANCE
+    - heading "Projects" [level=1]
+    - paragraph: One project at a time. Pick one here or from the rail.
+    - generic: Project
+    - combobox "Project focus":
+      - option "Demo Inventory" [selected]
+      - option "Demo Weather"
+      - option "Sequential and branching sample"
+      - option "Multi-branch dependency sample"
+      - option "Second Markdown sample plan"
+      - option "Sample project plan"
+    - article:
+      - strong: Demo Inventory
+      - generic: ● Dispatch enabled · 6/6 completed
+      - button "Pause" [disabled]
+      - spinbutton "Demo Inventory worker cap" [disabled]: "2"
+      - button "Set cap" [disabled]
+      - generic: Completed
+      - strong: 6 / 6
+      - generic: Worker cap
+      - strong: "2"
+      - generic: Ready
+      - strong: "0"
+      - generic: Awaiting review
+      - strong: "0"
+      - 'generic "categories · dependencies: sample · estimate 2m"': ✓ Define product categories · completed
+      - 'generic "normalize · dependencies: sample · estimate 4m"': ✓ Define normalization rules · completed
+      - 'generic "reconcile · dependencies: normalize, categories, valuation · estimate 3m"': ✓ Design reconciliation checks · completed
+      - 'generic "sample · dependencies: none · estimate 3m"': ✓ Specify sample products · completed
+      - 'generic "summary · dependencies: reconcile · estimate 2m"': ✓ Review inventory summary plan · completed
+      - 'generic "valuation · dependencies: normalize · estimate 3m"': ✓ Specify stock valuation · completed
+      - generic "Tasks, estimates and dependencies"
+      - paragraph: Plan a fictitious inventory reconciliation from fixed sample products. Scheduler simulation receipts illustrate the workflow; they do not produce a stock report.
+      - paragraph: 6 tasks · 17 min authored effort · 15 min dependency critical path. Estimates exclude review and retries.
+      - 'img "Task dependency graph: 6 tasks, 7 dependency arrows"':
+        - generic "sample precedes categories"
+        - generic "sample precedes normalize"
+        - generic "normalize precedes reconcile"
+        - generic "categories precedes reconcile"
+        - generic "valuation precedes reconcile"
+        - generic "reconcile precedes summary"
+        - generic "normalize precedes valuation"
+        - 'generic "sample: Specify sample products; 3 minutes"':
+          - generic: sample
+          - generic: Specify sample products
+          - generic: 3 min
+        - 'generic "categories: Define product categories; 2 minutes"':
+          - generic: categories
+          - generic: Define product categories
+          - generic: 2 min
+        - 'generic "normalize: Define normalization rules; 4 minutes"':
+          - generic: normalize
+          - generic: Define normalization rul…
+          - generic: 4 min
+        - 'generic "valuation: Specify stock valuation; 3 minutes"':
+          - generic: valuation
+          - generic: Specify stock valuation
+          - generic: 3 min
+        - 'generic "reconcile: Design reconciliation checks; 3 minutes"':
+          - generic: reconcile
+          - generic: Design reconciliation ch…
+          - generic: 3 min
+        - 'generic "summary: Review inventory summary plan; 2 minutes"':
+          - generic: summary
+          - generic: Review inventory summary…
+          - generic: 2 min
+      - generic "Define product categories · completed · 2 min"
+      - generic "Define normalization rules · completed · 4 min"
+      - generic "Design reconciliation checks · completed · 3 min"
+      - generic "Specify sample products · completed · 3 min"
+      - generic "Review inventory summary plan · completed · 2 min"
+      - generic "Specify stock valuation · completed · 3 min"
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old

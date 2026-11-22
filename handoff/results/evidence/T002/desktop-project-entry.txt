@@ -1,0 +1,88 @@
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+PRIVATE · READ-ONLY
+Owner-only view · Authenticator paused
+FOREMAN/PROJECTS
+Refresh now
+EVERY HARNESS INSTANCE
+PROJECTS
+
+One project at a time. Pick one here or from the rail.
+
+Project
+Demo Inventory
+Demo Weather
+Sequential and branching sample
+Multi-branch dependency sample
+Second Markdown sample plan
+Sample project plan
+DEMO INVENTORY
+● Dispatch enabled · 6/6 completed
+Pause
+Set cap
+Completed
+6 / 6
+Worker cap
+2
+Ready
+0
+Awaiting review
+0
+✓ Define product categories · completed
+✓ Define normalization rules · completed
+✓ Design reconciliation checks · completed
+✓ Specify sample products · completed
+✓ Review inventory summary plan · completed
+✓ Specify stock valuation · completed
+Tasks, estimates and dependencies
+
+Plan a fictitious inventory reconciliation from fixed sample products. Scheduler simulation receipts illustrate the workflow; they do not produce a stock report.
+
+6 tasks · 17 min authored effort · 15 min dependency critical path. Estimates exclude review and retries.
+
+sample
+Specify sample products
+3 min
+categories
+Define product categories
+2 min
+normalize
+Define normalization rul…
+4 min
+valuation
+Specify stock valuation
+3 min
+reconcile
+Design reconciliation ch…
+3 min
+summary
+Review inventory summary…
+2 min
+Define product categories · completed · 2 min
+Define normalization rules · completed · 4 min
+Design reconciliation checks · completed · 3 min
+Specify sample products · completed · 3 min
+Review inventory summary plan · completed · 2 min
+Specify stock valuation · completed · 3 min
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971690s old

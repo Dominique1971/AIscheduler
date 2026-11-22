@@ -1,0 +1,144 @@
+Viewport 390x844; document client width 375.
+Selected: tab-models
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/MODELS AND KEYS
+Refresh now
+EVERY PROVIDER, ONE PLACE
+MODELS AND KEYS
+
+Where each key lives and who uses what. Key values are never shown, and no connection status is reported yet.
+
+Proposed design
+PROVIDER	ROUTE	KEY REFERENCE	MODELS	STATUS
+Anthropic (Claude)	API	ANTHROPIC_API_KEY	Fable, Opus, Sonnet, Haiku	Not reported
+OpenAI (GPT, Codex)	Codex sign-in, plus API	OPENAI_API_KEY	Latest GPT, latest Codex	Not reported
+Google (Gemini)	API	GEMINI_API_KEY	Latest Pro, latest Flash	Not reported
+DeepSeek	API	DEEPSEEK_API_KEY	Latest chat, latest reasoner	Not reported
+Lamia (local text)	Loopback endpoint on the PC	none	Local default	Not reported
+Flux (local image)	Local, route to confirm	none	Flux 2, Flux 3	Not reported
+IMAGE MODELS
+
+Two choices for the Artist role: Flux 2 and Flux 3, run locally. Each project would pick one when its harness is created.
+
+HOW KEYS WORK
+
+Keys stay in the Windows credential store or environment on the local machine. Names like "latest" would resolve at run time and be pinned per run in the ledger.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview"
+    - tab "Projects"
+    - tab "Harness map"
+    - tab "Loops and checks"
+    - tab "Models and keys" [selected]
+    - tab "Usage and cost"
+    - tab "New project"
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/MODELS AND KEYS
+  - button "Refresh now"
+- main:
+  - tabpanel "Models and keys":
+    - generic: EVERY PROVIDER, ONE PLACE
+    - heading "Models and keys" [level=1]
+    - paragraph: Where each key lives and who uses what. Key values are never shown, and no connection status is reported yet.
+    - generic: Proposed design
+    - table:
+      - rowgroup:
+        - row "Provider Route Key reference Models Status":
+          - columnheader "Provider"
+          - columnheader "Route"
+          - columnheader "Key reference"
+          - columnheader "Models"
+          - columnheader "Status"
+      - rowgroup:
+        - row "Anthropic (Claude) API ANTHROPIC_API_KEY Fable, Opus, Sonnet, Haiku Not reported":
+          - cell "Anthropic (Claude)"
+          - cell "API"
+          - cell "ANTHROPIC_API_KEY":
+            - code: ANTHROPIC_API_KEY
+          - cell "Fable, Opus, Sonnet, Haiku"
+          - cell "Not reported"
+        - row "OpenAI (GPT, Codex) Codex sign-in, plus API OPENAI_API_KEY Latest GPT, latest Codex Not reported":
+          - cell "OpenAI (GPT, Codex)"
+          - cell "Codex sign-in, plus API"
+          - cell "OPENAI_API_KEY":
+            - code: OPENAI_API_KEY
+          - cell "Latest GPT, latest Codex"
+          - cell "Not reported"
+        - row "Google (Gemini) API GEMINI_API_KEY Latest Pro, latest Flash Not reported":
+          - cell "Google (Gemini)"
+          - cell "API"
+          - cell "GEMINI_API_KEY":
+            - code: GEMINI_API_KEY
+          - cell "Latest Pro, latest Flash"
+          - cell "Not reported"
+        - row "DeepSeek API DEEPSEEK_API_KEY Latest chat, latest reasoner Not reported":
+          - cell "DeepSeek"
+          - cell "API"
+          - cell "DEEPSEEK_API_KEY":
+            - code: DEEPSEEK_API_KEY
+          - cell "Latest chat, latest reasoner"
+          - cell "Not reported"
+        - row "Lamia (local text) Loopback endpoint on the PC none Local default Not reported":
+          - cell "Lamia (local text)"
+          - cell "Loopback endpoint on the PC"
+          - cell "none":
+            - code: none
+          - cell "Local default"
+          - cell "Not reported"
+        - row "Flux (local image) Local, route to confirm none Flux 2, Flux 3 Not reported":
+          - cell "Flux (local image)"
+          - cell "Local, route to confirm"
+          - cell "none":
+            - code: none
+          - cell "Flux 2, Flux 3"
+          - cell "Not reported"
+    - heading "Image models" [level=3]
+    - paragraph: "Two choices for the Artist role: Flux 2 and Flux 3, run locally. Each project would pick one when its harness is created."
+    - heading "How keys work" [level=3]
+    - paragraph: Keys stay in the Windows credential store or environment on the local machine. Names like "latest" would resolve at run time and be pinned per run in the ledger.
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old

@@ -424,7 +424,36 @@ offline at the last update; it does not prove current scheduler operation or
 remote-control acceptance. The proposed harness, models, cost and new-harness
 views are explicitly labeled as design, not implemented integrations.
 
-## Official documentation consulted
+## Additional integration validation
+
+### Foreman console Site version 11 (22 November 2026)
+
+The revised owner-private dashboard was pushed to the Sites source repository at
+`b542ff6e17f4f1ca764dfe82d97ea02ac491c80d`, saved as version 11
+(`appgprj_6adcbab3ab1c81919496cad194193625~appgver_5da0ade7d0388191a4368d4fe369d922`),
+and deployed privately as `appgdep_6b037bd8895881918afbb2f573cdd7ea`
+(`succeeded`, 2026-11-22T23:33:48Z). The access policy remained custom with
+one allowed owner and no groups. Runtime revision 7 remained unchanged:
+`REMOTE_CONTROL_ENABLED=false` and `READONLY_TOTP_BYPASS_ENABLED=true`.
+
+Local build and validation passed, with 9/9 Worker/SQLite diagnostic tests.
+Signed-in owner browser inspection covered all seven views and a project entry
+at desktop and 390 px viewport widths; screenshots and visible text are in
+`handoff/results/evidence/T002/`. Full-page desktop captures of Harness map
+and Loops and checks show the complete diagrams and page scroll. The owner
+`/icon.svg` request returned HTTP 200 in production Worker logs and rendered
+as an image in the browser; the page links it as the tab icon. The browser tab chrome icon was not independently captured.
+
+The documented `scripts/start_example_showcase.ps1` procedure started the
+isolated dummy API, daemon, and outbound Site bridge without changing runtime
+configuration or credentials. The bridge journal recorded successful 200 polls
+and a new snapshot. A fresh signed-in browser reload then showed “Bridge online
+at update · daemon healthy at source” with a current November 22 timestamp.
+The six displayed projects remain dummy simulation records; this does not
+establish real Codex dispatch or real-project acceptance. The 9/9 tests are
+diagnostic, while the deployed owner-browser inspection is a separate hosted UI
+check.
+
 
 ### Bounded dummy phone control trial
 

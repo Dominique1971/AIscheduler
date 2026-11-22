@@ -1,0 +1,74 @@
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+PRIVATE · READ-ONLY
+Owner-only view · Authenticator paused
+FOREMAN/HARNESS MAP
+Refresh now
+ROLES, GATES AND ROUTING
+HARNESS MAP
+
+How a plan becomes accepted work. The local scheduler runs the work; this Site shows a read-only status projection.
+
+Proposed design
+Plan: milestones, specs, rubrics, budgets
+Scheduler core
+Task graph, leases, refill, caps
+Harness instance, one per project
+Planner
+splits work
+Builder
+makes it
+Tester
+runs checks
+Judge
+other family
+Fail at test or judge: Builder retries inside the attempt cap
+Designer
+visual review
+Artist
+Flux 2 or 3
+Integrator
+merges batches
+Ledger
+accepted only
+Model router
+Role, cost, quota, fallback
+Claude
+GPT, Codex
+Gemini
+DeepSeek
+Lamia text
+Flux 2, 3
+Key vault on this PC: console shows status, never key values
+ROLES
+ROLE	JOB	PROPOSED MODEL
+Planner	Splits milestones into tasks that can run in parallel	Claude Opus
+Builder	Writes the deliverable in an isolated branch	Codex
+Tester	Deterministic checks first, then a small-model pass	Claude Sonnet
+Judge	Scores against the rubric; a different model family than the Builder	Claude Fable
+Designer	Reviews layouts and visuals against the style guide	Gemini Pro
+Artist	Generates images with Flux 2 or Flux 3 on the local machine	Flux 3
+Integrator	Merges accepted batches, runs broader tests	Claude Sonnet
+Ledger	Records accepted milestones with score and evidence (built in)	none
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971680s old

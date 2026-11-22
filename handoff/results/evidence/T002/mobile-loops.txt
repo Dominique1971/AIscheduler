@@ -1,0 +1,273 @@
+Viewport 390x844; document client width 375.
+Selected: tab-loops
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/LOOPS AND CHECKS
+Refresh now
+AUTONOMOUS BY DESIGN
+LOOPS AND CHECKS
+
+The cycle, the mailbox, the runner script and the guardrails, modeled on the Koboo launcher. The scheduler does not run it yet.
+
+Proposed design
+Claude
+writes tasks, reviews
+Markdown mailbox
+inbox, queue, done
+Runner script
+.cmd restarts .ps1
+One cycle per task, no human in the loop
+Builder
+Codex, no network
+Hard checks
+paths, size, tests
+Review
+read-only session
+Keep or undo
+commit or evidence
+Fail: up to 2 repair rounds in the same Codex thread, then undo and park
+Pass: commit, push, copy task, result and review to history
+Watchdog, every 15 minutes
+Heartbeat, time box, quota, idle worker, queue depth
+Ledger and logs
+cycles, decisions
+Dashboard
+status, 5 min refresh
+Escalation
+money, keys, kill rules
+LOOPS
+LOOP	CADENCE	WHAT IT CHECKS	IF IT FAILS
+Cycle	per task	Build, run hard checks, run a read-only review, keep or undo.	Undo and keep a patch as failure evidence.
+Runner poll	every 15 seconds	Worker alive, time box not passed, status refreshed.	Past the time box: stop the process tree and undo.
+Watchdog	every 15 minutes	Heartbeat, log growth, elapsed vs estimate, idle worker with ready work, queue depth.	Nudge, restart the runner, then escalate. Warn at 2x the estimate, escalate at 4x.
+Allowance retry	every 15 minutes	Provider usage allowance.	Wait and keep checking; other lanes continue.
+Test cap	10 minutes	Test run finishes.	Stop the tests and send the hang back as a repair instruction.
+Reviewer	scheduled	Review kept and undone tasks, keep at least 5 queued.	After 3 failures, park the task with a diagnosis.
+Standalone planner	queue empty	Plans 1 to 3 small tasks through the same checks.	3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes.
+Self-update	between tasks	New launcher or guide files wait in the mailbox, get installed, runner reloads.	A bad update falls back to the last good launcher.
+THE MARKDOWN MAILBOX
+inbox\	New tasks written while the builder is busy; moved into the queue between tasks.
+inbox\files\<path>	New versions of tracked files, installed and committed between tasks.
+queue\ done\ failed\	One task file per task; names sort in execution order.
+results\	Result and review verdict per task, as JSON.
+BUSY.txt	Exists while the builder works.
+claude-reviewed.txt	Last commit reviewed, for catch-up.
+
+Each message gets a sequence number and an acknowledgement file, and is written to a temporary name then renamed, so a half-written task is never picked up.
+
+TASK FILE HEADER
+Allowed: app/
+Allowed: judges/
+Line limit: 300
+Time box: 90
+Effort: high
+
+## Goal
+## Context
+## Constraints
+## Done when
+Claude checks (not Codex): ...
+HARD CHECKS AFTER EVERY BUILD
+Only the Allowed paths changed
+No protected file changed
+Under the line limit; no file over 400 lines
+No forbidden machinery added
+Nothing written under state\
+The builder made no commit itself
+Result status is done
+Tests pass, with a 10 minute cap
+ESCALATION LADDER
+
+Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.
+
+The owner hears only about money, kill criteria, visible product changes, credentials, and an unreachable machine for 2 hours.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview"
+    - tab "Projects"
+    - tab "Harness map"
+    - tab "Loops and checks" [selected]
+    - tab "Models and keys"
+    - tab "Usage and cost"
+    - tab "New project"
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/LOOPS AND CHECKS
+  - button "Refresh now"
+- main:
+  - tabpanel "Loops and checks":
+    - generic: AUTONOMOUS BY DESIGN
+    - heading "Loops and checks" [level=1]
+    - paragraph: The cycle, the mailbox, the runner script and the guardrails, modeled on the Koboo launcher. The scheduler does not run it yet.
+    - generic: Proposed design
+    - img "Autonomous cycle with Markdown mailbox, runner script and watchdog Claude writes task files into a Markdown mailbox. A runner script takes one task at a time, runs Codex to build it, runs hard checks, runs a read-only review, then keeps or undoes the change. A watchdog checks every 15 minutes. Results go to logs, the dashboard and an escalation path.":
+      - generic: Claude
+      - generic: writes tasks, reviews
+      - generic: Markdown mailbox
+      - generic: inbox, queue, done
+      - generic: Runner script
+      - generic: .cmd restarts .ps1
+      - generic: One cycle per task, no human in the loop
+      - generic: Builder
+      - generic: Codex, no network
+      - generic: Hard checks
+      - generic: paths, size, tests
+      - generic: Review
+      - generic: read-only session
+      - generic: Keep or undo
+      - generic: commit or evidence
+      - generic: "Fail: up to 2 repair rounds in the same Codex thread, then undo and park"
+      - generic: "Pass: commit, push, copy task, result and review to history"
+      - generic: Watchdog, every 15 minutes
+      - generic: Heartbeat, time box, quota, idle worker, queue depth
+      - generic: Ledger and logs
+      - generic: cycles, decisions
+      - generic: Dashboard
+      - generic: status, 5 min refresh
+      - generic: Escalation
+      - generic: money, keys, kill rules
+    - heading "Loops" [level=3]
+    - table:
+      - rowgroup:
+        - row "Loop Cadence What it checks If it fails":
+          - columnheader "Loop"
+          - columnheader "Cadence"
+          - columnheader "What it checks"
+          - columnheader "If it fails"
+      - rowgroup:
+        - row "Cycle per task Build, run hard checks, run a read-only review, keep or undo. Undo and keep a patch as failure evidence.":
+          - cell "Cycle"
+          - cell "per task"
+          - cell "Build, run hard checks, run a read-only review, keep or undo."
+          - cell "Undo and keep a patch as failure evidence."
+        - 'row "Runner poll every 15 seconds Worker alive, time box not passed, status refreshed. Past the time box: stop the process tree and undo."':
+          - cell "Runner poll"
+          - cell "every 15 seconds"
+          - cell "Worker alive, time box not passed, status refreshed."
+          - 'cell "Past the time box: stop the process tree and undo."'
+        - row "Watchdog every 15 minutes Heartbeat, log growth, elapsed vs estimate, idle worker with ready work, queue depth. Nudge, restart the runner, then escalate. Warn at 2x the estimate, escalate at 4x.":
+          - cell "Watchdog"
+          - cell "every 15 minutes"
+          - cell "Heartbeat, log growth, elapsed vs estimate, idle worker with ready work, queue depth."
+          - cell "Nudge, restart the runner, then escalate. Warn at 2x the estimate, escalate at 4x."
+        - row "Allowance retry every 15 minutes Provider usage allowance. Wait and keep checking; other lanes continue.":
+          - cell "Allowance retry"
+          - cell "every 15 minutes"
+          - cell "Provider usage allowance."
+          - cell "Wait and keep checking; other lanes continue."
+        - row "Test cap 10 minutes Test run finishes. Stop the tests and send the hang back as a repair instruction.":
+          - cell "Test cap"
+          - cell "10 minutes"
+          - cell "Test run finishes."
+          - cell "Stop the tests and send the hang back as a repair instruction."
+        - row "Reviewer scheduled Review kept and undone tasks, keep at least 5 queued. After 3 failures, park the task with a diagnosis.":
+          - cell "Reviewer"
+          - cell "scheduled"
+          - cell "Review kept and undone tasks, keep at least 5 queued."
+          - cell "After 3 failures, park the task with a diagnosis."
+        - 'row "Standalone planner queue empty Plans 1 to 3 small tasks through the same checks. 3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes."':
+          - cell "Standalone planner"
+          - cell "queue empty"
+          - cell "Plans 1 to 3 small tasks through the same checks."
+          - 'cell "3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes."'
+        - row "Self-update between tasks New launcher or guide files wait in the mailbox, get installed, runner reloads. A bad update falls back to the last good launcher.":
+          - cell "Self-update"
+          - cell "between tasks"
+          - cell "New launcher or guide files wait in the mailbox, get installed, runner reloads."
+          - cell "A bad update falls back to the last good launcher."
+    - heading "The Markdown mailbox" [level=3]
+    - table:
+      - rowgroup:
+        - row "inbox\\ New tasks written while the builder is busy; moved into the queue between tasks.":
+          - cell "inbox\\":
+            - code: inbox\
+          - cell "New tasks written while the builder is busy; moved into the queue between tasks."
+        - row "inbox\\files\\<path> New versions of tracked files, installed and committed between tasks.":
+          - cell "inbox\\files\\<path>":
+            - code: inbox\files\<path>
+          - cell "New versions of tracked files, installed and committed between tasks."
+        - row "queue\\ done\\ failed\\ One task file per task; names sort in execution order.":
+          - cell "queue\\ done\\ failed\\":
+            - code: queue\ done\ failed\
+          - cell "One task file per task; names sort in execution order."
+        - row "results\\ Result and review verdict per task, as JSON.":
+          - cell "results\\":
+            - code: results\
+          - cell "Result and review verdict per task, as JSON."
+        - row "BUSY.txt Exists while the builder works.":
+          - cell "BUSY.txt":
+            - code: BUSY.txt
+          - cell "Exists while the builder works."
+        - row "claude-reviewed.txt Last commit reviewed, for catch-up.":
+          - cell "claude-reviewed.txt":
+            - code: claude-reviewed.txt
+          - cell "Last commit reviewed, for catch-up."
+    - paragraph: Each message gets a sequence number and an acknowledgement file, and is written to a temporary name then renamed, so a half-written task is never picked up.
+    - heading "Task file header" [level=3]
+    - generic: "Allowed: app/ Allowed: judges/ Line limit: 300 Time box: 90 Effort: high ## Goal ## Context ## Constraints ## Done when Claude checks (not Codex): ..."
+    - heading "Hard checks after every build" [level=3]
+    - table:
+      - rowgroup:
+        - row "Only the Allowed paths changed":
+          - cell "Only the Allowed paths changed"
+        - row "No protected file changed":
+          - cell "No protected file changed"
+        - row "Under the line limit; no file over 400 lines":
+          - cell "Under the line limit; no file over 400 lines"
+        - row "No forbidden machinery added":
+          - cell "No forbidden machinery added"
+        - row "Nothing written under state\\":
+          - cell "Nothing written under state\\"
+        - row "The builder made no commit itself":
+          - cell "The builder made no commit itself"
+        - row "Result status is done":
+          - cell "Result status is done"
+        - row "Tests pass, with a 10 minute cap":
+          - cell "Tests pass, with a 10 minute cap"
+    - heading "Escalation ladder" [level=3]
+    - paragraph: Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.
+    - paragraph: The owner hears only about money, kill criteria, visible product changes, credentials, and an unreachable machine for 2 hours.
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old

@@ -3,6 +3,7 @@ import page from "./page.html";
 import script from "./app.txt";
 import dagScript from "./dag-layout.txt";
 import styles from "./style.css";
+import icon from "./icon.svg";
 
 const clock = () => Math.floor(Date.now()/1000);
 const token = () => Array.from(crypto.getRandomValues(new Uint8Array(32)),n=>n.toString(16).padStart(2,"0")).join("");
@@ -173,8 +174,9 @@ async function route(request,env) {
     if(url.pathname==="/api/commands" && request.method==="GET")return json({items:(await db.prepare("SELECT id,payload,state,created,expires,result FROM commands WHERE owner=? ORDER BY created DESC LIMIT 50").bind(auth.owner).all()).results});
     throw new Failure(404,"not_found");
   }
-  if(request.method==="GET" && ["/","/index.html","/app.js","/dag-layout.js","/style.css"].includes(url.pathname)) {
+  if(request.method==="GET" && ["/","/index.html","/app.js","/dag-layout.js","/style.css","/icon.svg"].includes(url.pathname)) {
     owner(request,env);
+    if(url.pathname==="/icon.svg")return new Response(icon,{headers:{"Content-Type":"image/svg+xml; charset=utf-8"}});
     const content=url.pathname==="/app.js"?script:url.pathname==="/dag-layout.js"?dagScript:url.pathname==="/style.css"?styles:page;
     const mime=["/app.js","/dag-layout.js"].includes(url.pathname)?"text/javascript":url.pathname==="/style.css"?"text/css":"text/html";
     return new Response(content,{headers:{"Content-Type":mime+"; charset=utf-8"}});

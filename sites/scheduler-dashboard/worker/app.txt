@@ -9,15 +9,16 @@ async function api(path,body,key){
   const data=await response.json();
   if(!response.ok){if(response.status===401)locked();throw new Error(data.error??"Request failed");}return data;
 }
-function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();$("overall-projects").replaceChildren();}
+function locked(){$("railnav").hidden=true;csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();$("overall-projects").replaceChildren();}
 const views=["overall","project","harness","loops","models","cost","new"];
 function showView(name){
   if(!views.includes(name))name="overall";
   for(const view of views){const active=view===name;$(view+"-view").hidden=!active;$("tab-"+view).setAttribute("aria-selected",String(active));$("tab-"+view).tabIndex=active?0:-1;}
+  $("crumb").textContent=({overall:"OVERVIEW",project:"PROJECTS",harness:"HARNESS MAP",loops:"LOOPS AND CHECKS",models:"MODELS AND KEYS",cost:"USAGE AND COST",new:"NEW PROJECT"})[name];
   if(location.hash!=="#"+name)history.replaceState(null,"","#"+name);
 }
 const local=value=>new Date(value).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" NY";
-async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("logout").hidden=auth.auth_mode==="site-owner-readonly";$("auth-mode").hidden=auth.auth_mode!=="site-owner-readonly";$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
+async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("railnav").hidden=false;$("logout").hidden=auth.auth_mode==="site-owner-readonly";$("auth-mode").hidden=auth.auth_mode!=="site-owner-readonly";$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
 async function control(payload){try{const result=await api("/api/control",payload,crypto.randomUUID());notice(`Control ${result.state}; awaiting local acknowledgement.`);await refresh();}catch(error){notice(error.message);}}
 let dagSequence=0;
 function dependencyGraph(tasks){
@@ -57,22 +58,26 @@ function planView(project,opened=false){
 function render(){
   const s=cached.snapshot;if(!s){$("projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));$("overall-projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));return;}
   const tasks=s.projects.flatMap(p=>p.tasks),done=tasks.filter(t=>t.state==="completed").length;
-  $("metrics").replaceChildren(...[["Workers busy / cap",`${s.workers} / ${s.max_workers}`],["Simulation completed",`${done} / ${tasks.length}`],["Ready",tasks.filter(t=>t.state==="ready").length],["Awaiting review",tasks.filter(t=>t.state==="waiting-review").length]].map(([label,value])=>{const n=el("article",undefined,"metric");n.append(el("span",label),el("strong",String(value)));return n;}));
+  const pctOf=(x,y)=>y?Math.round(x/y*100):0,failed=tasks.filter(t=>t.state==="failed").length,review=tasks.filter(t=>t.state==="waiting-review").length;
+  $("metrics").replaceChildren(...[["Tasks completed",`${done} / ${tasks.length}`,`${pctOf(done,tasks.length)}% of all planned`],["Workers busy / cap",`${s.workers} / ${s.max_workers}`,`${s.projects.length} projects`],["Ready",tasks.filter(t=>t.state==="ready").length,"waiting for a worker"],["Awaiting review",review,`${failed} failed`],["Spend today","Not reported","not in the status feed yet"]].map(([label,value,sub])=>{const n=el("article",undefined,"metric");n.append(el("span",label),el("strong",String(value)),el("small",sub,"msub"));return n;}));
+  const attn=[];if(!cached.agent_online)attn.push(["Bridge offline","The local bridge is not sending updates, so this data is stale.","bad"]);if(!s.daemon.healthy)attn.push(["Daemon unhealthy at source","Reported by the last update received.","bad"]);if(s.stopped)attn.push(["Dispatch stopped","An emergency stop is active.","bad"]);for(const p of s.projects){if(p.paused)attn.push([`${p.display_name}: paused`,"Dispatch is paused for this project.","warn"]);}if(review)attn.push([`${review} awaiting review`,"Tasks are waiting for a review decision.","warn"]);if(failed)attn.push([`${failed} failed tasks`,"Check the project view.","bad"]);
+  $("attention").replaceChildren(el("h2","Needs attention"),...(attn.length?attn.map(([t,d,sev])=>{const n=el("div",undefined,"attn "+sev);n.append(el("b",t),el("span",d));return n;}):[el("p","Nothing needs attention.")]));
   const selected=$("focus").value;$("focus").replaceChildren(...s.projects.map(p=>new Option(p.display_name,p.project_id)));$("focus").value=s.projects.some(p=>p.project_id===selected)?selected:(s.projects[0]?.project_id||"");
   const focusedProject=$("focus").value;
+  $("railprojects").replaceChildren(...s.projects.map(p=>{const c=p.tasks.filter(t=>t.state==="completed").length,b=el("button",undefined,"rproj"),dot=el("span",undefined,"dot "+(p.paused?"warn":"ok")),n=el("span");n.append(dot,p.display_name);b.append(n,el("span",`${c}/${p.tasks.length}`,"num"));b.type="button";if(p.project_id===focusedProject)b.setAttribute("aria-current","page");b.onclick=()=>{$("focus").value=p.project_id;render();showView("project");};return b;}));
   $("overall-projects").replaceChildren(...s.projects.map(p=>{
     const card=el("article",undefined,"project overview-card"),head=el("div",undefined,"project-head"),name=el("div"),link=el("button","View project");
     const completed=p.tasks.filter(t=>t.state==="completed").length;
     name.append(el("strong",p.display_name),el("small",`${p.paused?"Paused":"Dispatch enabled"} · ${completed}/${p.tasks.length} tasks completed · cap ${p.max_workers}`));
     link.type="button";link.onclick=()=>{$("focus").value=p.project_id;render();showView("project");};
-    head.append(name,link);card.append(head);return card;
+    head.append(name,link);card.append(head);const bar=el("div",undefined,"bar"),fill=el("i");fill.style.width=(p.tasks.length?Math.round(completed/p.tasks.length*100):0)+"%";bar.append(fill);card.append(bar);return card;
   }));
   const openPlans=new Set([...$("projects").querySelectorAll(".project[data-project-id]")].filter(node=>node.querySelector(".plan-view")?.open).map(node=>node.dataset.projectId));
   $("projects").classList.add("focused");$("projects").replaceChildren();
   for(const p of s.projects.filter(p=>p.project_id===focusedProject)){
     const section=el("article",undefined,"project"),head=el("div",undefined,"project-head"),name=el("div");section.dataset.projectId=p.project_id;name.append(el("strong",p.display_name),el("small",`${p.paused?"Ⅱ Paused":"● Dispatch enabled"} · ${p.tasks.filter(t=>t.state==="completed").length}/${p.tasks.length} completed`));head.append(name);
     const controls=el("div",undefined,"controls"),toggle=el("button",p.paused?"Resume":"Pause"),cap=el("input"),set=el("button","Set cap");cap.type="number";cap.min="0";cap.max="128";cap.value=String(p.max_workers);cap.setAttribute("aria-label",p.display_name+" worker cap");toggle.onclick=()=>control({action:p.paused?"resume":"pause",project:p.project_id});set.onclick=()=>{if(cap.reportValidity())control({action:"allocate",project:p.project_id,value:Number(cap.value)});};
-    for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);
+    for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);{const pk=el("div",undefined,"pkpis"),c=p.tasks.filter(t=>t.state==="completed").length;for(const [l,v] of [["Completed",`${c} / ${p.tasks.length}`],["Worker cap",String(p.max_workers)],["Ready",String(p.tasks.filter(t=>t.state==="ready").length)],["Awaiting review",String(p.tasks.filter(t=>t.state==="waiting-review").length)]]){const k=el("div",undefined,"pk");k.append(el("span",l),el("strong",v));pk.append(k);}const bar=el("div",undefined,"bar"),fill=el("i");fill.style.width=(p.tasks.length?Math.round(c/p.tasks.length*100):0)+"%";bar.append(fill);section.append(pk,bar);}
     const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips,planView(p,openPlans.has(p.project_id)||!renderedProjectIds.has(p.project_id)));$("projects").append(section);renderedProjectIds.add(p.project_id);
   }
   if(!focusedProject)$("projects").append(el("p","No projects have been received from the local scheduler."));
@@ -84,7 +89,7 @@ $("login").onsubmit=async event=>{event.preventDefault();const button=$("login")
 $("logout").onclick=async()=>{try{await api("/auth/logout",{});}catch(error){notice(error.message);}finally{locked();}};
 $("refresh").onclick=refresh;$("focus").onchange=()=>{if(cached)render();};$("stop").onclick=()=>$("confirm").showModal();$("cancel-stop").onclick=()=>$("confirm").close();$("confirm-form").onsubmit=event=>{event.preventDefault();$("confirm").close();control({action:"emergency-stop",confirmed:true});};
 for(const view of views)$("tab-"+view).onclick=()=>showView(view);
-$("workspace").querySelector(".view-tabs").addEventListener("keydown",event=>{
+document.querySelector("#railnav .view-tabs").addEventListener("keydown",event=>{
   if(!["ArrowLeft","ArrowRight","Home","End"].includes(event.key))return;
   const current=views.findIndex(view=>$("tab-"+view)===document.activeElement);
   if(current<0)return;

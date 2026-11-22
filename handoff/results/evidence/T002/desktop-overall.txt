@@ -1,0 +1,73 @@
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+PRIVATE · READ-ONLY
+Owner-only view · Authenticator paused
+FOREMAN/OVERVIEW
+Refresh now
+ROUTE THE WORK. PROVE THE RESULT.
+SHIP WHAT’S PROVEN
+
+Finished work across every project, live workers, spend against caps. All projects, New York time.
+
+TASKS COMPLETED
+32 / 32
+100% of all planned
+WORKERS BUSY / CAP
+0 / 4
+6 projects
+READY
+0
+waiting for a worker
+AWAITING REVIEW
+0
+0 failed
+SPEND TODAY
+Not reported
+not in the status feed yet
+Needs attention
+Bridge offline
+The local bridge is not sending updates, so this data is stale.
+Daemon unhealthy at source
+Reported by the last update received.
+DEMO INVENTORY
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+DEMO WEATHER
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+SEQUENTIAL AND BRANCHING SAMPLE
+Dispatch enabled · 5/5 tasks completed · cap 2
+View project
+MULTI-BRANCH DEPENDENCY SAMPLE
+Dispatch enabled · 7/7 tasks completed · cap 3
+View project
+SECOND MARKDOWN SAMPLE PLAN
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+SAMPLE PROJECT PLAN
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+Recent controls
+pause · succeeded · 12:02:49 PM
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971670s old

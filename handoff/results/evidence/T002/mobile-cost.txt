@@ -1,0 +1,95 @@
+Viewport 390x844; document client width 375.
+Selected: tab-cost
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/USAGE AND COST
+Refresh now
+SPEND AGAINST CAPS
+USAGE AND COST
+
+Spend by provider, role and project. Not part of the status feed yet.
+
+Proposed design
+SPEND AGAINST CAPS
+
+Today, trailing average and each project's daily cap.
+
+BY PROVIDER AND ROLE
+
+Where the money goes: Builder, Judge, Planner and the rest.
+
+COST PER ACCEPTED MILESTONE
+
+Trailing cost for each unit of accepted work. Local models count as zero dollars.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview"
+    - tab "Projects"
+    - tab "Harness map"
+    - tab "Loops and checks"
+    - tab "Models and keys"
+    - tab "Usage and cost" [selected]
+    - tab "New project"
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/USAGE AND COST
+  - button "Refresh now"
+- main:
+  - tabpanel "Usage and cost":
+    - generic: SPEND AGAINST CAPS
+    - heading "Usage and cost" [level=1]
+    - paragraph: Spend by provider, role and project. Not part of the status feed yet.
+    - generic: Proposed design
+    - article:
+      - heading "Spend against caps" [level=3]
+      - paragraph: Today, trailing average and each project's daily cap.
+    - article:
+      - heading "By provider and role" [level=3]
+      - paragraph: "Where the money goes: Builder, Judge, Planner and the rest."
+    - article:
+      - heading "Cost per accepted milestone" [level=3]
+      - paragraph: Trailing cost for each unit of accepted work. Local models count as zero dollars.
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old

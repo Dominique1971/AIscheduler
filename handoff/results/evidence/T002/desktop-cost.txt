@@ -1,0 +1,46 @@
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+PRIVATE · READ-ONLY
+Owner-only view · Authenticator paused
+FOREMAN/USAGE AND COST
+Refresh now
+SPEND AGAINST CAPS
+USAGE AND COST
+
+Spend by provider, role and project. Not part of the status feed yet.
+
+Proposed design
+SPEND AGAINST CAPS
+
+Today, trailing average and each project's daily cap.
+
+BY PROVIDER AND ROLE
+
+Where the money goes: Builder, Judge, Planner and the rest.
+
+COST PER ACCEPTED MILESTONE
+
+Trailing cost for each unit of accepted work. Local models count as zero dollars.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971680s old

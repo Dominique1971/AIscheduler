@@ -1,0 +1,54 @@
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+PRIVATE · READ-ONLY
+Owner-only view · Authenticator paused
+FOREMAN/NEW PROJECT
+Refresh now
+PLAN IT. ROUTE IT.
+NEW PROJECT
+
+Create a harness instance from a plan and a template. This Site is read-only, so creation happens locally.
+
+Proposed design
+EXAMPLE HARNESS.YAML
+project: example-project
+harness: software
+roles:
+  planner:    anthropic/opus
+  builder:    openai/codex-latest
+  judge:      anthropic/fable     # different family than the builder
+  artist:     local/flux3         # or local/flux2
+gates:
+  accept_score: 4.5
+  attempts_per_stage_per_day: 2
+  daily_cap_usd: 10
+execution:
+  runner: cmd
+  mailbox: state/harness/inbox
+  watchdog_minutes: 15
+  default_time_box_minutes: 45
+  max_repair_rounds: 2
+  min_queued_tasks: 5
+  review: read_only_second_session
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971680s old

@@ -1,0 +1,164 @@
+Viewport 390x844; document client width 375.
+Selected: tab-overall
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/OVERVIEW
+Refresh now
+ROUTE THE WORK. PROVE THE RESULT.
+SHIP WHAT’S PROVEN
+
+Finished work across every project, live workers, spend against caps. All projects, New York time.
+
+TASKS COMPLETED
+32 / 32
+100% of all planned
+WORKERS BUSY / CAP
+0 / 4
+6 projects
+READY
+0
+waiting for a worker
+AWAITING REVIEW
+0
+0 failed
+SPEND TODAY
+Not reported
+not in the status feed yet
+Needs attention
+Bridge offline
+The local bridge is not sending updates, so this data is stale.
+Daemon unhealthy at source
+Reported by the last update received.
+DEMO INVENTORY
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+DEMO WEATHER
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+SEQUENTIAL AND BRANCHING SAMPLE
+Dispatch enabled · 5/5 tasks completed · cap 2
+View project
+MULTI-BRANCH DEPENDENCY SAMPLE
+Dispatch enabled · 7/7 tasks completed · cap 3
+View project
+SECOND MARKDOWN SAMPLE PLAN
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+SAMPLE PROJECT PLAN
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+Recent controls
+pause · succeeded · 12:02:49 PM
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview" [selected]
+    - tab "Projects"
+    - tab "Harness map"
+    - tab "Loops and checks"
+    - tab "Models and keys"
+    - tab "Usage and cost"
+    - tab "New project"
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/OVERVIEW
+  - button "Refresh now"
+- main:
+  - tabpanel "Overview":
+    - generic: ROUTE THE WORK. PROVE THE RESULT.
+    - heading "Ship what’s proven" [level=1]
+    - paragraph: Finished work across every project, live workers, spend against caps. All projects, New York time.
+    - article:
+      - text: Tasks completed
+      - strong: 32 / 32
+      - generic: 100% of all planned
+    - article:
+      - text: Workers busy / cap
+      - strong: 0 / 4
+      - generic: 6 projects
+    - article:
+      - text: Ready
+      - strong: "0"
+      - generic: waiting for a worker
+    - article:
+      - text: Awaiting review
+      - strong: "0"
+      - generic: 0 failed
+    - article:
+      - text: Spend today
+      - strong: Not reported
+      - generic: not in the status feed yet
+    - heading "Needs attention" [level=2]
+    - generic: Bridge offline
+    - text: The local bridge is not sending updates, so this data is stale.
+    - generic: Daemon unhealthy at source
+    - text: Reported by the last update received.
+    - article:
+      - strong: Demo Inventory
+      - generic: Dispatch enabled · 6/6 tasks completed · cap 2
+      - button "View project"
+    - article:
+      - strong: Demo Weather
+      - generic: Dispatch enabled · 6/6 tasks completed · cap 2
+      - button "View project"
+    - article:
+      - strong: Sequential and branching sample
+      - generic: Dispatch enabled · 5/5 tasks completed · cap 2
+      - button "View project"
+    - article:
+      - strong: Multi-branch dependency sample
+      - generic: Dispatch enabled · 7/7 tasks completed · cap 3
+      - button "View project"
+    - article:
+      - strong: Second Markdown sample plan
+      - generic: Dispatch enabled · 4/4 tasks completed · cap 2
+      - button "View project"
+    - article:
+      - strong: Sample project plan
+      - generic: Dispatch enabled · 4/4 tasks completed · cap 2
+      - button "View project"
+    - complementary:
+      - heading "Recent controls" [level=2]
+      - generic: pause · succeeded · 12:02:49 PM
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old

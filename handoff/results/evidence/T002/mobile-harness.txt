@@ -1,0 +1,185 @@
+Viewport 390x844; document client width 375.
+Selected: tab-harness
+FOREMAN
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+Demo Inventory
+6/6
+Demo Weather
+6/6
+Sequential and branching sample
+5/5
+Multi-branch dependency sample
+7/7
+Second Markdown sample plan
+4/4
+Sample project plan
+4/4
+FOREMAN/HARNESS MAP
+Refresh now
+ROLES, GATES AND ROUTING
+HARNESS MAP
+
+How a plan becomes accepted work. The local scheduler runs the work; this Site shows a read-only status projection.
+
+Proposed design
+Plan: milestones, specs, rubrics, budgets
+Scheduler core
+Task graph, leases, refill, caps
+Harness instance, one per project
+Planner
+splits work
+Builder
+makes it
+Tester
+runs checks
+Judge
+other family
+Fail at test or judge: Builder retries inside the attempt cap
+Designer
+visual review
+Artist
+Flux 2 or 3
+Integrator
+merges batches
+Ledger
+accepted only
+Model router
+Role, cost, quota, fallback
+Claude
+GPT, Codex
+Gemini
+DeepSeek
+Lamia text
+Flux 2, 3
+Key vault on this PC: console shows status, never key values
+ROLES
+ROLE	JOB	PROPOSED MODEL
+Planner	Splits milestones into tasks that can run in parallel	Claude Opus
+Builder	Writes the deliverable in an isolated branch	Codex
+Tester	Deterministic checks first, then a small-model pass	Claude Sonnet
+Judge	Scores against the rubric; a different model family than the Builder	Claude Fable
+Designer	Reviews layouts and visuals against the style guide	Gemini Pro
+Artist	Generates images with Flux 2 or Flux 3 on the local machine	Flux 3
+Integrator	Merges accepted batches, runs broader tests	Claude Sonnet
+Ledger	Records accepted milestones with score and evidence (built in)	none
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - generic: Foreman
+  - tablist "Sections":
+    - tab "Overview"
+    - tab "Projects"
+    - tab "Harness map" [selected]
+    - tab "Loops and checks"
+    - tab "Models and keys"
+    - tab "Usage and cost"
+    - tab "New project"
+  - navigation "Projects":
+    - button "Demo Inventory 6/6":
+      - generic: Demo Inventory
+      - generic: 6/6
+    - button "Demo Weather 6/6":
+      - generic: Demo Weather
+      - generic: 6/6
+    - button "Sequential and branching sample 5/5":
+      - generic: Sequential and branching sample
+      - generic: 5/5
+    - button "Multi-branch dependency sample 7/7":
+      - generic: Multi-branch dependency sample
+      - generic: 7/7
+    - button "Second Markdown sample plan 4/4":
+      - generic: Second Markdown sample plan
+      - generic: 4/4
+    - button "Sample project plan 4/4":
+      - generic: Sample project plan
+      - generic: 4/4
+- banner:
+  - generic: FOREMAN/HARNESS MAP
+  - button "Refresh now"
+- main:
+  - tabpanel "Harness map":
+    - generic: ROLES, GATES AND ROUTING
+    - heading "Harness map" [level=1]
+    - paragraph: How a plan becomes accepted work. The local scheduler runs the work; this Site shows a read-only status projection.
+    - generic: Proposed design
+    - img "Foreman harness map A plan feeds the scheduler. The scheduler runs a per-project harness of agent roles. Roles call a model router, which picks among six providers. Keys stay in a local vault.":
+      - generic: "Plan: milestones, specs, rubrics, budgets"
+      - generic: Scheduler core
+      - generic: Task graph, leases, refill, caps
+      - generic: Harness instance, one per project
+      - generic: Planner
+      - generic: splits work
+      - generic: Builder
+      - generic: makes it
+      - generic: Tester
+      - generic: runs checks
+      - generic: Judge
+      - generic: other family
+      - generic: "Fail at test or judge: Builder retries inside the attempt cap"
+      - generic: Designer
+      - generic: visual review
+      - generic: Artist
+      - generic: Flux 2 or 3
+      - generic: Integrator
+      - generic: merges batches
+      - generic: Ledger
+      - generic: accepted only
+      - generic: Model router
+      - generic: Role, cost, quota, fallback
+      - generic: Claude
+      - generic: GPT, Codex
+      - generic: Gemini
+      - generic: DeepSeek
+      - generic: Lamia text
+      - generic: Flux 2, 3
+      - generic: "Key vault on this PC: console shows status, never key values"
+    - heading "Roles" [level=3]
+    - table:
+      - rowgroup:
+        - row "Role Job Proposed model":
+          - columnheader "Role"
+          - columnheader "Job"
+          - columnheader "Proposed model"
+      - rowgroup:
+        - row "Planner Splits milestones into tasks that can run in parallel Claude Opus":
+          - cell "Planner"
+          - cell "Splits milestones into tasks that can run in parallel"
+          - cell "Claude Opus"
+        - row "Builder Writes the deliverable in an isolated branch Codex":
+          - cell "Builder"
+          - cell "Writes the deliverable in an isolated branch"
+          - cell "Codex"
+        - row "Tester Deterministic checks first, then a small-model pass Claude Sonnet":
+          - cell "Tester"
+          - cell "Deterministic checks first, then a small-model pass"
+          - cell "Claude Sonnet"
+        - row "Judge Scores against the rubric; a different model family than the Builder Claude Fable":
+          - cell "Judge"
+          - cell "Scores against the rubric; a different model family than the Builder"
+          - cell "Claude Fable"
+        - row "Designer Reviews layouts and visuals against the style guide Gemini Pro":
+          - cell "Designer"
+          - cell "Reviews layouts and visuals against the style guide"
+          - cell "Gemini Pro"
+        - row "Artist Generates images with Flux 2 or Flux 3 on the local machine Flux 3":
+          - cell "Artist"
+          - cell "Generates images with Flux 2 or Flux 3 on the local machine"
+          - cell "Flux 3"
+        - row "Integrator Merges accepted batches, runs broader tests Claude Sonnet":
+          - cell "Integrator"
+          - cell "Merges accepted batches, runs broader tests"
+          - cell "Claude Sonnet"
+        - row "Ledger Records accepted milestones with score and evidence (built in) none":
+          - cell "Ledger"
+          - cell "Records accepted milestones with score and evidence (built in)"
+          - cell "none"
+- contentinfo:
+  - generic: Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1971851s old
