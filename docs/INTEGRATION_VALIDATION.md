@@ -396,6 +396,11 @@ projects showed the three tabs, project selector, task details and dependency
 graph at desktop and 390-pixel phone width. That preview is UI diagnostic
 evidence, not a fresh hosted identity, bridge, MFA or remote-control acceptance
 run. The `_to_delete` folder was excluded from the Sites source push.
+An owner browser read of the newly published Site showed all three tabs and
+the Project monitoring DAG for a dummy project (six tasks, seven dependency
+arrows). The displayed projection was stale: its last source update was
+30 October 2026, with the bridge offline and daemon unhealthy at that source
+update. This confirms hosted rendering, not current scheduler operation.
 
 ## Official documentation consulted
 
