@@ -1,0 +1,83 @@
+FOREMAN · PRIVATE
+MISSION CONTROL
+Owner-only read-only view · Authenticator paused
+Refresh now
+
+Loops and checks
+PROPOSED DESIGN
+
+An autonomous cycle modeled on the Koboo launcher: a Markdown mailbox, a runner script, a 15 minute watchdog and hard checks. This describes the planned harness. The scheduler here does not yet run it.
+
+Claude
+writes tasks, reviews
+Markdown mailbox
+inbox, queue, done
+Runner script
+.cmd restarts .ps1
+One cycle per task, no human in the loop
+Builder
+Codex, no network
+Hard checks
+paths, size, tests
+Review
+read-only session
+Keep or undo
+commit or evidence
+Fail: up to 2 repair rounds in the same Codex thread, then undo and park
+Pass: commit, push, copy task, result and review to history
+Watchdog, every 15 minutes
+Heartbeat, time box, quota, idle worker, queue depth
+Ledger and logs
+cycles, decisions
+Dashboard
+status, 5 min refresh
+Escalation
+money, keys, kill rules
+Loops
+Loop	Cadence	What it checks	If it fails
+Cycle	per task	Build, run hard checks, run a read-only review, keep or undo.	Undo and keep a patch as failure evidence.
+Runner poll	every 15 seconds	Worker alive, time box not passed, status refreshed.	Past the time box: stop the process tree and undo.
+Watchdog	every 15 minutes	Heartbeat, log growth, elapsed vs estimate, idle worker with ready work, queue depth.	Nudge, restart the runner, then escalate. Warn at 2x the estimate, escalate at 4x.
+Allowance retry	every 15 minutes	Provider usage allowance.	Wait and keep checking; other lanes continue.
+Test cap	10 minutes	Test run finishes.	Stop the tests and send the hang back as a repair instruction.
+Reviewer	scheduled	Review kept and undone tasks, keep at least 5 queued.	After 3 failures, park the task with a diagnosis.
+Standalone planner	queue empty	Plans 1 to 3 small tasks through the same checks.	3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes.
+Self-update	between tasks	New launcher or guide files wait in the mailbox, get installed, runner reloads.	A bad update falls back to the last good launcher.
+The Markdown mailbox
+inbox\	New tasks written while the builder is busy; moved into the queue between tasks.
+inbox\files\<path>	New versions of tracked files, installed and committed between tasks.
+queue\ done\ failed\	One task file per task; names sort in execution order.
+results\	Result and review verdict per task, as JSON.
+BUSY.txt	Exists while the builder works.
+claude-reviewed.txt	Last commit reviewed, for catch-up.
+
+Each message gets a sequence number and an acknowledgement file, and is written to a temporary name then renamed, so a half-written task is never picked up.
+
+Task file header
+Allowed: app/
+Allowed: judges/
+Line limit: 300
+Time box: 90
+Effort: high
+
+## Goal
+## Context
+## Constraints
+## Done when
+Claude checks (not Codex): ...
+Hard checks after every build
+Only the Allowed paths changed
+No protected file changed
+Under the line limit; no file over 400 lines
+No forbidden machinery added
+Nothing written under state\
+The builder made no commit itself
+Result status is done
+Tests pass, with a 10 minute cap
+Escalation ladder
+
+Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.
+
+The owner hears only about money, kill criteria, visible product changes, credentials, and an unreachable machine for 2 hours.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1970482s old

@@ -1,0 +1,26 @@
+FOREMAN · PRIVATE
+MISSION CONTROL
+Owner-only read-only view · Authenticator paused
+Refresh now
+
+Models and keys
+PROPOSED DESIGN
+
+Providers the harness would route to. Key values are never stored or shown here. Connection status is not reported by the bridge yet, so none is claimed.
+
+Provider	Route	Key reference	Models	Status
+Anthropic (Claude)	API	ANTHROPIC_API_KEY	Fable, Opus, Sonnet, Haiku	Not reported
+OpenAI (GPT, Codex)	Codex sign-in, plus API	OPENAI_API_KEY	Latest GPT, latest Codex	Not reported
+Google (Gemini)	API	GEMINI_API_KEY	Latest Pro, latest Flash	Not reported
+DeepSeek	API	DEEPSEEK_API_KEY	Latest chat, latest reasoner	Not reported
+Lamia (local text)	Loopback endpoint on the PC	none	Local default	Not reported
+Flux (local image)	Local, route to confirm	none	Flux 2, Flux 3	Not reported
+Image models
+
+Two choices for the Artist role: Flux 2 and Flux 3, run locally. Each project would pick one when its harness is created.
+
+How keys work
+
+Keys stay in the Windows credential store or environment on the local machine. Names like "latest" would resolve at run time and be pinned per run in the ledger.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1970482s old

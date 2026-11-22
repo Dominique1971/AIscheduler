@@ -1,0 +1,37 @@
+FOREMAN · PRIVATE
+MISSION CONTROL
+Owner-only read-only view · Authenticator paused
+Refresh now
+
+Overall monitoring
+All projects · New York time
+Workers busy / cap
+0 / 4
+Simulation completed
+32 / 32
+Ready
+0
+Awaiting review
+0
+Demo Inventory
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+Demo Weather
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+Sequential and branching sample
+Dispatch enabled · 5/5 tasks completed · cap 2
+View project
+Multi-branch dependency sample
+Dispatch enabled · 7/7 tasks completed · cap 3
+View project
+Second Markdown sample plan
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+Sample project plan
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+Recent controls
+pause · succeeded · 12:02:49 PM
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1970482s old

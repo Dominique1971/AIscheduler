@@ -1,0 +1,32 @@
+FOREMAN · PRIVATE
+MISSION CONTROL
+Owner-only read-only view · Authenticator paused
+Refresh now
+
+New harness
+PROPOSED DESIGN
+
+Harnesses are created locally from a plan file, not from this Site, which stays read-only. The planned flow is: pick a plan, choose a template, assign models to roles, set gates and the runner schedule, then review the generated file.
+
+Example harness.yaml
+project: example-project
+harness: software
+roles:
+  planner:    anthropic/opus
+  builder:    openai/codex-latest
+  judge:      anthropic/fable     # different family than the builder
+  artist:     local/flux3         # or local/flux2
+gates:
+  accept_score: 4.5
+  attempts_per_stage_per_day: 2
+  daily_cap_usd: 10
+execution:
+  runner: cmd
+  mailbox: state/harness/inbox
+  watchdog_minutes: 15
+  default_time_box_minutes: 45
+  max_repair_rounds: 2
+  min_queued_tasks: 5
+  review: read_only_second_session
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1970482s old

@@ -402,6 +402,28 @@ arrows). The displayed projection was stale: its last source update was
 30 October 2026, with the bridge offline and daemon unhealthy at that source
 update. This confirms hosted rendering, not current scheduler operation.
 
+### Seven-view private Site release (T001)
+
+On 22 November 2026, Sites source commit
+`f0cad31d966f5f4880f5e1414dfa9d13568ce24b` was pushed and packaged from
+the same checkout. Version 10,
+`appgprj_6adcbab3ab1c81919496cad194193625~appgver_ace445a308f081918294a1238981d1f5`,
+deployed privately as `appgdep_6b03773946c4819196485dc2abc1d251`.
+The deployment succeeded at 2026-11-22T23:14:05Z at
+`https://autonomous-scheduler.jetpack71.chatgpt.site` with environment
+revision 7. The post-deployment access read still showed one allowed owner,
+no groups, `REMOTE_CONTROL_ENABLED=false`, and
+`READONLY_TOTP_BYPASS_ENABLED=true`.
+
+The release checkout passed build, validation, and 9/9 Worker/SQLite tests.
+An owner-authenticated hosted browser read opened all seven tabs and captured
+their visible text and screenshots under `handoff/results/evidence/T001/`.
+This verifies the published navigation and rendering. The Site still displayed
+the last dummy-project projection from 30 October 2026, with the bridge
+offline at the last update; it does not prove current scheduler operation or
+remote-control acceptance. The proposed harness, models, cost and new-harness
+views are explicitly labeled as design, not implemented integrations.
+
 ## Official documentation consulted
 
 ### Bounded dummy phone control trial

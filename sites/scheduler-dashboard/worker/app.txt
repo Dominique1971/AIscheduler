@@ -10,7 +10,7 @@ async function api(path,body,key){
   if(!response.ok){if(response.status===401)locked();throw new Error(data.error??"Request failed");}return data;
 }
 function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();$("overall-projects").replaceChildren();}
-const views=["overall","project","functionality"];
+const views=["overall","project","harness","loops","models","cost","new"];
 function showView(name){
   if(!views.includes(name))name="overall";
   for(const view of views){const active=view===name;$(view+"-view").hidden=!active;$("tab-"+view).setAttribute("aria-selected",String(active));$("tab-"+view).tabIndex=active?0:-1;}

@@ -53,3 +53,18 @@ details.harness-map>summary{cursor:pointer;padding:10px 14px;color:#7FD8FF;font-
 #project-view .tasks{display:flex}
 #functionality-view .harness-map{margin-top:12px}
 @media(max-width:650px){.view-tabs{gap:5px;padding-bottom:10px;overflow:visible}.view-tabs button{flex:1;min-width:0;font-size:13px;padding:9px 5px}.desktop-label{display:none}.mobile-label{display:inline}.view-heading{display:block}.view-heading span{display:block;margin-top:4px}.overall-projects,.function-grid{grid-template-columns:1fr}.overview-card{min-height:0}.overview-card .project-head{flex-wrap:nowrap}.overview-card button{font-size:12px}.view-intro{font-size:14px}#project-view .toolbar{flex-wrap:wrap}#project-view .toolbar h2{width:100%}#project-view .toolbar select{margin-left:auto}.control-history{font-size:13px}}
+
+/* Foreman views */
+.proposed{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FFB04A;border:1px solid rgba(255,176,74,.5);border-radius:99px;padding:3px 10px;background:rgba(255,176,74,.1)}
+.card-panel{margin:0 0 14px;padding:14px;border:1px solid rgba(190,215,235,.2);border-radius:10px;background:linear-gradient(160deg,rgba(127,216,255,.1),rgba(20,33,46,.78) 40%);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.card-panel h3{margin:0 0 8px;font-size:16px;color:#7FD8FF}
+.card-panel table{width:100%;border-collapse:collapse;font-size:13.5px}
+.card-panel th{text-align:left;color:#9FB0C0;font-weight:600;padding:6px 8px;border-bottom:1px solid rgba(190,215,235,.25)}
+.card-panel td{padding:7px 8px;border-bottom:1px solid rgba(190,215,235,.1);vertical-align:top}
+.card-panel pre{margin:0;overflow:auto;font-size:12.5px;line-height:1.5}
+.card-panel code{font-size:12.5px;color:#FFB04A}
+.card-panel.scroll{overflow-x:auto}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.note{font-size:12.5px;color:#9FB0C0;margin:8px 0 0}
+.view-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:650px){.view-tabs{overflow-x:auto;overflow-y:hidden}.view-tabs button{flex:none;min-width:84px}.two-col{grid-template-columns:1fr}.function-grid{grid-template-columns:1fr}}

@@ -1,0 +1,23 @@
+FOREMAN · PRIVATE
+MISSION CONTROL
+Owner-only read-only view · Authenticator paused
+Refresh now
+
+Usage and cost
+PROPOSED DESIGN
+
+Spend and usage are not part of the status feed yet, so no figures are shown. When the bridge reports them, this page will show:
+
+Spend against caps
+
+Today, trailing average and each project's daily cap.
+
+By provider and role
+
+Where the money goes: Builder, Judge, Planner and the rest.
+
+Cost per accepted milestone
+
+Trailing cost for each unit of accepted work. Local models count as zero dollars.
+
+Bridge offline at update · daemon unhealthy at source · Oct 30, 11:53:30 PM NY · 1970482s old
