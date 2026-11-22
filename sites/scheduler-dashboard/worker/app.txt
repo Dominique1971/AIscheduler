@@ -2,13 +2,20 @@
 const $=id=>document.getElementById(id);
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 let csrf="",role="reader",cached=null,busy=false;
+const renderedProjectIds=new Set();
 function notice(value){$("notice").textContent=value;$("notice").style.display="block";}
 async function api(path,body,key){
   const response=await fetch(path,{method:body===undefined?"GET":"POST",headers:{"Content-Type":"application/json",...(csrf?{"X-CSRF-Token":csrf}:{}),...(key?{"Idempotency-Key":key}:{})},body:body===undefined?undefined:JSON.stringify(body),cache:"no-store",credentials:"same-origin",signal:AbortSignal.timeout(15000)});
   const data=await response.json();
   if(!response.ok){if(response.status===401)locked();throw new Error(data.error??"Request failed");}return data;
 }
-function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();}
+function locked(){csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();$("overall-projects").replaceChildren();}
+const views=["overall","project","functionality"];
+function showView(name){
+  if(!views.includes(name))name="overall";
+  for(const view of views){const active=view===name;$(view+"-view").hidden=!active;$("tab-"+view).setAttribute("aria-selected",String(active));$("tab-"+view).tabIndex=active?0:-1;}
+  if(location.hash!=="#"+name)history.replaceState(null,"","#"+name);
+}
 const local=value=>new Date(value).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" NY";
 async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("logout").hidden=auth.auth_mode==="site-owner-readonly";$("auth-mode").hidden=auth.auth_mode!=="site-owner-readonly";$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
 async function control(payload){try{const result=await api("/api/control",payload,crypto.randomUUID());notice(`Control ${result.state}; awaiting local acknowledgement.`);await refresh();}catch(error){notice(error.message);}}
@@ -48,18 +55,27 @@ function planView(project,opened=false){
   return plan;
 }
 function render(){
-  const s=cached.snapshot;if(!s){$("projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));return;}
+  const s=cached.snapshot;if(!s){$("projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));$("overall-projects").replaceChildren(el("p","No local status received. Start the outbound bridge."));return;}
   const tasks=s.projects.flatMap(p=>p.tasks),done=tasks.filter(t=>t.state==="completed").length;
   $("metrics").replaceChildren(...[["Workers busy / cap",`${s.workers} / ${s.max_workers}`],["Simulation completed",`${done} / ${tasks.length}`],["Ready",tasks.filter(t=>t.state==="ready").length],["Awaiting review",tasks.filter(t=>t.state==="waiting-review").length]].map(([label,value])=>{const n=el("article",undefined,"metric");n.append(el("span",label),el("strong",String(value)));return n;}));
-  const selected=$("focus").value;$("focus").replaceChildren(new Option("All projects",""),...s.projects.map(p=>new Option(p.display_name,p.project_id)));$("focus").value=selected;
+  const selected=$("focus").value;$("focus").replaceChildren(...s.projects.map(p=>new Option(p.display_name,p.project_id)));$("focus").value=s.projects.some(p=>p.project_id===selected)?selected:(s.projects[0]?.project_id||"");
+  const focusedProject=$("focus").value;
+  $("overall-projects").replaceChildren(...s.projects.map(p=>{
+    const card=el("article",undefined,"project overview-card"),head=el("div",undefined,"project-head"),name=el("div"),link=el("button","View project");
+    const completed=p.tasks.filter(t=>t.state==="completed").length;
+    name.append(el("strong",p.display_name),el("small",`${p.paused?"Paused":"Dispatch enabled"} · ${completed}/${p.tasks.length} tasks completed · cap ${p.max_workers}`));
+    link.type="button";link.onclick=()=>{$("focus").value=p.project_id;render();showView("project");};
+    head.append(name,link);card.append(head);return card;
+  }));
   const openPlans=new Set([...$("projects").querySelectorAll(".project[data-project-id]")].filter(node=>node.querySelector(".plan-view")?.open).map(node=>node.dataset.projectId));
-  $("projects").classList.toggle("focused",!!selected);$("projects").replaceChildren();
-  for(const p of s.projects.filter(p=>!selected||p.project_id===selected)){
+  $("projects").classList.add("focused");$("projects").replaceChildren();
+  for(const p of s.projects.filter(p=>p.project_id===focusedProject)){
     const section=el("article",undefined,"project"),head=el("div",undefined,"project-head"),name=el("div");section.dataset.projectId=p.project_id;name.append(el("strong",p.display_name),el("small",`${p.paused?"Ⅱ Paused":"● Dispatch enabled"} · ${p.tasks.filter(t=>t.state==="completed").length}/${p.tasks.length} completed`));head.append(name);
     const controls=el("div",undefined,"controls"),toggle=el("button",p.paused?"Resume":"Pause"),cap=el("input"),set=el("button","Set cap");cap.type="number";cap.min="0";cap.max="128";cap.value=String(p.max_workers);cap.setAttribute("aria-label",p.display_name+" worker cap");toggle.onclick=()=>control({action:p.paused?"resume":"pause",project:p.project_id});set.onclick=()=>{if(cap.reportValidity())control({action:"allocate",project:p.project_id,value:Number(cap.value)});};
     for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);
-    const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips,planView(p,openPlans.has(p.project_id)));$("projects").append(section);
+    const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips,planView(p,openPlans.has(p.project_id)||!renderedProjectIds.has(p.project_id)));$("projects").append(section);renderedProjectIds.add(p.project_id);
   }
+  if(!focusedProject)$("projects").append(el("p","No projects have been received from the local scheduler."));
   const age=Math.max(0,Math.floor((Date.now()-Date.parse(s.updated_at))/1000));
   $("freshness").textContent=`Bridge ${cached.agent_online?"online":"offline"} at update · ${s.daemon.healthy?"daemon healthy at source":"daemon unhealthy at source"} · ${local(s.updated_at)} · ${age}s old${s.stopped?" · STOPPED":""}`;
   $("stop").disabled=!cached.agent_online;
@@ -67,4 +83,15 @@ function render(){
 $("login").onsubmit=async event=>{event.preventDefault();const button=$("login").querySelector("button");button.disabled=true;try{await api("/auth/verify",{code:$("code").value});await refresh();}catch(error){notice(error.message);}finally{$("code").value="";button.disabled=false;}};
 $("logout").onclick=async()=>{try{await api("/auth/logout",{});}catch(error){notice(error.message);}finally{locked();}};
 $("refresh").onclick=refresh;$("focus").onchange=()=>{if(cached)render();};$("stop").onclick=()=>$("confirm").showModal();$("cancel-stop").onclick=()=>$("confirm").close();$("confirm-form").onsubmit=event=>{event.preventDefault();$("confirm").close();control({action:"emergency-stop",confirmed:true});};
+for(const view of views)$("tab-"+view).onclick=()=>showView(view);
+$("workspace").querySelector(".view-tabs").addEventListener("keydown",event=>{
+  if(!["ArrowLeft","ArrowRight","Home","End"].includes(event.key))return;
+  const current=views.findIndex(view=>$("tab-"+view)===document.activeElement);
+  if(current<0)return;
+  event.preventDefault();
+  const next=event.key==="Home"?0:event.key==="End"?views.length-1:(current+(event.key==="ArrowRight"?1:-1)+views.length)%views.length;
+  showView(views[next]);$("tab-"+views[next]).focus();
+});
+addEventListener("hashchange",()=>showView(location.hash.slice(1)));
+showView(location.hash.slice(1));
 setInterval(refresh,300000);setInterval(()=>{if(cached)render();},10000);refresh();

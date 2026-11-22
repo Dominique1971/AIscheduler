@@ -373,6 +373,30 @@ the tested path. Untouched responses and SHA-256 receipts are in
 were verified. This is strong spoofing-denial evidence but does not replace a
 different signed-in account test. Controls remain disabled.
 
+### Three-view private Site release
+
+On 22 November 2026, the owner requested the existing private Scheduler Site
+be divided into Functionality, Overall monitoring and Project monitoring.
+The Site source commit `ae2f094cc05bc51a0e23464ca99a2f637122c3f5`
+was pushed to its Sites source repository, packaged from the same checkout,
+and saved as version 9,
+`appgprj_6adcbab3ab1c81919496cad194193625~appgver_6a1339e7c4108191b920f26c1508c9e8`.
+Private deployment `appgdep_6b037205b17c81919ca90f2c3ea62b8c` succeeded
+at 2026-11-22T22:51:54Z at
+`https://autonomous-scheduler.jetpack71.chatgpt.site`. The Sites result
+reported environment revision 7. A post-deployment read confirmed the
+custom owner-only audience still contained one allowed user and no groups,
+`REMOTE_CONTROL_ENABLED=false`, and
+`READONLY_TOTP_BYPASS_ENABLED=true`; no runtime environment values or access
+policy were changed for this release.
+
+The release checkout passed `npm run build`, `npm run validate`, and 9/9
+Worker/SQLite tests. A local browser preview using two disposable dummy
+projects showed the three tabs, project selector, task details and dependency
+graph at desktop and 390-pixel phone width. That preview is UI diagnostic
+evidence, not a fresh hosted identity, bridge, MFA or remote-control acceptance
+run. The `_to_delete` folder was excluded from the Sites source push.
+
 ## Official documentation consulted
 
 ### Bounded dummy phone control trial

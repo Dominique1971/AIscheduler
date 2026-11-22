@@ -92,6 +92,8 @@ Use isolated Git worktrees/branches per worker and commit checkpoints. Merge by 
 
 # 12. Dashboard UX
 
+The owner-private Site separates three top-level views: Functionality explains the verified product path and labels proposed integrations as conceptual; Overall monitoring shows fleet metrics, a concise project summary and recent controls; Project monitoring selects one project and shows its status, tasks, estimates, dependency DAG and authorized project controls. Switching views must preserve the current project selection and must not change scheduler state. The remote Site does not author or import plans.
+
 Mobile-first, externally accessible, one-screen compact overview with no vertical scrolling at target device viewports. Default horizontal time axis last 8 hours, anchored to now; pan horizontally and zoom to 1h/24h/7d. Per-project expandable timeline with worker lanes, parallel task bars, actual start/end, estimated finish, retry phases, dependencies and blocked markers. Overall top strip: active/target workers, ready queue, completed/total, percent complete, progress trend, utilization, warning count and last successful update. Small trend plots for completion, worker utilization, estimated vs actual throughput. Status conveyed by accessible color PLUS icons/labels. Tap task for details; tap project for original and current plans, graph of dependencies, revisions and task history. On phone show concise overview with project-specific focus modes, never microscopic unreadable text. Provide explicit refresh now and auto-refresh every 5 minutes; show data age/stale indicator. Scheduler worker monitoring remains independent and much faster.
 
 # 13. Remote access and security
