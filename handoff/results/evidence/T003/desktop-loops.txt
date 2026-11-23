@@ -1,0 +1,284 @@
+Final Site version 14; viewport 1280x900; Loops and checks
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/LOOPS AND CHECKS
+Sample data
+AUTONOMOUS BY DESIGN
+LOOPS AND CHECKS
+
+The cycle, the mailbox, the runner script and the guardrails, modeled on the Koboo launcher.
+
+Claude
+writes tasks, reviews
+Markdown mailbox
+inbox, queue, done
+Runner script
+.cmd restarts .ps1
+One cycle per task, no human in the loop
+Builder
+Codex, no network
+Hard checks
+paths, size, tests
+Review
+read-only session
+Keep or undo
+commit or evidence
+Fail: up to 2 repair rounds in the same Codex thread, then undo and park
+Pass: commit, push, copy task, result and review to history
+Watchdog, every 15 minutes
+Heartbeat, time box, quota, idle worker, queue depth
+Ledger and logs
+cycles, decisions
+Dashboard
+status, 5 min refresh
+Escalation
+money, keys, kill rules
+LOOPS
+LOOP	CADENCE	WHAT IT CHECKS	IF IT FAILS	FOREMAN ADDS
+Cycle	per task	Take the first task in the queue, build it, run the hard checks, run a read-only review, keep or undo.	Undo, keep a patch as failure evidence, task goes to failed.	A lease and fencing token per task, so two runners never take the same one.
+Runner poll	every 15 seconds	Codex process alive, time box not passed, console and status refreshed. Dashboard data refreshed at least every 5 minutes.	Past the time box: stop the whole process tree and undo.	Heartbeat file written by the runner, so liveness is a fact, not a guess.
+Watchdog	every 15 minutes	Heartbeat age, log growth or files changed, elapsed against time box and estimate, idle worker while work is ready, queue depth, reviewer last run.	Nudge, then restart the runner through the .cmd loop, then escalate.	Adaptive thresholds: warn at 2x the estimate, escalate at 4x, never silent.
+Allowance retry	every 15 minutes	Codex usage allowance. The refill time Codex reports is shown, not waited for.	Wait and keep checking. Other lanes continue.	Same rule per provider, with fallback to another provider for the role.
+Test cap	10 minutes	Test run finishes. A test stuck on a dialog can never freeze the runner.	Stop the tests and send the hang back as a repair instruction.	Per-project cap set in harness.yaml.
+Reviewer	scheduled; nightly deep review	Review every kept and undone task, keep at least 5 tasks queued, record decisions, turn repeated mistakes into checks.	After 3 failures, park the task with a short diagnosis.	Catch-up cursor: last reviewed commit, so nothing is skipped.
+Standalone planner	queue empty	Codex plans 1 to 3 small tasks from the plan, through the same checks and review.	3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes, plan larger batches.	Never touches money rules, plan changes or owner decisions.
+Self-update	between tasks	New launcher or guide files wait in the mailbox, get installed and committed, and the runner reloads itself.	A bad update falls back to the last good launcher.	Same mechanism for every project's harness files.
+THE MARKDOWN MAILBOX
+inbox\	Claude writes new tasks here while Codex is busy. The runner moves them into the queue between tasks.
+inbox\files\<path>	New versions of tracked files (launcher, plan, guides). Installed and committed between tasks.
+queue\ done\ failed\	One task file per task; names sort in execution order.
+results\	Codex result and the review verdict for each task, as JSON.
+BUSY.txt	Exists while Codex works. Claude touches only the inbox and dashboard data meanwhile.
+claude-reviewed.txt	Last commit Claude reviewed, for catch-up.
+
+Foreman adds a sequence number and an acknowledgement file to every message, and writes each file to a temporary name first, then renames it, so a half-written task is never picked up.
+
+TASK FILE HEADER
+Allowed: app/
+Allowed: judges/
+Line limit: 300
+Time box: 90
+Effort: high
+
+## Goal
+## Context
+## Constraints
+## Done when
+Claude checks (not Codex): ...
+
+Every Done-when line must be checkable from Codex’s sandbox. Visual, desktop and network checks go in the Claude checks line.
+
+HARD CHECKS AFTER EVERY BUILD
+check	Only the Allowed paths changed
+check	No protected file changed
+check	Under the line limit; no file over 400 lines
+check	No forbidden machinery added
+check	Nothing written under state\
+check	Codex made no commit itself
+check	Result status is done
+check	Tests pass, with a 10 minute cap
+ESCALATION LADDER
+
+Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.
+
+The owner hears only about money, kill criteria, product changes he would notice, credentials, and an unreachable machine for 2 hours. Claude never writes deliverables, only tasks, reviews and decisions.
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/LOOPS AND CHECKS
+  - generic: Sample data
+- main:
+  - generic: AUTONOMOUS BY DESIGN
+  - heading "Loops and checks" [level=1]
+  - paragraph: The cycle, the mailbox, the runner script and the guardrails, modeled on the Koboo launcher.
+  - img "Autonomous cycle with Markdown mailbox, runner script and watchdog Claude writes task files into a Markdown mailbox. A runner script takes one task at a time, runs Codex to build it, runs hard checks, runs a read-only review, then keeps or undoes the change. A watchdog checks every 15 minutes. Results go to logs, the dashboard and an escalation path.":
+    - generic: Claude
+    - generic: writes tasks, reviews
+    - generic: Markdown mailbox
+    - generic: inbox, queue, done
+    - generic: Runner script
+    - generic: .cmd restarts .ps1
+    - generic: One cycle per task, no human in the loop
+    - generic: Builder
+    - generic: Codex, no network
+    - generic: Hard checks
+    - generic: paths, size, tests
+    - generic: Review
+    - generic: read-only session
+    - generic: Keep or undo
+    - generic: commit or evidence
+    - generic: "Fail: up to 2 repair rounds in the same Codex thread, then undo and park"
+    - generic: "Pass: commit, push, copy task, result and review to history"
+    - generic: Watchdog, every 15 minutes
+    - generic: Heartbeat, time box, quota, idle worker, queue depth
+    - generic: Ledger and logs
+    - generic: cycles, decisions
+    - generic: Dashboard
+    - generic: status, 5 min refresh
+    - generic: Escalation
+    - generic: money, keys, kill rules
+  - heading "Loops" [level=3]
+  - table:
+    - rowgroup:
+      - row "Loop Cadence What it checks If it fails Foreman adds":
+        - columnheader "Loop"
+        - columnheader "Cadence"
+        - columnheader "What it checks"
+        - columnheader "If it fails"
+        - columnheader "Foreman adds"
+    - rowgroup:
+      - row "Cycle per task Take the first task in the queue, build it, run the hard checks, run a read-only review, keep or undo. Undo, keep a patch as failure evidence, task goes to failed. A lease and fencing token per task, so two runners never take the same one.":
+        - cell "Cycle"
+        - cell "per task"
+        - cell "Take the first task in the queue, build it, run the hard checks, run a read-only review, keep or undo."
+        - cell "Undo, keep a patch as failure evidence, task goes to failed."
+        - cell "A lease and fencing token per task, so two runners never take the same one."
+      - 'row "Runner poll every 15 seconds Codex process alive, time box not passed, console and status refreshed. Dashboard data refreshed at least every 5 minutes. Past the time box: stop the whole process tree and undo. Heartbeat file written by the runner, so liveness is a fact, not a guess."':
+        - cell "Runner poll"
+        - cell "every 15 seconds"
+        - cell "Codex process alive, time box not passed, console and status refreshed. Dashboard data refreshed at least every 5 minutes."
+        - 'cell "Past the time box: stop the whole process tree and undo."'
+        - cell "Heartbeat file written by the runner, so liveness is a fact, not a guess."
+      - 'row "Watchdog every 15 minutes Heartbeat age, log growth or files changed, elapsed against time box and estimate, idle worker while work is ready, queue depth, reviewer last run. Nudge, then restart the runner through the .cmd loop, then escalate. Adaptive thresholds: warn at 2x the estimate, escalate at 4x, never silent."':
+        - cell "Watchdog"
+        - cell "every 15 minutes"
+        - cell "Heartbeat age, log growth or files changed, elapsed against time box and estimate, idle worker while work is ready, queue depth, reviewer last run."
+        - cell "Nudge, then restart the runner through the .cmd loop, then escalate."
+        - 'cell "Adaptive thresholds: warn at 2x the estimate, escalate at 4x, never silent."'
+      - row "Allowance retry every 15 minutes Codex usage allowance. The refill time Codex reports is shown, not waited for. Wait and keep checking. Other lanes continue. Same rule per provider, with fallback to another provider for the role.":
+        - cell "Allowance retry"
+        - cell "every 15 minutes"
+        - cell "Codex usage allowance. The refill time Codex reports is shown, not waited for."
+        - cell "Wait and keep checking. Other lanes continue."
+        - cell "Same rule per provider, with fallback to another provider for the role."
+      - row "Test cap 10 minutes Test run finishes. A test stuck on a dialog can never freeze the runner. Stop the tests and send the hang back as a repair instruction. Per-project cap set in harness.yaml.":
+        - cell "Test cap"
+        - cell "10 minutes"
+        - cell "Test run finishes. A test stuck on a dialog can never freeze the runner."
+        - cell "Stop the tests and send the hang back as a repair instruction."
+        - cell "Per-project cap set in harness.yaml."
+      - 'row "Reviewer scheduled; nightly deep review Review every kept and undone task, keep at least 5 tasks queued, record decisions, turn repeated mistakes into checks. After 3 failures, park the task with a short diagnosis. Catch-up cursor: last reviewed commit, so nothing is skipped."':
+        - cell "Reviewer"
+        - cell "scheduled; nightly deep review"
+        - cell "Review every kept and undone task, keep at least 5 tasks queued, record decisions, turn repeated mistakes into checks."
+        - cell "After 3 failures, park the task with a short diagnosis."
+        - 'cell "Catch-up cursor: last reviewed commit, so nothing is skipped."'
+      - 'row "Standalone planner queue empty Codex plans 1 to 3 small tasks from the plan, through the same checks and review. 3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes, plan larger batches. Never touches money rules, plan changes or owner decisions."':
+        - cell "Standalone planner"
+        - cell "queue empty"
+        - cell "Codex plans 1 to 3 small tasks from the plan, through the same checks and review."
+        - 'cell "3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes, plan larger batches."'
+        - cell "Never touches money rules, plan changes or owner decisions."
+      - row "Self-update between tasks New launcher or guide files wait in the mailbox, get installed and committed, and the runner reloads itself. A bad update falls back to the last good launcher. Same mechanism for every project's harness files.":
+        - cell "Self-update"
+        - cell "between tasks"
+        - cell "New launcher or guide files wait in the mailbox, get installed and committed, and the runner reloads itself."
+        - cell "A bad update falls back to the last good launcher."
+        - cell "Same mechanism for every project's harness files."
+  - heading "The Markdown mailbox" [level=3]
+  - table:
+    - rowgroup:
+      - row "inbox\\ Claude writes new tasks here while Codex is busy. The runner moves them into the queue between tasks.":
+        - cell "inbox\\"
+        - cell "Claude writes new tasks here while Codex is busy. The runner moves them into the queue between tasks."
+      - row "inbox\\files\\<path> New versions of tracked files (launcher, plan, guides). Installed and committed between tasks.":
+        - cell "inbox\\files\\<path>"
+        - cell "New versions of tracked files (launcher, plan, guides). Installed and committed between tasks."
+      - row "queue\\ done\\ failed\\ One task file per task; names sort in execution order.":
+        - cell "queue\\ done\\ failed\\"
+        - cell "One task file per task; names sort in execution order."
+      - row "results\\ Codex result and the review verdict for each task, as JSON.":
+        - cell "results\\"
+        - cell "Codex result and the review verdict for each task, as JSON."
+      - row "BUSY.txt Exists while Codex works. Claude touches only the inbox and dashboard data meanwhile.":
+        - cell "BUSY.txt"
+        - cell "Exists while Codex works. Claude touches only the inbox and dashboard data meanwhile."
+      - row "claude-reviewed.txt Last commit Claude reviewed, for catch-up.":
+        - cell "claude-reviewed.txt"
+        - cell "Last commit Claude reviewed, for catch-up."
+  - paragraph: Foreman adds a sequence number and an acknowledgement file to every message, and writes each file to a temporary name first, then renames it, so a half-written task is never picked up.
+  - heading "Task file header" [level=3]
+  - generic: "Allowed: app/ Allowed: judges/ Line limit: 300 Time box: 90 Effort: high ## Goal ## Context ## Constraints ## Done when Claude checks (not Codex): ..."
+  - paragraph: Every Done-when line must be checkable from Codex’s sandbox. Visual, desktop and network checks go in the Claude checks line.
+  - heading "Hard checks after every build" [level=3]
+  - table:
+    - rowgroup:
+      - row "check Only the Allowed paths changed":
+        - cell "check":
+          - generic: check
+        - cell "Only the Allowed paths changed"
+      - row "check No protected file changed":
+        - cell "check":
+          - generic: check
+        - cell "No protected file changed"
+      - row "check Under the line limit; no file over 400 lines":
+        - cell "check":
+          - generic: check
+        - cell "Under the line limit; no file over 400 lines"
+      - row "check No forbidden machinery added":
+        - cell "check":
+          - generic: check
+        - cell "No forbidden machinery added"
+      - row "check Nothing written under state\\":
+        - cell "check":
+          - generic: check
+        - cell "Nothing written under state\\"
+      - row "check Codex made no commit itself":
+        - cell "check":
+          - generic: check
+        - cell "Codex made no commit itself"
+      - row "check Result status is done":
+        - cell "check":
+          - generic: check
+        - cell "Result status is done"
+      - row "check Tests pass, with a 10 minute cap":
+        - cell "check":
+          - generic: check
+        - cell "Tests pass, with a 10 minute cap"
+  - heading "Escalation ladder" [level=3]
+  - paragraph: Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.
+  - paragraph: The owner hears only about money, kill criteria, product changes he would notice, credentials, and an unreachable machine for 2 hours. Claude never writes deliverables, only tasks, reviews and decisions.

@@ -1,0 +1,120 @@
+Final Site version 14; viewport 1280x900; step 5
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/NEW PROJECT
+Sample data
+PLAN IT. ROUTE IT.
+NEW PROJECT
+
+Create a harness instance from a plan and a template.
+
+1. Plan
+2. Harness
+3. Roles
+4. Limits
+5. Review
+harness:
+  schema_version: "1.0"
+  project_id: my-project
+  template: creative
+  plan: plan.md
+  roles:
+    planner: anthropic/opus
+    builder: openai/codex-latest
+    tester: anthropic/sonnet
+    judge: anthropic/fable
+    designer: google/pro-latest
+    artist: local/flux3
+    integrator: anthropic/sonnet
+  execution:
+    runner: cmd
+    mailbox: state/harness/inbox
+    watchdog_minutes: 15
+    default_time_box_minutes: 45
+    max_repair_rounds: 2
+    min_queued_tasks: 5
+    review: read_only_second_session
+  gates:
+    judge_min_score: 4.5
+    max_attempts_per_stage_per_day: 2
+    judge_family_differs_from_builder: true
+    count_prep_as_milestone: false
+  budget:
+    project_daily_usd: 10
+    combined_daily_usd: 15
+    auto_recharge: false
+  scheduling:
+    max_parallel_workers: 6
+    refill_target_seconds: 15
+  escalation:
+    on_blocker: log_and_continue
+
+Copy harness.yaml
+Instantiate harness
+Set a project ID in step 1.
+Back
+Next
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/NEW PROJECT
+  - generic: Sample data
+- main:
+  - generic: PLAN IT. ROUTE IT.
+  - heading "New project" [level=1]
+  - paragraph: Create a harness instance from a plan and a template.
+  - generic: 1. Plan
+  - generic: 2. Harness
+  - generic: 3. Roles
+  - generic: 4. Limits
+  - generic: 5. Review
+  - generic: "harness: schema_version: \"1.0\" project_id: my-project template: creative plan: plan.md roles: planner: anthropic/opus builder: openai/codex-latest tester: anthropic/sonnet judge: anthropic/fable designer: google/pro-latest artist: local/flux3 integrator: anthropic/sonnet execution: runner: cmd mailbox: state/harness/inbox watchdog_minutes: 15 default_time_box_minutes: 45 max_repair_rounds: 2 min_queued_tasks: 5 review: read_only_second_session gates: judge_min_score: 4.5 max_attempts_per_stage_per_day: 2 judge_family_differs_from_builder: true count_prep_as_milestone: false budget: project_daily_usd: 10 combined_daily_usd: 15 auto_recharge: false scheduling: max_parallel_workers: 6 refill_target_seconds: 15 escalation: on_blocker: log_and_continue"
+  - button "Copy harness.yaml"
+  - button "Instantiate harness" [disabled]
+  - generic: Set a project ID in step 1.
+  - button "Back"
+  - button "Next" [disabled]

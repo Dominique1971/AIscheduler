@@ -1,0 +1,275 @@
+URL: https://foreman.jetpack71.chatgpt.site/#live
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/LIVE FEED
+Sample data
+READ-ONLY STATUS PROJECTION
+LIVE FEED
+
+Real data from the local scheduler bridge. Controls stay disabled on this Site.
+
+OVERALL MONITORING
+Tasks completed
+32 / 32
+100% of all planned
+Workers busy / cap
+0 / 4
+6 projects
+Ready
+0
+waiting for a worker
+Awaiting review
+0
+0 failed
+Spend today
+Not reported
+not in the status feed yet
+NEEDS ATTENTION
+
+Nothing needs attention.
+
+Demo Inventory
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+Demo Weather
+Dispatch enabled · 6/6 tasks completed · cap 2
+View project
+Sequential and branching sample
+Dispatch enabled · 5/5 tasks completed · cap 2
+View project
+Multi-branch dependency sample
+Dispatch enabled · 7/7 tasks completed · cap 3
+View project
+Second Markdown sample plan
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+Sample project plan
+Dispatch enabled · 4/4 tasks completed · cap 2
+View project
+RECENT CONTROLS
+pause · succeeded · 12:02:49 PM
+PROJECT MONITORING
+Project
+Demo Inventory
+Demo Weather
+Sequential and branching sample
+Multi-branch dependency sample
+Second Markdown sample plan
+Sample project plan
+Demo Inventory
+● Dispatch enabled · 6/6 completed
+Pause
+Set cap
+Completed6 / 6
+Worker cap2
+Ready0
+Awaiting review0
+✓ Define product categories · completed
+✓ Define normalization rules · completed
+✓ Design reconciliation checks · completed
+✓ Specify sample products · completed
+✓ Review inventory summary plan · completed
+✓ Specify stock valuation · completed
+Tasks, estimates and dependencies
+
+Plan a fictitious inventory reconciliation from fixed sample products. Scheduler simulation receipts illustrate the workflow; they do not produce a stock report.
+
+6 tasks · 17 min authored effort · 15 min dependency critical path. Estimates exclude review and retries.
+
+sample
+Specify sample products
+3 min
+categories
+Define product categories
+2 min
+normalize
+Define normalization rul…
+4 min
+valuation
+Specify stock valuation
+3 min
+reconcile
+Design reconciliation ch…
+3 min
+summary
+Review inventory summary…
+2 min
+Define product categories · completed · 2 min
+Define normalization rules · completed · 4 min
+Design reconciliation checks · completed · 3 min
+Specify sample products · completed · 3 min
+Review inventory summary plan · completed · 2 min
+Specify stock valuation · completed · 3 min
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/LIVE FEED
+  - generic: Sample data
+- main:
+  - generic: READ-ONLY STATUS PROJECTION
+  - heading "Live feed" [level=1]
+  - paragraph: Real data from the local scheduler bridge. Controls stay disabled on this Site.
+  - heading "Overall monitoring" [level=2]
+  - article:
+    - generic: Tasks completed
+    - strong: 32 / 32
+    - text: 100% of all planned
+  - article:
+    - generic: Workers busy / cap
+    - strong: 0 / 4
+    - text: 6 projects
+  - article:
+    - generic: Ready
+    - strong: "0"
+    - text: waiting for a worker
+  - article:
+    - generic: Awaiting review
+    - strong: "0"
+    - text: 0 failed
+  - article:
+    - generic: Spend today
+    - strong: Not reported
+    - text: not in the status feed yet
+  - heading "Needs attention" [level=2]
+  - paragraph: Nothing needs attention.
+  - article:
+    - strong: Demo Inventory
+    - generic: Dispatch enabled · 6/6 tasks completed · cap 2
+    - button "View project"
+  - article:
+    - strong: Demo Weather
+    - generic: Dispatch enabled · 6/6 tasks completed · cap 2
+    - button "View project"
+  - article:
+    - strong: Sequential and branching sample
+    - generic: Dispatch enabled · 5/5 tasks completed · cap 2
+    - button "View project"
+  - article:
+    - strong: Multi-branch dependency sample
+    - generic: Dispatch enabled · 7/7 tasks completed · cap 3
+    - button "View project"
+  - article:
+    - strong: Second Markdown sample plan
+    - generic: Dispatch enabled · 4/4 tasks completed · cap 2
+    - button "View project"
+  - article:
+    - strong: Sample project plan
+    - generic: Dispatch enabled · 4/4 tasks completed · cap 2
+    - button "View project"
+  - complementary:
+    - heading "Recent controls" [level=2]
+    - generic: pause · succeeded · 12:02:49 PM
+  - heading "Project monitoring" [level=2]
+  - generic: Project
+  - combobox "Project focus":
+    - option "Demo Inventory" [selected]
+    - option "Demo Weather"
+    - option "Sequential and branching sample"
+    - option "Multi-branch dependency sample"
+    - option "Second Markdown sample plan"
+    - option "Sample project plan"
+  - article:
+    - strong: Demo Inventory
+    - generic: ● Dispatch enabled · 6/6 completed
+    - button "Pause" [disabled]
+    - spinbutton "Demo Inventory worker cap" [disabled]: "2"
+    - button "Set cap" [disabled]
+    - text: Completed
+    - strong: 6 / 6
+    - text: Worker cap
+    - strong: "2"
+    - text: Ready
+    - strong: "0"
+    - text: Awaiting review
+    - strong: "0"
+    - 'generic "categories · dependencies: sample · estimate 2m"': ✓ Define product categories · completed
+    - 'generic "normalize · dependencies: sample · estimate 4m"': ✓ Define normalization rules · completed
+    - 'generic "reconcile · dependencies: normalize, categories, valuation · estimate 3m"': ✓ Design reconciliation checks · completed
+    - 'generic "sample · dependencies: none · estimate 3m"': ✓ Specify sample products · completed
+    - 'generic "summary · dependencies: reconcile · estimate 2m"': ✓ Review inventory summary plan · completed
+    - 'generic "valuation · dependencies: normalize · estimate 3m"': ✓ Specify stock valuation · completed
+    - generic "Tasks, estimates and dependencies"
+    - paragraph: Plan a fictitious inventory reconciliation from fixed sample products. Scheduler simulation receipts illustrate the workflow; they do not produce a stock report.
+    - paragraph: 6 tasks · 17 min authored effort · 15 min dependency critical path. Estimates exclude review and retries.
+    - 'img "Task dependency graph: 6 tasks, 7 dependency arrows"':
+      - generic "sample precedes categories"
+      - generic "sample precedes normalize"
+      - generic "normalize precedes reconcile"
+      - generic "categories precedes reconcile"
+      - generic "valuation precedes reconcile"
+      - generic "reconcile precedes summary"
+      - generic "normalize precedes valuation"
+      - 'generic "sample: Specify sample products; 3 minutes"':
+        - generic: sample
+        - generic: Specify sample products
+        - generic: 3 min
+      - 'generic "categories: Define product categories; 2 minutes"':
+        - generic: categories
+        - generic: Define product categories
+        - generic: 2 min
+      - 'generic "normalize: Define normalization rules; 4 minutes"':
+        - generic: normalize
+        - generic: Define normalization rul…
+        - generic: 4 min
+      - 'generic "valuation: Specify stock valuation; 3 minutes"':
+        - generic: valuation
+        - generic: Specify stock valuation
+        - generic: 3 min
+      - 'generic "reconcile: Design reconciliation checks; 3 minutes"':
+        - generic: reconcile
+        - generic: Design reconciliation ch…
+        - generic: 3 min
+      - 'generic "summary: Review inventory summary plan; 2 minutes"':
+        - generic: summary
+        - generic: Review inventory summary…
+        - generic: 2 min
+    - generic "Define product categories · completed · 2 min"
+    - generic "Define normalization rules · completed · 4 min"
+    - generic "Design reconciliation checks · completed · 3 min"
+    - generic "Specify sample products · completed · 3 min"
+    - generic "Review inventory summary plan · completed · 2 min"
+    - generic "Specify stock valuation · completed · 3 min"

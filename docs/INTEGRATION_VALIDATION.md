@@ -455,6 +455,51 @@ diagnostic, while the deployed owner-browser inspection is a separate hosted UI
 check.
 
 
+### Foreman console port (23 November 2026)
+
+The direct console port was pushed to the private Sites source repository at
+`0ce0d8ca68b949932426da9ec6595a564392611f`, saved as version 12 and
+deployed privately as `appgdep_6b038d6202e481918d3a2867b4a7ffa1`
+(`succeeded`, 2026-11-23T00:48:37Z). Browser acceptance then found that the
+Overview omitted the promised live scheduler card: `liveCard()` returned an
+empty string before rendering it. Removing that early return yielded version 13
+(`appgdep_6b038e1947a88191bc23cc363a4ee5ae`), but the Live feed pane was
+still forced to `display:none` by CSS. Both were product defects missed by the
+9 Worker/SQLite tests. A scoped CSS repair was pushed at
+`22622e0fd9a424dce9e1b46e119ad57b45590185`, saved as version 14
+(`appgprj_6adcbab3ab1c81919496cad194193625~appgver_bc7a7a75faac8191b1eeb5083a2ba3e5`),
+and deployed privately as `appgdep_6b038e89b7788191860db8959e13ebe2`
+(`succeeded`, 2026-11-23T00:53:33Z). Version 14 supersedes versions 12 and 13.
+At the owner's request the Site slug was changed from `autonomous-scheduler`
+to `foreman`. The new address initially returned `origin_not_configured` because
+the Worker origin allowlist still named the old host. Updating only that origin
+setting advanced the runtime to revision 8; the same saved version 14 was
+redeployed privately as `appgdep_6b038fb02f048191a17be0c1b5ba1079`
+(`succeeded`) at `https://foreman.jetpack71.chatgpt.site`. The local dummy
+bridge endpoint was updated and its process restarted; later polls returned
+HTTP 200. Owner-browser captures at the renamed address show the Overview and
+Live feed with current dummy data.
+
+Build, validation, and 9/9 Worker/SQLite diagnostic tests passed on both the
+local checkout and the exact Sites source checkout after each repair. A fresh
+owner-authenticated browser inspection of version 14 captured all seven menu
+views, all five New project wizard steps, a Planner role selection, and the
+Live feed reached from Overview. The Live feed displayed the outbound bridge's
+current six-project dummy snapshot, including 32/32 completed tasks and a
+healthy source daemon. Desktop captures used a 1280 px viewport; Overview was
+also captured at 390 px. Evidence and visible text are in
+`handoff/results/evidence/T003/`. The browser log query returned no errors or
+warnings; the known CSP style-attribute warnings were not observed in that log
+capture. The CSP header was not changed.
+
+The owner-only access policy still had one user and no groups after the rename.
+Remote controls stayed disabled and the read-only bypass was retained. Koboo,
+Oppo, and Compass figures in the
+new console are clearly labeled sample data; the Live feed is a separate
+read-only projection of isolated dummy scheduler projects. No real project was
+connected or modified. These browser observations do not establish real Codex
+dispatch, model routing, or billing accuracy.
+
 ### Bounded dummy phone control trial
 
 Run `20261024T155802Z-f92958ea` used the normal CLI to import fresh disposable

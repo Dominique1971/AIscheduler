@@ -1,0 +1,152 @@
+Final Site version 14; viewport 1280x900; Usage and cost
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/USAGE AND COST
+Sample data
+SPEND AGAINST CAPS
+USAGE AND COST
+
+Spend by provider, role and project.
+
+TODAY
+$8.90
+59% of $15.00 cap
+14-DAY AVERAGE
+$7.69
+per day
+COST PER ACCEPTED MILESTONE
+$3.40
+trailing 14 days
+LOCAL SHARE
+0%
+Lamia and Flux cost no dollars
+BY PROVIDER
+Anthropic
+$4.40
+OpenAI
+$3.30
+Gemini
+$0.80
+DeepSeek
+$0.40
+Local (Lamia, Flux)
+$0.00
+BY ROLE
+Builder
+$3.60
+Judge
+$2.50
+Planner
+$1.40
+Designer
+$0.80
+Tester
+$0.40
+Integrator
+$0.20
+BY PROJECT VS CAP
+Koboo
+$6.20
+Oppo
+$1.80
+Compass
+$0.90
+DAILY SPEND, 14 DAYS
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/USAGE AND COST
+  - generic: Sample data
+- main:
+  - generic: SPEND AGAINST CAPS
+  - heading "Usage and cost" [level=1]
+  - paragraph: Spend by provider, role and project.
+  - generic: Today
+  - generic: $8.90
+  - generic: 59% of $15.00 cap
+  - generic: 14-day average
+  - generic: $7.69
+  - generic: per day
+  - generic: Cost per accepted milestone
+  - generic: $3.40
+  - generic: trailing 14 days
+  - generic: Local share
+  - generic: 0%
+  - generic: Lamia and Flux cost no dollars
+  - heading "By provider" [level=3]
+  - generic: Anthropic
+  - generic: $4.40
+  - generic: OpenAI
+  - generic: $3.30
+  - generic: Gemini
+  - generic: $0.80
+  - generic: DeepSeek
+  - generic: $0.40
+  - generic: Local (Lamia, Flux)
+  - generic: $0.00
+  - heading "By role" [level=3]
+  - generic: Builder
+  - generic: $3.60
+  - generic: Judge
+  - generic: $2.50
+  - generic: Planner
+  - generic: $1.40
+  - generic: Designer
+  - generic: $0.80
+  - generic: Tester
+  - generic: $0.40
+  - generic: Integrator
+  - generic: $0.20
+  - heading "By project vs cap" [level=3]
+  - generic: Koboo
+  - generic: $6.20
+  - generic: Oppo
+  - generic: $1.80
+  - generic: Compass
+  - generic: $0.90
+  - heading "Daily spend, 14 days" [level=3]
+  - img "Trend"

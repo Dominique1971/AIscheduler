@@ -11,7 +11,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $credentialPath = Join-Path $root 'runtime/remote-bridge/site-credentials.dpapi'
-$origin = 'https://autonomous-scheduler.jetpack71.chatgpt.site'
+$origin = 'https://foreman.jetpack71.chatgpt.site'
 
 if ($Action -eq 'save') {
     # Supply one JSON line on stdin. Never put the values in a command line.

@@ -1,0 +1,160 @@
+Final Site version 14; viewport 1280x900; Models and keys
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/MODELS AND KEYS
+Sample data
+EVERY PROVIDER, ONE PLACE
+MODELS AND KEYS
+
+Provider health, where each key lives, who uses what. Key values are never shown.
+
+PROVIDER	STATUS	ROUTE	KEY REFERENCE	MODELS	LIMIT	USED BY
+Anthropic (Claude)	connected	API	ANTHROPIC_API_KEY	Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5	62% of window left	Planner, Judge, Tester
+OpenAI (GPT / Codex)	connected	Codex via ChatGPT sign-in, plus API	OPENAI_API_KEY	Latest GPT, latest Codex	Subscription window 41% used (no dollars)	Builder
+Google (Gemini)	connected	API	GEMINI_API_KEY	Latest Pro, latest Flash	Quota 88% free	Designer
+DeepSeek	key missing	API	DEEPSEEK_API_KEY	Latest chat, latest reasoner	Key missing	Cheap Tester pass
+Lamia (local text)	connected	OpenAI-compatible endpoint on this PC	none (loopback only)	Local default	GPU free	Drafts, bulk checks
+Flux (local image)	connected	Local on Lamia through ComfyUI (to confirm)	none (local)	Flux 2, Flux 3	One render at a time (to confirm)	Artist
+IMAGE MODELS
+
+Two choices for the Artist role. Each project picks one in the wizard, and this sets the default.
+
+Default image model
+Flux 2
+Flux 3
+
+Run on this PC, so no per-image dollar cost. The Judge and Designer review every render before it counts.
+
+HOW KEYS AND NAMES WORK
+
+Keys sit in the Windows credential store or environment. The console reads only the reference name and a connected check. Adding a key is a local terminal command.
+
+Names like "latest" resolve at run time from each provider’s model list and are pinned per run in the ledger. Subscription routes show usage windows, not dollars.
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/MODELS AND KEYS
+  - generic: Sample data
+- main:
+  - generic: EVERY PROVIDER, ONE PLACE
+  - heading "Models and keys" [level=1]
+  - paragraph: Provider health, where each key lives, who uses what. Key values are never shown.
+  - table:
+    - rowgroup:
+      - row "Provider Status Route Key reference Models Limit Used by":
+        - columnheader "Provider"
+        - columnheader "Status"
+        - columnheader "Route"
+        - columnheader "Key reference"
+        - columnheader "Models"
+        - columnheader "Limit"
+        - columnheader "Used by"
+    - rowgroup:
+      - row "Anthropic (Claude) connected API ANTHROPIC_API_KEY Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5 62% of window left Planner, Judge, Tester":
+        - cell "Anthropic (Claude)"
+        - cell "connected":
+          - generic: connected
+        - cell "API"
+        - cell "ANTHROPIC_API_KEY"
+        - cell "Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5"
+        - cell "62% of window left"
+        - cell "Planner, Judge, Tester"
+      - row "OpenAI (GPT / Codex) connected Codex via ChatGPT sign-in, plus API OPENAI_API_KEY Latest GPT, latest Codex Subscription window 41% used (no dollars) Builder":
+        - cell "OpenAI (GPT / Codex)"
+        - cell "connected":
+          - generic: connected
+        - cell "Codex via ChatGPT sign-in, plus API"
+        - cell "OPENAI_API_KEY"
+        - cell "Latest GPT, latest Codex"
+        - cell "Subscription window 41% used (no dollars)"
+        - cell "Builder"
+      - row "Google (Gemini) connected API GEMINI_API_KEY Latest Pro, latest Flash Quota 88% free Designer":
+        - cell "Google (Gemini)"
+        - cell "connected":
+          - generic: connected
+        - cell "API"
+        - cell "GEMINI_API_KEY"
+        - cell "Latest Pro, latest Flash"
+        - cell "Quota 88% free"
+        - cell "Designer"
+      - row "DeepSeek key missing API DEEPSEEK_API_KEY Latest chat, latest reasoner Key missing Cheap Tester pass":
+        - cell "DeepSeek"
+        - cell "key missing":
+          - generic: key missing
+        - cell "API"
+        - cell "DEEPSEEK_API_KEY"
+        - cell "Latest chat, latest reasoner"
+        - cell "Key missing"
+        - cell "Cheap Tester pass"
+      - row "Lamia (local text) connected OpenAI-compatible endpoint on this PC none (loopback only) Local default GPU free Drafts, bulk checks":
+        - cell "Lamia (local text)"
+        - cell "connected":
+          - generic: connected
+        - cell "OpenAI-compatible endpoint on this PC"
+        - cell "none (loopback only)"
+        - cell "Local default"
+        - cell "GPU free"
+        - cell "Drafts, bulk checks"
+      - row "Flux (local image) connected Local on Lamia through ComfyUI (to confirm) none (local) Flux 2, Flux 3 One render at a time (to confirm) Artist":
+        - cell "Flux (local image)"
+        - cell "connected":
+          - generic: connected
+        - cell "Local on Lamia through ComfyUI (to confirm)"
+        - cell "none (local)"
+        - cell "Flux 2, Flux 3"
+        - cell "One render at a time (to confirm)"
+        - cell "Artist"
+  - heading "Image models" [level=3]
+  - paragraph: Two choices for the Artist role. Each project picks one in the wizard, and this sets the default.
+  - generic: Default image model
+  - combobox "Default image model":
+    - option "Flux 2"
+    - option "Flux 3" [selected]
+  - paragraph: Run on this PC, so no per-image dollar cost. The Judge and Designer review every render before it counts.
+  - heading "How keys and names work" [level=3]
+  - paragraph: Keys sit in the Windows credential store or environment. The console reads only the reference name and a connected check. Adding a key is a local terminal command.
+  - paragraph: Names like "latest" resolve at run time from each provider’s model list and are pinned per run in the ledger. Subscription routes show usage windows, not dollars.

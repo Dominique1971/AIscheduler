@@ -1,0 +1,208 @@
+Final Site version 14; viewport 1280x900; Overview
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/OVERVIEW
+Sample data
+ROUTE THE WORK. PROVE THE RESULT.
+SHIP WHAT’S PROVEN
+
+Accepted work across every project, live workers, spend against caps.
+
+New project
+LIVE SCHEDULER FEED
+Open live view
+
+bridge online daemon healthy Updated Nov 22, 7:53:37 PM NY. Workers 0 / 4. Tasks 32 / 32.
+
+PROJECT	COMPLETED	DISPATCH
+Demo Inventory	6 / 6	dispatch on
+Demo Weather	6 / 6	dispatch on
+Sequential and branching sample	5 / 5	dispatch on
+Multi-branch dependency sample	7 / 7	dispatch on
+Second Markdown sample plan	4 / 4	dispatch on
+Sample project plan	4 / 4	dispatch on
+ACCEPTED MILESTONES
+28 / 65
+43.1% of all planned
+WORKERS BUSY
+3 / 6
+4 Koboo, 1 Oppo, 1 Compass
+SPEND TODAY
+$8.90
+of $15.00 combined cap
+BLOCKED MILESTONES
+3
+3 need attention
+NEEDS ATTENTION
+Koboo: attempt cap reached
+Design stage 2 of 2 today. Auto-resumes 00:00 ET.
+Koboo: billing evidence expired
+Paid steps held until refreshed. Offline lanes run.
+Compass: waiting on a decision
+Review packet ready, other work continues.
+DeepSeek key missing
+Cheap tester pass falls back to Lamia.
+ACCEPTED PER HOUR, LAST 12H
+
+Counts accepted milestones only, never tests or prep work.
+
+SPEND, LAST 14 DAYS
+KOBOO
+Attempt cap and billing check
+Creative production harness · comic-book-creator
+7/31 accepted (22.6%)
+workers 1/4 · $6.20 of $10.00
+OPPO
+On track
+Software feature harness · oppo
+12/20 accepted (60%)
+workers 1/1 · $1.80 of $3.00
+COMPASS
+One review waiting on a decision
+Software feature harness · compass
+9/14 accepted (64.3%)
+workers 1/1 · $0.90 of $2.00
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/OVERVIEW
+  - generic: Sample data
+- main:
+  - generic: ROUTE THE WORK. PROVE THE RESULT.
+  - heading "Ship what’s proven" [level=1]
+  - paragraph: Accepted work across every project, live workers, spend against caps.
+  - button "New project"
+  - heading "Live scheduler feed" [level=3]
+  - button "Open live view"
+  - paragraph:
+    - generic: bridge online
+    - generic: daemon healthy
+    - text: Updated Nov 22, 7:53:37 PM NY. Workers 0 / 4. Tasks 32 / 32.
+  - table:
+    - rowgroup:
+      - row "Project Completed Dispatch":
+        - columnheader "Project"
+        - columnheader "Completed"
+        - columnheader "Dispatch"
+    - rowgroup:
+      - row "Demo Inventory 6 / 6 dispatch on":
+        - cell "Demo Inventory"
+        - cell "6 / 6"
+        - cell "dispatch on":
+          - generic: dispatch on
+      - row "Demo Weather 6 / 6 dispatch on":
+        - cell "Demo Weather"
+        - cell "6 / 6"
+        - cell "dispatch on":
+          - generic: dispatch on
+      - row "Sequential and branching sample 5 / 5 dispatch on":
+        - cell "Sequential and branching sample"
+        - cell "5 / 5"
+        - cell "dispatch on":
+          - generic: dispatch on
+      - row "Multi-branch dependency sample 7 / 7 dispatch on":
+        - cell "Multi-branch dependency sample"
+        - cell "7 / 7"
+        - cell "dispatch on":
+          - generic: dispatch on
+      - row "Second Markdown sample plan 4 / 4 dispatch on":
+        - cell "Second Markdown sample plan"
+        - cell "4 / 4"
+        - cell "dispatch on":
+          - generic: dispatch on
+      - row "Sample project plan 4 / 4 dispatch on":
+        - cell "Sample project plan"
+        - cell "4 / 4"
+        - cell "dispatch on":
+          - generic: dispatch on
+  - generic: Accepted milestones
+  - generic: 28 / 65
+  - generic: 43.1% of all planned
+  - generic: Workers busy
+  - generic: 3 / 6
+  - generic: 4 Koboo, 1 Oppo, 1 Compass
+  - generic: Spend today
+  - generic: $8.90
+  - generic: of $15.00 combined cap
+  - generic: Blocked milestones
+  - generic: "3"
+  - generic: 3 need attention
+  - heading "Needs attention" [level=3]
+  - generic: "Koboo: attempt cap reached"
+  - text: Design stage 2 of 2 today. Auto-resumes 00:00 ET.
+  - generic: "Koboo: billing evidence expired"
+  - text: Paid steps held until refreshed. Offline lanes run.
+  - generic: "Compass: waiting on a decision"
+  - text: Review packet ready, other work continues.
+  - generic: DeepSeek key missing
+  - text: Cheap tester pass falls back to Lamia.
+  - heading "Accepted per hour, last 12h" [level=3]
+  - img "Trend"
+  - paragraph: Counts accepted milestones only, never tests or prep work.
+  - heading "Spend, last 14 days" [level=3]
+  - img "Trend"
+  - button "Koboo Attempt cap and billing check Creative production harness · comic-book-creator 7 accepted of 31 7/31 accepted (22.6%) workers 1/4 · $6.20 of $10.00":
+    - generic: Koboo
+    - generic: Attempt cap and billing check
+    - generic: Creative production harness · comic-book-creator
+    - img "7 accepted of 31"
+    - generic: 7/31 accepted (22.6%)
+    - generic: workers 1/4 · $6.20 of $10.00
+  - button "Oppo On track Software feature harness · oppo 12 accepted of 20 12/20 accepted (60%) workers 1/1 · $1.80 of $3.00":
+    - generic: Oppo
+    - generic: On track
+    - generic: Software feature harness · oppo
+    - img "12 accepted of 20"
+    - generic: 12/20 accepted (60%)
+    - generic: workers 1/1 · $1.80 of $3.00
+  - button "Compass One review waiting on a decision Software feature harness · compass 9 accepted of 14 9/14 accepted (64.3%) workers 1/1 · $0.90 of $2.00":
+    - generic: Compass
+    - generic: One review waiting on a decision
+    - generic: Software feature harness · compass
+    - img "9 accepted of 14"
+    - generic: 9/14 accepted (64.3%)
+    - generic: workers 1/1 · $0.90 of $2.00

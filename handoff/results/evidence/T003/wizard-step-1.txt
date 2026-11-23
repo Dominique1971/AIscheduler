@@ -1,0 +1,86 @@
+Final Site version 14; viewport 1280x900; step 1
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/NEW PROJECT
+Sample data
+PLAN IT. ROUTE IT.
+NEW PROJECT
+
+Create a harness instance from a plan and a template.
+
+1. Plan
+2. Harness
+3. Roles
+4. Limits
+5. Review
+Project ID
+
+Choose the plan file: Markdown intake or YAML, with milestones, specs and scoring rules.
+
+Back
+Next
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/NEW PROJECT
+  - generic: Sample data
+- main:
+  - generic: PLAN IT. ROUTE IT.
+  - heading "New project" [level=1]
+  - paragraph: Create a harness instance from a plan and a template.
+  - generic: 1. Plan
+  - generic: 2. Harness
+  - generic: 3. Roles
+  - generic: 4. Limits
+  - generic: 5. Review
+  - generic: Project ID
+  - textbox "Project ID":
+    - /placeholder: "for example: my-app"
+  - paragraph: "Choose the plan file: Markdown intake or YAML, with milestones, specs and scoring rules."
+  - button "Plan file"
+  - button "Back" [disabled]
+  - button "Next"

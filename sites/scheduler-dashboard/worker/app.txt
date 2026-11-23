@@ -9,14 +9,7 @@ async function api(path,body,key){
   const data=await response.json();
   if(!response.ok){if(response.status===401)locked();throw new Error(data.error??"Request failed");}return data;
 }
-function locked(){$("railnav").hidden=true;csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();$("overall-projects").replaceChildren();}
-const views=["overall","project","harness","loops","models","cost","new"];
-function showView(name){
-  if(!views.includes(name))name="overall";
-  for(const view of views){const active=view===name;$(view+"-view").hidden=!active;$("tab-"+view).setAttribute("aria-selected",String(active));$("tab-"+view).tabIndex=active?0:-1;}
-  $("crumb").textContent=({overall:"OVERVIEW",project:"PROJECTS",harness:"HARNESS MAP",loops:"LOOPS AND CHECKS",models:"MODELS AND KEYS",cost:"USAGE AND COST",new:"NEW PROJECT"})[name];
-  if(location.hash!=="#"+name)history.replaceState(null,"","#"+name);
-}
+function locked(){$("railnav").hidden=true;csrf="";cached=null;$("signin").hidden=false;$("workspace").hidden=true;$("logout").hidden=true;$("stop").hidden=true;$("projects").replaceChildren();$("overall-projects").replaceChildren();window.__live=null;if(window.__foremanRender)window.__foremanRender();}
 const local=value=>new Date(value).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" NY";
 async function refresh(){if(busy)return;busy=true;try{const auth=await api("/api/session");csrf=auth.csrf;role=auth.role;$("signin").hidden=true;$("workspace").hidden=false;$("railnav").hidden=false;$("logout").hidden=auth.auth_mode==="site-owner-readonly";$("auth-mode").hidden=auth.auth_mode!=="site-owner-readonly";$("stop").hidden=role!=="controller";cached=await api("/api/snapshot");render();const history=await api("/api/commands");$("commands").replaceChildren(...history.items.slice(0,5).map(c=>el("div",`${JSON.parse(c.payload).action} · ${c.state} · ${new Date(c.created*1000).toLocaleTimeString("en-US",{timeZone:"America/New_York"})}`)));$("notice").style.display="none";}catch(error){notice(error.message);}finally{busy=false;}}
 async function control(payload){try{const result=await api("/api/control",payload,crypto.randomUUID());notice(`Control ${result.state}; awaiting local acknowledgement.`);await refresh();}catch(error){notice(error.message);}}
@@ -61,26 +54,26 @@ function render(){
   const pctOf=(x,y)=>y?Math.round(x/y*100):0,failed=tasks.filter(t=>t.state==="failed").length,review=tasks.filter(t=>t.state==="waiting-review").length;
   $("metrics").replaceChildren(...[["Tasks completed",`${done} / ${tasks.length}`,`${pctOf(done,tasks.length)}% of all planned`],["Workers busy / cap",`${s.workers} / ${s.max_workers}`,`${s.projects.length} projects`],["Ready",tasks.filter(t=>t.state==="ready").length,"waiting for a worker"],["Awaiting review",review,`${failed} failed`],["Spend today","Not reported","not in the status feed yet"]].map(([label,value,sub])=>{const n=el("article",undefined,"metric");n.append(el("span",label),el("strong",String(value)),el("small",sub,"msub"));return n;}));
   const attn=[];if(!cached.agent_online)attn.push(["Bridge offline","The local bridge is not sending updates, so this data is stale.","bad"]);if(!s.daemon.healthy)attn.push(["Daemon unhealthy at source","Reported by the last update received.","bad"]);if(s.stopped)attn.push(["Dispatch stopped","An emergency stop is active.","bad"]);for(const p of s.projects){if(p.paused)attn.push([`${p.display_name}: paused`,"Dispatch is paused for this project.","warn"]);}if(review)attn.push([`${review} awaiting review`,"Tasks are waiting for a review decision.","warn"]);if(failed)attn.push([`${failed} failed tasks`,"Check the project view.","bad"]);
-  $("attention").replaceChildren(el("h2","Needs attention"),...(attn.length?attn.map(([t,d,sev])=>{const n=el("div",undefined,"attn "+sev);n.append(el("b",t),el("span",d));return n;}):[el("p","Nothing needs attention.")]));
+  $("attention").replaceChildren(el("h2","Needs attention"),...(attn.length?attn.map(([t,d,sev])=>{const n=el("div",undefined,sev==="warn"?"attn w":"attn");n.append(el("b",t),el("span",d));return n;}):[el("p","Nothing needs attention.")]));
   const selected=$("focus").value;$("focus").replaceChildren(...s.projects.map(p=>new Option(p.display_name,p.project_id)));$("focus").value=s.projects.some(p=>p.project_id===selected)?selected:(s.projects[0]?.project_id||"");
   const focusedProject=$("focus").value;
-  $("railprojects").replaceChildren(...s.projects.map(p=>{const c=p.tasks.filter(t=>t.state==="completed").length,b=el("button",undefined,"rproj"),dot=el("span",undefined,"dot "+(p.paused?"warn":"ok")),n=el("span");n.append(dot,p.display_name);b.append(n,el("span",`${c}/${p.tasks.length}`,"num"));b.type="button";if(p.project_id===focusedProject)b.setAttribute("aria-current","page");b.onclick=()=>{$("focus").value=p.project_id;render();showView("project");};return b;}));
   $("overall-projects").replaceChildren(...s.projects.map(p=>{
     const card=el("article",undefined,"project overview-card"),head=el("div",undefined,"project-head"),name=el("div"),link=el("button","View project");
     const completed=p.tasks.filter(t=>t.state==="completed").length;
     name.append(el("strong",p.display_name),el("small",`${p.paused?"Paused":"Dispatch enabled"} · ${completed}/${p.tasks.length} tasks completed · cap ${p.max_workers}`));
-    link.type="button";link.onclick=()=>{$("focus").value=p.project_id;render();showView("project");};
-    head.append(name,link);card.append(head);const bar=el("div",undefined,"bar"),fill=el("i");fill.style.width=(p.tasks.length?Math.round(completed/p.tasks.length*100):0)+"%";bar.append(fill);card.append(bar);return card;
+    link.type="button";link.onclick=()=>{$("focus").value=p.project_id;render();$("project-view").scrollIntoView();};
+    head.append(name,link);card.append(head);const bar=el("div",undefined,"lbar"),fill=el("i");fill.style.width=(p.tasks.length?Math.round(completed/p.tasks.length*100):0)+"%";bar.append(fill);card.append(bar);return card;
   }));
   const openPlans=new Set([...$("projects").querySelectorAll(".project[data-project-id]")].filter(node=>node.querySelector(".plan-view")?.open).map(node=>node.dataset.projectId));
   $("projects").classList.add("focused");$("projects").replaceChildren();
   for(const p of s.projects.filter(p=>p.project_id===focusedProject)){
     const section=el("article",undefined,"project"),head=el("div",undefined,"project-head"),name=el("div");section.dataset.projectId=p.project_id;name.append(el("strong",p.display_name),el("small",`${p.paused?"Ⅱ Paused":"● Dispatch enabled"} · ${p.tasks.filter(t=>t.state==="completed").length}/${p.tasks.length} completed`));head.append(name);
     const controls=el("div",undefined,"controls"),toggle=el("button",p.paused?"Resume":"Pause"),cap=el("input"),set=el("button","Set cap");cap.type="number";cap.min="0";cap.max="128";cap.value=String(p.max_workers);cap.setAttribute("aria-label",p.display_name+" worker cap");toggle.onclick=()=>control({action:p.paused?"resume":"pause",project:p.project_id});set.onclick=()=>{if(cap.reportValidity())control({action:"allocate",project:p.project_id,value:Number(cap.value)});};
-    for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);{const pk=el("div",undefined,"pkpis"),c=p.tasks.filter(t=>t.state==="completed").length;for(const [l,v] of [["Completed",`${c} / ${p.tasks.length}`],["Worker cap",String(p.max_workers)],["Ready",String(p.tasks.filter(t=>t.state==="ready").length)],["Awaiting review",String(p.tasks.filter(t=>t.state==="waiting-review").length)]]){const k=el("div",undefined,"pk");k.append(el("span",l),el("strong",v));pk.append(k);}const bar=el("div",undefined,"bar"),fill=el("i");fill.style.width=(p.tasks.length?Math.round(c/p.tasks.length*100):0)+"%";bar.append(fill);section.append(pk,bar);}
+    for(const node of [toggle,cap,set])node.disabled=role!=="controller"||!cached.agent_online;controls.append(toggle,cap,set);head.append(controls);section.append(head);{const pk=el("div",undefined,"pkpis"),c=p.tasks.filter(t=>t.state==="completed").length;for(const [l,v] of [["Completed",`${c} / ${p.tasks.length}`],["Worker cap",String(p.max_workers)],["Ready",String(p.tasks.filter(t=>t.state==="ready").length)],["Awaiting review",String(p.tasks.filter(t=>t.state==="waiting-review").length)]]){const k=el("div",undefined,"pk");k.append(el("span",l),el("strong",v));pk.append(k);}const bar=el("div",undefined,"lbar"),fill=el("i");fill.style.width=(p.tasks.length?Math.round(c/p.tasks.length*100):0)+"%";bar.append(fill);section.append(pk,bar);}
     const chips=el("div",undefined,"tasks");for(const task of p.tasks){const chip=el("span",`${task.state==="completed"?"✓":"◇"} ${task.title} · ${task.state}`,"task "+task.state);chip.title=`${task.task_id} · dependencies: ${task.depends_on.join(", ")||"none"} · estimate ${task.estimate_minutes}m`;chips.append(chip);}section.append(chips,planView(p,openPlans.has(p.project_id)||!renderedProjectIds.has(p.project_id)));$("projects").append(section);renderedProjectIds.add(p.project_id);
   }
   if(!focusedProject)$("projects").append(el("p","No projects have been received from the local scheduler."));
+  window.__live={online:!!cached.agent_online,healthy:!!s.daemon.healthy,updated:local(s.updated_at),workers:s.workers,max:s.max_workers,done:done,total:tasks.length,projects:s.projects.map(p=>({name:p.display_name,done:p.tasks.filter(t=>t.state==="completed").length,total:p.tasks.length,paused:!!p.paused}))};if(window.__foremanRender)window.__foremanRender();
   const age=Math.max(0,Math.floor((Date.now()-Date.parse(s.updated_at))/1000));
   $("freshness").textContent=`Bridge ${cached.agent_online?"online":"offline"} at update · ${s.daemon.healthy?"daemon healthy at source":"daemon unhealthy at source"} · ${local(s.updated_at)} · ${age}s old${s.stopped?" · STOPPED":""}`;
   $("stop").disabled=!cached.agent_online;
@@ -88,15 +81,404 @@ function render(){
 $("login").onsubmit=async event=>{event.preventDefault();const button=$("login").querySelector("button");button.disabled=true;try{await api("/auth/verify",{code:$("code").value});await refresh();}catch(error){notice(error.message);}finally{$("code").value="";button.disabled=false;}};
 $("logout").onclick=async()=>{try{await api("/auth/logout",{});}catch(error){notice(error.message);}finally{locked();}};
 $("refresh").onclick=refresh;$("focus").onchange=()=>{if(cached)render();};$("stop").onclick=()=>$("confirm").showModal();$("cancel-stop").onclick=()=>$("confirm").close();$("confirm-form").onsubmit=event=>{event.preventDefault();$("confirm").close();control({action:"emergency-stop",confirmed:true});};
-for(const view of views)$("tab-"+view).onclick=()=>showView(view);
-document.querySelector("#railnav .view-tabs").addEventListener("keydown",event=>{
-  if(!["ArrowLeft","ArrowRight","Home","End"].includes(event.key))return;
-  const current=views.findIndex(view=>$("tab-"+view)===document.activeElement);
-  if(current<0)return;
-  event.preventDefault();
-  const next=event.key==="Home"?0:event.key==="End"?views.length-1:(current+(event.key==="ArrowRight"?1:-1)+views.length)%views.length;
-  showView(views[next]);$("tab-"+views[next]).focus();
-});
-addEventListener("hashchange",()=>showView(location.hash.slice(1)));
-showView(location.hash.slice(1));
+
 setInterval(refresh,300000);setInterval(()=>{if(cached)render();},10000);refresh();
+
+(function(){"use strict";
+/* ---------- gear mark (original, generated) ---------- */
+function gearPath(cx,cy,r,teeth,depth){
+  var pts=[],step=2*Math.PI/teeth;
+  for(var i=0;i<teeth;i++){var a=i*step;
+    [[r-depth,a],[r,a+step*.12],[r,a+step*.40],[r-depth,a+step*.52]].forEach(function(p){pts.push((cx+Math.cos(p[1])*p[0]).toFixed(1)+","+(cy+Math.sin(p[1])*p[0]).toFixed(1))});}
+  return "M"+pts.join("L")+"Z";
+}
+document.getElementById("mark").innerHTML=
+ '<defs><linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a5868"/><stop offset=".5" stop-color="#1a222c"/><stop offset="1" stop-color="#2d3a48"/></linearGradient>'+
+ '<linearGradient id="amet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0d2"/><stop offset=".45" stop-color="#ffb04a"/><stop offset="1" stop-color="#c9601c"/></linearGradient>'+
+ '<linearGradient id="imet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f7ff"/><stop offset=".5" stop-color="#7fd8ff"/><stop offset="1" stop-color="#3a86a8"/></linearGradient></defs>'+
+ '<rect x="2" y="2" width="92" height="92" rx="20" fill="url(#tile)" stroke="#aab7c4" stroke-width="1.5"/>'+
+ '<rect x="5" y="5" width="86" height="40" rx="17" fill="#fff" fill-opacity=".10"/>'+
+ '<path d="'+gearPath(38,41,28,11,7)+' M38,29 a12,12 0 1,0 .01,0Z" fill="url(#amet)" fill-rule="evenodd" stroke="#6a3410" stroke-width=".8"/>'+
+ '<path d="'+gearPath(68,66,17,8,5)+' M68,59 a7,7 0 1,0 .01,0Z" fill="url(#imet)" fill-rule="evenodd" stroke="#1d4a5e" stroke-width=".8"/>';
+
+/* ---------- sample data ---------- */
+var PROJECTS=[
+ {id:"koboo",name:"Koboo",repo:"comic-book-creator",harness:"Creative production",total:31,accepted:7,running:1,ready:6,blocked:2,waiting:15,wMax:4,wNow:1,spend:6.2,cap:10,score:4.0,target:4.5,status:"bad",why:"Attempt cap and billing check"},
+ {id:"oppo",name:"Oppo",repo:"oppo",harness:"Software feature",total:20,accepted:12,running:1,ready:2,blocked:0,waiting:5,wMax:1,wNow:1,spend:1.8,cap:3,score:4.6,target:4.5,status:"ok",why:"On track"},
+ {id:"compass",name:"Compass",repo:"compass",harness:"Software feature",total:14,accepted:9,running:1,ready:1,blocked:1,waiting:2,wMax:1,wNow:1,spend:0.9,cap:2,score:4.3,target:4.5,status:"warn",why:"One review waiting on a decision"}
+];
+var MILESTONES=[
+ ["M08","Design v2: pacing fix","blocked","Build","-","Codex","Attempt cap 2/2 today"],
+ ["M09","Text chain: first draft","running","Test","-","Claude Sonnet","Unit + schema checks"],
+ ["M10","Text chain: edit pass","ready","Plan","-","Claude Opus","Waits for M09"],
+ ["M11","Character sheet set","ready","Plan","-","Flux 3","Independent of text chain"],
+ ["M12","Layout reconciliation","ready","Plan","-","Codex","Independent"],
+ ["M13","Page art: batch 1","blocked","Build","-","Flux 3","Art hold until text accepted"],
+ ["M14","Scorecards refresh","waiting","Plan","-","Judge pool","Needs M10 + M12"],
+ ["M07","Story accepted","accepted","Judge","4.4","Claude Fable","Accepted"],
+ ["M06","Outline accepted","accepted","Judge","4.6","Claude Opus","Accepted"]
+];
+var BLOCKERS=[
+ {sev:"bad",t:"Daily replacement cap reached",d:"Design stage used 2 of 2 attempts today. Resets at midnight ET. Other lanes keep running.",act:"Auto-resume at 00:00 ET"},
+ {sev:"warn",t:"Billing evidence expired",d:"Prepaid confirmation lapsed at 08:45. Paid steps are held; offline lanes continue.",act:"Needs owner to refresh once"}
+];
+var PROVIDERS=[
+ {name:"Anthropic (Claude)",route:"API",key:"ANTHROPIC_API_KEY",ok:true,models:"Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5",lim:"62% of window left",roles:"Planner, Judge, Tester"},
+ {name:"OpenAI (GPT / Codex)",route:"Codex via ChatGPT sign-in, plus API",key:"OPENAI_API_KEY",ok:true,models:"Latest GPT, latest Codex",lim:"Subscription window 41% used (no dollars)",roles:"Builder"},
+ {name:"Google (Gemini)",route:"API",key:"GEMINI_API_KEY",ok:true,models:"Latest Pro, latest Flash",lim:"Quota 88% free",roles:"Designer"},
+ {name:"DeepSeek",route:"API",key:"DEEPSEEK_API_KEY",ok:false,models:"Latest chat, latest reasoner",lim:"Key missing",roles:"Cheap Tester pass"},
+ {name:"Lamia (local text)",route:"OpenAI-compatible endpoint on this PC",key:"none (loopback only)",ok:true,models:"Local default",lim:"GPU free",roles:"Drafts, bulk checks"},
+ {name:"Flux (local image)",route:"Local on Lamia through ComfyUI (to confirm)",key:"none (local)",ok:true,models:"Flux 2, Flux 3",lim:"One render at a time (to confirm)",roles:"Artist"}
+];
+var MODEL_OPTS=[
+ ["anthropic/fable","Claude Fable 5.2","anthropic",0],["anthropic/opus","Claude Opus 5.5","anthropic",0],["anthropic/sonnet","Claude Sonnet 5.5","anthropic",0],["anthropic/haiku","Claude Haiku 5.5","anthropic",0],
+ ["openai/codex-latest","OpenAI Codex (latest)","openai",0],["openai/gpt-latest","OpenAI GPT (latest)","openai",0],
+ ["google/pro-latest","Gemini Pro (latest)","google",0],["google/flash-latest","Gemini Flash (latest)","google",0],
+ ["deepseek/reasoner-latest","DeepSeek reasoner (latest)","deepseek",0],["local/lamia","Lamia local model","local",0],
+ ["local/flux2","Flux 2 (local image)","flux",1],["local/flux3","Flux 3 (local image)","flux",1]
+];
+var ROLES=[
+ ["planner","Planner","Splits milestones into tasks","anthropic/opus","Splits each milestone into tasks that can run in parallel and marks only the real dependencies."],
+ ["builder","Builder","Writes the deliverable","openai/codex-latest","Produces the deliverable (code, text or layout) in an isolated branch or folder."],
+ ["tester","Tester","Runs checks and tests","anthropic/sonnet","Deterministic checks first, then a small-model pass. Targeted tests per change, not the full suite every time."],
+ ["judge","Judge","Scores against the rubric","anthropic/fable","Scores against the rubric. Always a different model family than the Builder, so it does not grade its own style."],
+ ["designer","Designer","Visual and UX review","google/pro-latest","Reviews layouts and visuals against the style guide and sends fixes back."],
+ ["artist","Artist","Generates images","local/flux3","Generates images with Flux 2 or Flux 3 on the local machine. Output goes to the Designer for review."],
+ ["integrator","Integrator","Merges accepted batches","anthropic/sonnet","Merges accepted batches and runs the broader tests after each batch."],
+ ["ledger","Ledger","Records accepted work","(built in)","Records accepted milestones with score and evidence. Prep work and tests never count as milestones."]
+];
+var SPEND14=[5.1,6.4,7.2,4.8,8.9,9.7,6.1,5.5,7.8,8.2,9.9,10.4,8.7,8.9];
+var ACCEPT_HOURLY=[0,0,1,0,0,1,0,2,0,0,1,0];
+var TEMPLATES=[["software","Software feature","Plan, build, test, judge, merge. Targeted tests per fix, full regression daily."],["creative","Creative production","Koboo pattern: text chain first, art hold, scorecards, attempt caps."],["research","Research report","Source gathering, claim checks, independent reviewer, citation audit."],["blank","Blank harness","Roles and gates only. You define the stages."]];
+
+var S={tab:"overview",proj:"koboo",role:"builder",wiz:{step:1,file:"",tpl:"creative",id:"",models:{},daily:10,combined:15,attempts:2,score:4.5,par:6,wd:15,tb:45,rep:2,minq:5,created:null}};
+ROLES.forEach(function(r){if(r[3]!=="(built in)")S.wiz.models[r[0]]=r[3]});
+
+/* ---------- helpers ---------- */
+function $(s){return document.querySelector(s)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function usd(n){return "$"+n.toFixed(2)}
+function pct(a,b){return Math.round(a/b*1000)/10}
+function modelName(id){var o=MODEL_OPTS.filter(function(m){return m[0]===id})[0];return o?o[1]:id}
+function stPill(s){var m={accepted:"p-ok",running:"p-acc",ready:"p-idle",blocked:"p-bad",waiting:"p-warn"};return '<span class="pill '+(m[s]||"p-idle")+'">'+s+'</span>'}
+function spark(arr,w,h,color){
+  var mx=Math.max.apply(null,arr),n=arr.length,pts=arr.map(function(v,i){return (i/(n-1)*(w-8)+4).toFixed(1)+","+(h-6-v/(mx||1)*(h-14)).toFixed(1)});
+  var last=pts[n-1].split(",");
+  return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="'+h+'" preserveAspectRatio="none" role="img" aria-label="Trend">'+
+   '<line x1="4" x2="'+(w-4)+'" y1="'+(h-6)+'" y2="'+(h-6)+'" stroke="rgba(190,215,235,.25)"/>'+
+   '<polygon points="4,'+(h-6)+' '+pts.join(" ")+' '+(w-4)+','+(h-6)+'" fill="'+color+'" fill-opacity=".16"/>'+
+   '<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="2"/>'+
+   '<circle cx="'+last[0]+'" cy="'+last[1]+'" r="3.5" fill="'+color+'"/></svg>';
+}
+function accBar(p){
+  var t=p.total;
+  function seg(n,c,o){return '<i style="width:'+n/t*100+'%;--c:'+c+(o?';opacity:'+o:'')+'"></i>'}
+  return '<div class="bar" role="img" aria-label="'+p.accepted+' accepted of '+t+'">'+seg(p.accepted,"var(--ok)")+seg(p.running,"var(--ice)")+seg(p.ready,"var(--idle)",.6)+seg(p.blocked,"var(--bad)")+'</div>';
+}
+
+/* ---------- navigation ---------- */
+var NAV=[["overview","Overview"],["projects","Projects"],["harness","Harness map"],["loops","Loops and checks"],["models","Models and keys"],["cost","Usage and cost"],["new","New project"]];
+var TITLE={live:"LIVE FEED",overview:"OVERVIEW",projects:"PROJECTS",harness:"HARNESS MAP",loops:"LOOPS AND CHECKS",models:"MODELS AND KEYS",cost:"USAGE AND COST",new:"NEW PROJECT"};
+function renderNav(){
+  var h='';
+  NAV.forEach(function(n){h+='<button data-tab="'+n[0]+'"'+(S.tab===n[0]?' aria-current="page"':'')+'>'+n[1]+'</button>'});
+  h+='<div class="nav-label" style="margin:12px 0 4px">PROJECTS</div>';
+  PROJECTS.forEach(function(p){h+='<button data-proj="'+p.id+'"'+(S.tab==="project"&&S.proj===p.id?' aria-current="page"':'')+'><span><span class="dot '+p.status+'"></span>'+p.name+'</span><span class="num" style="color:var(--ink3)">'+p.accepted+'/'+p.total+'</span></button>'});
+  $("#nav").innerHTML=h;
+  $("#crumb").textContent=S.tab==="project"?"PROJECTS / "+S.proj.toUpperCase():TITLE[S.tab];
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-tab],[data-proj],[data-open]");if(!t)return;
+  if(t.dataset.tab){S.tab=t.dataset.tab}
+  if(t.dataset.proj){S.tab="project";S.proj=t.dataset.proj}
+  if(t.dataset.open){S.tab="project";S.proj=t.dataset.open}
+  render();window.scrollTo(0,0);
+});
+
+
+/* ---------- live scheduler feed (real, read-only) ---------- */
+function liveCard(){
+  var L=window.__live;
+  if(!L)return '<div class="card" style="margin-bottom:14px"><h3>Live scheduler feed</h3><p class="muted" style="margin:0">No status received yet. The sample data below is illustrative.</p></div>';
+  var rows=L.projects.map(function(p){return '<tr><td><b>'+esc(p.name)+'</b></td><td class="num">'+p.done+' / '+p.total+'</td><td>'+(p.paused?'<span class="pill p-warn">paused</span>':'<span class="pill p-ok">dispatch on</span>')+'</td></tr>'}).join("");
+  return '<div class="card" style="margin-bottom:14px"><div class="row" style="justify-content:space-between"><h3 style="margin:0">Live scheduler feed</h3><button class="btn" data-tab="live">Open live view</button></div>'+
+   '<p class="muted" style="margin:6px 0">'+(L.online?'<span class="pill p-ok">bridge online</span>':'<span class="pill p-bad">bridge offline</span>')+' '+(L.healthy?'<span class="pill p-ok">daemon healthy</span>':'<span class="pill p-bad">daemon unhealthy</span>')+' Updated '+esc(L.updated)+'. Workers '+L.workers+' / '+L.max+'. Tasks '+L.done+' / '+L.total+'.</p>'+
+   '<div class="scroll"><table><thead><tr><th>Project</th><th>Completed</th><th>Dispatch</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+function vLive(){return head("READ-ONLY STATUS PROJECTION","Live feed","Real data from the local scheduler bridge. Controls stay disabled on this Site.")}
+
+/* ---------- views ---------- */
+function head(eyebrow,title,sub,extra){return '<div class="top"><div><span class="eyebrow">'+eyebrow+'</span><h1>'+title+'</h1><p class="sub">'+sub+'</p></div><div class="row">'+(extra||"")+'</div></div>'}
+
+function vOverview(){
+  var acc=0,tot=0,wn=0,wm=0,sp=0,bl=0;
+  PROJECTS.forEach(function(p){acc+=p.accepted;tot+=p.total;wn+=p.wNow;wm+=p.wMax;sp+=p.spend;bl+=p.blocked});
+  var h=head("ROUTE THE WORK. PROVE THE RESULT.","Ship what’s proven","Accepted work across every project, live workers, spend against caps.",'<button class="btn primary" data-tab="new">New project</button>');
+  h+=liveCard();
+  h+='<div class="kpis">'+
+   '<div class="kpi"><div class="l">Accepted milestones</div><div class="v">'+acc+' / '+tot+'</div><div class="s">'+pct(acc,tot)+'% of all planned</div></div>'+
+   '<div class="kpi"><div class="l">Workers busy</div><div class="v">'+wn+' / '+wm+'</div><div class="s">4 Koboo, 1 Oppo, 1 Compass</div></div>'+
+   '<div class="kpi"><div class="l">Spend today</div><div class="v">'+usd(sp)+'</div><div class="s">of $15.00 combined cap</div></div>'+
+   '<div class="kpi"><div class="l">Blocked milestones</div><div class="v">'+bl+'</div><div class="s">'+bl+' need attention</div></div></div>';
+  h+='<div class="grid g2" style="margin-bottom:14px"><div class="card"><h3>Needs attention</h3>'+
+   '<div class="attn"><b>Koboo: attempt cap reached</b><span class="muted">Design stage 2 of 2 today. Auto-resumes 00:00 ET.</span></div>'+
+   '<div class="attn"><b>Koboo: billing evidence expired</b><span class="muted">Paid steps held until refreshed. Offline lanes run.</span></div>'+
+   '<div class="attn w"><b>Compass: waiting on a decision</b><span class="muted">Review packet ready, other work continues.</span></div>'+
+   '<div class="attn w"><b>DeepSeek key missing</b><span class="muted">Cheap tester pass falls back to Lamia.</span></div></div>'+
+   '<div class="card"><h3>Accepted per hour, last 12h</h3>'+spark(ACCEPT_HOURLY,380,84,"var(--ok)")+'<p class="muted" style="margin:4px 0 10px;font-size:12px">Counts accepted milestones only, never tests or prep work.</p>'+
+   '<h3>Spend, last 14 days</h3>'+spark(SPEND14,380,84,"var(--amber)")+'</div></div>';
+  h+='<div class="grid g2">';
+  PROJECTS.forEach(function(p){
+    h+='<button class="card proj" data-open="'+p.id+'"><div class="nm"><b>'+p.name+'</b><span class="pill p-'+(p.status==="idle"?"idle":p.status)+'">'+p.why+'</span></div>'+
+    '<div class="muted" style="font-size:12px">'+p.harness+' harness · '+p.repo+'</div>'+accBar(p)+
+    '<div class="row" style="justify-content:space-between"><span><b class="num">'+p.accepted+'/'+p.total+'</b> accepted ('+pct(p.accepted,p.total)+'%)</span><span class="muted" style="font-size:12px">workers '+p.wNow+'/'+p.wMax+' · '+usd(p.spend)+' of '+usd(p.cap)+'</span></div></button>';
+  });
+  return h+'</div>';
+}
+
+function vProjects(){
+  var h=head("EVERY HARNESS INSTANCE","Projects","One row per project.",'<button class="btn primary" data-tab="new">New project</button>');
+  h+='<div class="card scroll"><table><thead><tr><th>Project</th><th>Harness</th><th>Accepted</th><th>Running</th><th>Ready</th><th>Blocked</th><th>Score vs target</th><th>Spend vs cap</th></tr></thead><tbody>';
+  PROJECTS.forEach(function(p){h+='<tr><td><button class="btn" data-open="'+p.id+'">'+p.name+'</button></td><td>'+p.harness+'</td><td class="num">'+p.accepted+'/'+p.total+'</td><td class="num">'+p.running+'</td><td class="num">'+p.ready+'</td><td class="num">'+p.blocked+'</td><td class="num">'+(p.score?p.score.toFixed(1):"-")+' / '+p.target.toFixed(1)+'</td><td class="num">'+usd(p.spend)+' / '+usd(p.cap)+'</td></tr>'});
+  return h+'</tbody></table></div>';
+}
+
+function vProject(){
+  var p=PROJECTS.filter(function(x){return x.id===S.proj})[0];
+  var h=head(p.harness.toUpperCase()+" HARNESS",p.name,p.repo,'<button class="btn">Pause</button><button class="btn">Allocate workers</button>');
+  h+='<div class="kpis">'+
+   '<div class="kpi"><div class="l">Accepted</div><div class="v">'+p.accepted+' / '+p.total+'</div><div class="s">'+pct(p.accepted,p.total)+'%. Each adds '+(100/p.total).toFixed(2)+' points</div></div>'+
+   '<div class="kpi"><div class="l">Workers</div><div class="v">'+p.wNow+' / '+p.wMax+'</div><div class="s">'+p.ready+' ready tasks waiting</div></div>'+
+   '<div class="kpi"><div class="l">Quality score</div><div class="v">'+(p.score?p.score.toFixed(1):"-")+'</div><div class="s">target '+p.target.toFixed(1)+'</div></div>'+
+   '<div class="kpi"><div class="l">Spend today</div><div class="v">'+usd(p.spend)+'</div><div class="s">cap '+usd(p.cap)+'</div></div></div>';
+  h+='<div class="grid g2" style="margin-bottom:14px"><div class="card"><h3>Milestone states</h3>'+accBar(p)+
+   '<div class="pipe">'+[["Waiting",p.waiting],["Ready",p.ready],["Running",p.running],["Blocked",p.blocked],["Accepted",p.accepted]].map(function(s){return '<div class="stage"><div class="n">'+s[1]+'</div><div class="t">'+s[0]+'</div></div>'}).join("")+'</div>'+
+   '<p class="muted" style="margin:6px 0 0;font-size:12px">Ready work with an idle worker is a defect. The scheduler refills within 15 seconds.</p></div>'+
+   '<div class="card"><h3>Blockers</h3>'+(p.id==="koboo"?BLOCKERS.map(function(b){return '<div class="attn'+(b.sev==="warn"?" w":"")+'"><b>'+b.t+'</b><span class="muted">'+b.d+'</span><br><span class="pill p-'+(b.sev==="bad"?"bad":"warn")+'">'+b.act+'</span></div>'}).join(""):'<p class="muted">No active blockers.</p>')+'</div></div>';
+  h+='<div class="card scroll" style="margin-bottom:14px"><h3>Milestones</h3><table><thead><tr><th>ID</th><th>Milestone</th><th>State</th><th>Stage</th><th>Score</th><th>Model</th><th>Note</th></tr></thead><tbody>';
+  MILESTONES.forEach(function(m){h+='<tr><td class="mono">'+m[0]+'</td><td>'+m[1]+'</td><td>'+stPill(m[2])+'</td><td>'+m[3]+'</td><td class="num">'+m[4]+'</td><td>'+m[5]+'</td><td class="muted">'+m[6]+'</td></tr>'});
+  h+='</tbody></table></div><div class="grid g2"><div class="card"><h3>Roles and models</h3>';
+  ROLES.forEach(function(r){if(r[3]==="(built in)")return;h+='<div class="hbar" style="grid-template-columns:100px 1fr"><b>'+r[1]+'</b><span>'+modelName(r[3])+'</span></div>'});
+  h+='<p class="muted" style="margin:8px 0 0;font-size:12px">Judge and Builder come from different families.</p></div>'+
+   '<div class="card"><h3>Gates and limits</h3><table><tbody>'+
+   '<tr><td>Accept when judge score is at least</td><td class="num">'+p.target.toFixed(1)+'</td></tr>'+
+   '<tr><td>Replacement attempts per stage per day</td><td class="num">2</td></tr>'+
+   '<tr><td>Daily project cap</td><td class="num">'+usd(p.cap)+'</td></tr>'+
+   '<tr><td>On blocker</td><td>log it, keep other lanes running</td></tr>'+
+   '<tr><td>Prep work counts as a milestone</td><td>never</td></tr></tbody></table></div></div>';
+  h+='<div class="card" style="margin-top:14px"><h3>Runner and mailbox</h3><table><tbody>'+
+   '<tr><td>Runner</td><td>'+(p.id==="koboo"?'<span class="pill p-ok">alive</span> last cycle 12:15 ET':'<span class="pill p-ok">alive</span> last cycle 12:40 ET')+'</td></tr>'+
+   '<tr><td>Current task</td><td class="mono">'+(p.id==="koboo"?"S-20261122-1127-1 (16 of 45 min)":"feature batch 4 (22 of 60 min)")+'</td></tr>'+
+   '<tr><td>Last heartbeat</td><td class="num">40 s ago</td></tr>'+
+   '<tr><td>Next watchdog check</td><td class="num">in 9 min (every 15 min)</td></tr>'+
+   '<tr><td>Mailbox</td><td>inbox 1 · queue 5 · failed 0 · last Claude review 11:40 ET</td></tr>'+
+   '<tr><td>Allowance</td><td>Codex window 41% used</td></tr></tbody></table></div>';
+  return h;
+}
+
+/* ---------- harness map (diagram in the page) ---------- */
+function node(cls,x,y,w,hh,title,sub,role,tcls){
+  var cx=x+w/2,r=role?' data-role="'+role+'" tabindex="0" role="button" aria-label="'+title+'"':'';
+  return '<g class="gn '+cls+(role&&S.role===role?' sel':'')+'"'+r+'><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" rx="7"/>'+
+   '<text class="'+(tcls||"gt")+'" x="'+cx+'" y="'+(sub?y+hh/2-8:y+hh/2)+'" text-anchor="middle" dominant-baseline="central">'+title+'</text>'+
+   (sub?'<text class="gs" x="'+cx+'" y="'+(y+hh/2+10)+'" text-anchor="middle" dominant-baseline="central">'+sub+'</text>':'')+'</g>';
+}
+function diagram(){
+  var s='<svg class="dg" viewBox="0 0 680 604" role="img" aria-labelledby="dgt dgd"><title id="dgt">Foreman harness map</title><desc id="dgd">A plan feeds the scheduler. The scheduler runs a per-project harness of agent roles. Roles call a model router, which picks among six providers. Keys stay in a local vault.</desc>'+
+  '<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#9FB0C0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>'+
+  '<linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4ECF4"/><stop offset=".5" stop-color="#6B7A89"/><stop offset="1" stop-color="#B8C4D0"/></linearGradient>'+
+  '<linearGradient id="gice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD8FF" stop-opacity=".42"/><stop offset="1" stop-color="#2F6F8C" stop-opacity=".16"/></linearGradient>'+
+  '<linearGradient id="gamb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB04A" stop-opacity=".44"/><stop offset="1" stop-color="#E8742A" stop-opacity=".14"/></linearGradient>'+
+  '<linearGradient id="ggry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8C4D0" stop-opacity=".28"/><stop offset="1" stop-color="#5B6876" stop-opacity=".12"/></linearGradient></defs>';
+  s+=node("gry",40,20,600,44,"Plan: milestones, specs, rubrics, budgets");
+  s+='<line class="ga" x1="340" y1="64" x2="340" y2="90" marker-end="url(#ar)"/>';
+  s+=node("ice",40,94,600,52,"Scheduler core","Task graph, leases, refill, caps");
+  s+='<line class="ga" x1="340" y1="146" x2="340" y2="172" marker-end="url(#ar)"/>';
+  s+='<rect class="gdash" x="40" y="176" width="600" height="196" rx="12"/><text class="gt" x="60" y="196">Harness instance, one per project</text>';
+  var rx=[60,206,352,498],r1=[["Planner","splits work","planner"],["Builder","makes it","builder"],["Tester","runs checks","tester"],["Judge","other family","judge"]];
+  r1.forEach(function(r,i){s+=node("amb",rx[i],212,122,48,r[0],r[1],r[2])});
+  [182,328,474].forEach(function(x){s+='<line class="ga" x1="'+x+'" y1="236" x2="'+(x+22)+'" y2="236" marker-end="url(#ar)"/>'});
+  s+='<text class="gl" x="60" y="284">Fail at test or judge: Builder retries inside the attempt cap</text>';
+  var r2=[["Designer","visual review","designer"],["Artist","Flux 2 or 3","artist"],["Integrator","merges batches","integrator"],["Ledger","accepted only","ledger"]],r2x=[60,203,346,489];
+  r2.forEach(function(r,i){s+=node("amb",r2x[i],302,132,48,r[0],r[1],r[2])});
+  s+='<line class="ga" x1="559" y1="260" x2="559" y2="300" marker-end="url(#ar)"/>';
+  s+='<line class="ga" x1="320" y1="372" x2="320" y2="398" marker-end="url(#ar)"/><line class="ga" x1="360" y1="398" x2="360" y2="372" marker-end="url(#ar)"/>';
+  s+=node("ice",40,402,600,52,"Model router","Role, cost, quota, fallback");
+  s+='<line class="ga" x1="340" y1="454" x2="340" y2="480" marker-end="url(#ar)"/>';
+  [["Claude"],["GPT, Codex"],["Gemini"],["DeepSeek"],["Lamia text"],["Flux 2, 3"]].forEach(function(p,i){s+=node("gry",40+i*101,484,94,44,p[0],"","","gt12")});
+  s+='<rect class="gdash" x="40" y="548" width="600" height="38" rx="8"/><text class="gl" x="340" y="567" text-anchor="middle" dominant-baseline="central">Key vault on this PC: console shows status, never key values</text></svg>';
+  return s;
+}
+function roleDetail(){
+  var r=ROLES.filter(function(x){return x[0]===S.role})[0];
+  return '<div class="card" id="roledetail" style="margin-top:12px"><h3>'+r[1]+'</h3><p style="margin:0 0 6px">'+r[4]+'</p><p class="muted" style="margin:0;font-size:12px">Default model: <b style="color:var(--ink)">'+(r[3]==="(built in)"?"none, built in":modelName(r[3]))+'</b></p></div>';
+}
+function vHarness(){
+  var h=head("ROLES, GATES AND ROUTING","Harness map","How a plan becomes accepted work. Select a role to see its job.");
+  h+='<div class="card">'+diagram()+'</div>'+roleDetail();
+  h+='<div class="card scroll" style="margin-top:12px"><h3>Roles</h3><table><thead><tr><th>Role</th><th>Job</th><th>Default model</th></tr></thead><tbody>'+
+   ROLES.map(function(r){return '<tr><td><b>'+r[1]+'</b></td><td>'+r[2]+'</td><td>'+(r[3]==="(built in)"?'<span class="muted">built in</span>':modelName(r[3]))+'</td></tr>'}).join("")+'</tbody></table></div>';
+  return h;
+}
+function pickRole(g){
+  var r=g.dataset.role;if(!r)return;S.role=r;
+  document.querySelectorAll(".gn.sel").forEach(function(n){n.classList.remove("sel")});g.classList.add("sel");
+  $("#roledetail").outerHTML=roleDetail();
+}
+document.addEventListener("click",function(e){var g=e.target.closest(".gn[data-role]");if(g)pickRole(g)});
+document.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&e.target.classList&&e.target.classList.contains("gn")){e.preventDefault();pickRole(e.target)}});
+
+/* ---------- loops and checks (modeled on the Koboo launcher) ---------- */
+function loopsDiagram(){
+  var s='<svg class="dg" viewBox="0 0 680 486" role="img" aria-labelledby="ldt ldd"><title id="ldt">Autonomous cycle with Markdown mailbox, runner script and watchdog</title><desc id="ldd">Claude writes task files into a Markdown mailbox. A runner script takes one task at a time, runs Codex to build it, runs hard checks, runs a read-only review, then keeps or undoes the change. A watchdog checks every 15 minutes. Results go to logs, the dashboard and an escalation path.</desc>'+
+  '<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#9FB0C0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>'+
+  '<linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4ECF4"/><stop offset=".5" stop-color="#6B7A89"/><stop offset="1" stop-color="#B8C4D0"/></linearGradient>'+
+  '<linearGradient id="gice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD8FF" stop-opacity=".42"/><stop offset="1" stop-color="#2F6F8C" stop-opacity=".16"/></linearGradient>'+
+  '<linearGradient id="gamb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB04A" stop-opacity=".44"/><stop offset="1" stop-color="#E8742A" stop-opacity=".14"/></linearGradient>'+
+  '<linearGradient id="ggry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8C4D0" stop-opacity=".28"/><stop offset="1" stop-color="#5B6876" stop-opacity=".12"/></linearGradient></defs>';
+  s+=node("ice",40,20,180,52,"Claude","writes tasks, reviews");
+  s+=node("gry",250,20,180,52,"Markdown mailbox","inbox, queue, done");
+  s+=node("ice",460,20,180,52,"Runner script",".cmd restarts .ps1");
+  s+='<line class="ga" x1="220" y1="46" x2="248" y2="46" marker-end="url(#ar)"/><line class="ga" x1="430" y1="46" x2="458" y2="46" marker-end="url(#ar)"/>';
+  s+='<line class="ga" x1="550" y1="72" x2="550" y2="112" marker-end="url(#ar)"/>';
+  s+='<rect class="gdash" x="40" y="116" width="600" height="148" rx="12"/><text class="gt" x="60" y="136">One cycle per task, no human in the loop</text>';
+  var cx=[60,200,340,480],c=[["Builder","Codex, no network"],["Hard checks","paths, size, tests"],["Review","read-only session"],["Keep or undo","commit or evidence"]];
+  c.forEach(function(b,i){s+=node("amb",cx[i],154,120,50,b[0],b[1])});
+  [180,320,460].forEach(function(x){s+='<line class="ga" x1="'+x+'" y1="179" x2="'+(x+18)+'" y2="179" marker-end="url(#ar)"/>'});
+  s+='<text class="gl" x="60" y="232">Fail: up to 2 repair rounds in the same Codex thread, then undo and park</text>';
+  s+='<text class="gl" x="60" y="250">Pass: commit, push, copy task, result and review to history</text>';
+  s+='<line class="ga" x1="340" y1="330" x2="340" y2="268" marker-end="url(#ar)"/>';
+  s+=node("amb",40,334,600,52,"Watchdog, every 15 minutes","Heartbeat, time box, quota, idle worker, queue depth");
+  [[40,"Ledger and logs","cycles, decisions"],[245,"Dashboard","status, 5 min refresh"],[450,"Escalation","money, keys, kill rules"]].forEach(function(b){s+=node("gry",b[0],420,190,52,b[1],b[2])});
+  [135,340,545].forEach(function(x){s+='<line class="ga" x1="'+x+'" y1="386" x2="'+x+'" y2="416" marker-end="url(#ar)"/>'});
+  return s+'</svg>';
+}
+var LOOPS=[
+ ["Cycle","per task","Take the first task in the queue, build it, run the hard checks, run a read-only review, keep or undo.","Undo, keep a patch as failure evidence, task goes to failed.","A lease and fencing token per task, so two runners never take the same one."],
+ ["Runner poll","every 15 seconds","Codex process alive, time box not passed, console and status refreshed. Dashboard data refreshed at least every 5 minutes.","Past the time box: stop the whole process tree and undo.","Heartbeat file written by the runner, so liveness is a fact, not a guess."],
+ ["Watchdog","every 15 minutes","Heartbeat age, log growth or files changed, elapsed against time box and estimate, idle worker while work is ready, queue depth, reviewer last run.","Nudge, then restart the runner through the .cmd loop, then escalate.","Adaptive thresholds: warn at 2x the estimate, escalate at 4x, never silent."],
+ ["Allowance retry","every 15 minutes","Codex usage allowance. The refill time Codex reports is shown, not waited for.","Wait and keep checking. Other lanes continue.","Same rule per provider, with fallback to another provider for the role."],
+ ["Test cap","10 minutes","Test run finishes. A test stuck on a dialog can never freeze the runner.","Stop the tests and send the hang back as a repair instruction.","Per-project cap set in harness.yaml."],
+ ["Reviewer","scheduled; nightly deep review","Review every kept and undone task, keep at least 5 tasks queued, record decisions, turn repeated mistakes into checks.","After 3 failures, park the task with a short diagnosis.","Catch-up cursor: last reviewed commit, so nothing is skipped."],
+ ["Standalone planner","queue empty","Codex plans 1 to 3 small tasks from the plan, through the same checks and review.","3 undone in a row: pause 1 hour. 5 tiny in a row: pause 30 minutes, plan larger batches.","Never touches money rules, plan changes or owner decisions."],
+ ["Self-update","between tasks","New launcher or guide files wait in the mailbox, get installed and committed, and the runner reloads itself.","A bad update falls back to the last good launcher.","Same mechanism for every project's harness files."]
+];
+function vLoops(){
+  var h=head("AUTONOMOUS BY DESIGN","Loops and checks","The cycle, the mailbox, the runner script and the guardrails, modeled on the Koboo launcher.");
+  h+='<div class="card">'+loopsDiagram()+'</div>';
+  h+='<div class="card scroll" style="margin-top:14px"><h3>Loops</h3><table><thead><tr><th>Loop</th><th>Cadence</th><th>What it checks</th><th>If it fails</th><th>Foreman adds</th></tr></thead><tbody>'+
+   LOOPS.map(function(l){return '<tr><td><b>'+l[0]+'</b></td><td class="mono">'+l[1]+'</td><td>'+l[2]+'</td><td>'+l[3]+'</td><td class="muted">'+l[4]+'</td></tr>'}).join("")+'</tbody></table></div>';
+  h+='<div class="grid g2" style="margin-top:14px">'+
+   '<div class="card"><h3>The Markdown mailbox</h3><table><tbody>'+
+   '<tr><td class="mono">inbox\\</td><td>Claude writes new tasks here while Codex is busy. The runner moves them into the queue between tasks.</td></tr>'+
+   '<tr><td class="mono">inbox\\files\\&lt;path&gt;</td><td>New versions of tracked files (launcher, plan, guides). Installed and committed between tasks.</td></tr>'+
+   '<tr><td class="mono">queue\\ done\\ failed\\</td><td>One task file per task; names sort in execution order.</td></tr>'+
+   '<tr><td class="mono">results\\</td><td>Codex result and the review verdict for each task, as JSON.</td></tr>'+
+   '<tr><td class="mono">BUSY.txt</td><td>Exists while Codex works. Claude touches only the inbox and dashboard data meanwhile.</td></tr>'+
+   '<tr><td class="mono">claude-reviewed.txt</td><td>Last commit Claude reviewed, for catch-up.</td></tr></tbody></table>'+
+   '<p class="muted" style="margin:8px 0 0;font-size:12px">Foreman adds a sequence number and an acknowledgement file to every message, and writes each file to a temporary name first, then renames it, so a half-written task is never picked up.</p></div>'+
+   '<div class="card"><h3>Task file header</h3><pre>Allowed: app/\nAllowed: judges/\nLine limit: 300\nTime box: 90\nEffort: high\n\n## Goal\n## Context\n## Constraints\n## Done when\nClaude checks (not Codex): ...</pre>'+
+   '<p class="muted" style="margin:8px 0 0;font-size:12px">Every Done-when line must be checkable from Codex’s sandbox. Visual, desktop and network checks go in the Claude checks line.</p></div></div>';
+  h+='<div class="grid g2" style="margin-top:14px"><div class="card"><h3>Hard checks after every build</h3><table><tbody>'+
+   ['Only the Allowed paths changed','No protected file changed','Under the line limit; no file over 400 lines','No forbidden machinery added','Nothing written under state\\','Codex made no commit itself','Result status is done','Tests pass, with a 10 minute cap'].map(function(c){return '<tr><td><span class="pill p-ok">check</span></td><td>'+c+'</td></tr>'}).join("")+'</tbody></table></div>'+
+   '<div class="card"><h3>Escalation ladder</h3><p style="margin:0 0 6px">Try differently, then park the item and move on, then change the lever (instruction revision, stronger model, another tool). Work continues the whole time.</p><p class="muted" style="margin:0;font-size:12px">The owner hears only about money, kill criteria, product changes he would notice, credentials, and an unreachable machine for 2 hours. Claude never writes deliverables, only tasks, reviews and decisions.</p></div></div>';
+  return h;
+}
+
+function vModels(){
+  var h=head("EVERY PROVIDER, ONE PLACE","Models and keys","Provider health, where each key lives, who uses what. Key values are never shown.");
+  h+='<div class="card scroll"><table><thead><tr><th>Provider</th><th>Status</th><th>Route</th><th>Key reference</th><th>Models</th><th>Limit</th><th>Used by</th></tr></thead><tbody>';
+  PROVIDERS.forEach(function(p){h+='<tr><td><b>'+p.name+'</b></td><td>'+(p.ok?'<span class="pill p-ok">connected</span>':'<span class="pill p-bad">key missing</span>')+'</td><td>'+p.route+'</td><td class="mono">'+p.key+'</td><td>'+p.models+'</td><td>'+p.lim+'</td><td>'+p.roles+'</td></tr>'});
+  h+='</tbody></table></div><div class="grid g2" style="margin-top:14px">'+
+   '<div class="card"><h3>Image models</h3><p style="margin:0 0 10px">Two choices for the Artist role. Each project picks one in the wizard, and this sets the default.</p>'+
+   '<div class="field"><label for="imgdef">Default image model</label><select id="imgdef"><option value="local/flux2"'+(S.wiz.models.artist==="local/flux2"?" selected":"")+'>Flux 2</option><option value="local/flux3"'+(S.wiz.models.artist==="local/flux3"?" selected":"")+'>Flux 3</option></select></div>'+
+   '<p class="muted" style="margin:0;font-size:12px">Run on this PC, so no per-image dollar cost. The Judge and Designer review every render before it counts.</p></div>'+
+   '<div class="card"><h3>How keys and names work</h3><p style="margin:0 0 6px">Keys sit in the Windows credential store or environment. The console reads only the reference name and a connected check. Adding a key is a local terminal command.</p><p class="muted" style="margin:0;font-size:12px">Names like "latest" resolve at run time from each provider’s model list and are pinned per run in the ledger. Subscription routes show usage windows, not dollars.</p></div></div>';
+  return h;
+}
+document.addEventListener("change",function(e){if(e.target.id==="imgdef"){S.wiz.models.artist=e.target.value}});
+
+function vCost(){
+  var sp=SPEND14[SPEND14.length-1],avg=SPEND14.reduce(function(a,b){return a+b},0)/SPEND14.length;
+  var byProv=[["Anthropic",4.4],["OpenAI",3.3],["Gemini",0.8],["DeepSeek",0.4],["Local (Lamia, Flux)",0]];
+  var byRole=[["Builder",3.6],["Judge",2.5],["Planner",1.4],["Designer",0.8],["Tester",0.4],["Integrator",0.2]];
+  function bars(a,mx){return a.map(function(r){return '<div class="hbar"><span>'+r[0]+'</span><span class="t"><i style="width:'+r[1]/mx*100+'%"></i></span><span class="num">'+usd(r[1])+'</span></div>'}).join("")}
+  var h=head("SPEND AGAINST CAPS","Usage and cost","Spend by provider, role and project.");
+  h+='<div class="kpis"><div class="kpi"><div class="l">Today</div><div class="v">'+usd(sp)+'</div><div class="s">'+Math.round(sp/15*100)+'% of $15.00 cap</div></div><div class="kpi"><div class="l">14-day average</div><div class="v">'+usd(avg)+'</div><div class="s">per day</div></div><div class="kpi"><div class="l">Cost per accepted milestone</div><div class="v">$3.40</div><div class="s">trailing 14 days</div></div><div class="kpi"><div class="l">Local share</div><div class="v">0%</div><div class="s">Lamia and Flux cost no dollars</div></div></div>';
+  h+='<div class="grid g3"><div class="card"><h3>By provider</h3>'+bars(byProv,5)+'</div><div class="card"><h3>By role</h3>'+bars(byRole,5)+'</div><div class="card"><h3>By project vs cap</h3>'+PROJECTS.map(function(p){return '<div class="hbar"><span>'+p.name+'</span><span class="t"><i style="width:'+Math.min(100,p.spend/p.cap*100)+'%;'+(p.spend/p.cap>.8?'--c:var(--warn)':'')+'"></i></span><span class="num">'+usd(p.spend)+'</span></div>'}).join("")+'</div></div>';
+  h+='<div class="card" style="margin-top:14px"><h3>Daily spend, 14 days</h3>'+spark(SPEND14,900,120,"var(--amber)")+'</div>';
+  return h;
+}
+
+/* ---------- new project wizard ---------- */
+var STEPNAMES=["Plan","Harness","Roles","Limits","Review"];
+function famOf(id){return MODEL_OPTS.filter(function(m){return m[0]===id})[0][2]}
+function yaml(){
+  var w=S.wiz,id=w.id||"my-project";
+  var y='harness:\n  schema_version: "1.0"\n  project_id: '+id+'\n  template: '+w.tpl+'\n  plan: '+(w.file||"plan.md")+'\n  roles:\n';
+  ROLES.forEach(function(r){if(w.models[r[0]])y+='    '+r[0]+': '+w.models[r[0]]+'\n'});
+  y+='  execution:\n    runner: cmd\n    mailbox: state/harness/inbox\n    watchdog_minutes: '+w.wd+'\n    default_time_box_minutes: '+w.tb+'\n    max_repair_rounds: '+w.rep+'\n    min_queued_tasks: '+w.minq+'\n    review: read_only_second_session\n';
+  y+='  gates:\n    judge_min_score: '+w.score+'\n    max_attempts_per_stage_per_day: '+w.attempts+'\n    judge_family_differs_from_builder: true\n    count_prep_as_milestone: false\n  budget:\n    project_daily_usd: '+w.daily+'\n    combined_daily_usd: '+w.combined+'\n    auto_recharge: false\n  scheduling:\n    max_parallel_workers: '+w.par+'\n    refill_target_seconds: 15\n  escalation:\n    on_blocker: log_and_continue\n';
+  return y;
+}
+function vNew(){
+  var w=S.wiz,h=head("PLAN IT. ROUTE IT.","New project","Create a harness instance from a plan and a template.");
+  h+='<div class="steps">'+STEPNAMES.map(function(n,i){return '<span class="'+(i+1===w.step?"on":(i+1<w.step?"done":""))+'">'+(i+1)+'. '+n+'</span>'}).join("")+'</div><div class="card">';
+  if(w.step===1){
+    h+='<div class="field"><label for="pid">Project ID</label><input id="pid" value="'+esc(w.id)+'" placeholder="for example: my-app" autocomplete="off"></div>'+
+    '<div class="drop"><p style="margin:0 0 8px">Choose the plan file: Markdown intake or YAML, with milestones, specs and scoring rules.</p><input type="file" id="pfile" accept=".md,.yaml,.yml,.json" aria-label="Plan file"></div>'+
+    (w.file?'<div class="msg m-ok">Loaded '+esc(w.file)+'. The scheduler validates it and shows a diff before import.</div>':'');
+  }
+  if(w.step===2){h+='<div class="grid g2">'+TEMPLATES.map(function(t){return '<button class="tpl" data-tpl="'+t[0]+'" aria-pressed="'+(w.tpl===t[0])+'"><b>'+t[1]+'</b><div class="muted">'+t[2]+'</div></button>'}).join("")+'</div>'}
+  if(w.step===3){
+    h+='<div class="grid g2">'+ROLES.filter(function(r){return r[3]!=="(built in)"}).map(function(r){var img=r[0]==="artist";return '<div class="field"><label for="r-'+r[0]+'">'+r[1]+' <span class="muted">· '+r[2]+'</span></label><select id="r-'+r[0]+'" data-role="'+r[0]+'">'+MODEL_OPTS.filter(function(m){return !!m[3]===img}).map(function(m){return '<option value="'+m[0]+'"'+(w.models[r[0]]===m[0]?" selected":"")+'>'+m[1]+'</option>'}).join("")+'</select></div>'}).join("")+'</div>';
+    var same=famOf(w.models.judge)===famOf(w.models.builder);
+    h+= same?'<div class="msg m-warn">Judge and Builder use the same model family. Pick a different family for the Judge so it does not grade its own style.</div>':'<div class="msg m-ok">Judge and Builder are different families.</div>';
+  }
+  if(w.step===4){
+    h+='<div class="grid g3">'+[["daily","Project daily cap (USD)",w.daily],["combined","Combined daily cap (USD)",w.combined],["attempts","Replacement attempts per stage per day",w.attempts],["score","Accept at judge score of",w.score],["par","Max parallel workers",w.par],["wd","Watchdog check every (minutes)",w.wd],["tb","Default task time box (minutes)",w.tb],["rep","Repair rounds before undo",w.rep],["minq","Keep at least this many tasks queued",w.minq]].map(function(f){return '<div class="field"><label for="f-'+f[0]+'">'+f[1]+'</label><input id="f-'+f[0]+'" data-num="'+f[0]+'" type="number" step="any" min="0" value="'+f[2]+'"></div>'}).join("")+'</div>';
+  }
+  if(w.step===5){
+    h+= w.created?'<div class="msg m-ok">Prototype only: nothing was written. In the real console this hands the file to the scheduler, which creates the project and queues ready work.</div>':'';
+    h+='<pre id="yml">'+esc(yaml())+'</pre><div class="row" style="margin-top:10px"><button class="btn" id="copy">Copy harness.yaml</button><button class="btn primary" id="create"'+(w.id?'':' disabled')+'>Instantiate harness</button>'+(w.id?'':'<span class="muted">Set a project ID in step 1.</span>')+'</div><div id="copymsg" class="muted"></div>';
+  }
+  h+='<div class="row" style="margin-top:14px;justify-content:space-between"><button class="btn" id="back"'+(w.step===1?" disabled":"")+'>Back</button><button class="btn primary" id="next"'+(w.step===5?" disabled":"")+'>Next</button></div></div>';
+  return h;
+}
+document.addEventListener("input",function(e){
+  var t=e.target,w=S.wiz;
+  if(t.id==="pid"){w.id=t.value.trim().toLowerCase().replace(/[^a-z0-9-]+/g,"-")}
+  if(t.dataset.role){w.models[t.dataset.role]=t.value;render(t.id)}
+  if(t.dataset.num){w[t.dataset.num]=parseFloat(t.value)||0}
+});
+document.addEventListener("change",function(e){if(e.target.id==="pfile"&&e.target.files[0]){S.wiz.file=e.target.files[0].name;render()}});
+document.addEventListener("click",function(e){
+  var t=e.target.closest("button");if(!t)return;var w=S.wiz;
+  if(t.dataset.tpl){w.tpl=t.dataset.tpl;render()}
+  if(t.id==="next"){w.step=Math.min(5,w.step+1);render()}
+  if(t.id==="back"){w.step=Math.max(1,w.step-1);render()}
+  if(t.id==="create"){w.created=true;render()}
+  if(t.id==="copy"){try{navigator.clipboard.writeText(yaml()).then(function(){$("#copymsg").textContent="Copied."},function(){$("#copymsg").textContent="Copy was blocked. Select the text above."})}catch(x){$("#copymsg").textContent="Copy was blocked. Select the text above."}}
+});
+
+/* ---------- render ---------- */
+function render(keepFocus){
+  renderNav();
+  var v={live:vLive,overview:vOverview,projects:vProjects,project:vProject,harness:vHarness,loops:vLoops,models:vModels,cost:vCost,new:vNew}[S.tab];
+  $("#main").innerHTML=v();
+  var sm=document.querySelector(".topbar .sample");if(sm)sm.hidden=false;
+  var lp=document.getElementById("livepane");if(lp)lp.hidden=S.tab!=="live";
+  var hh=S.tab==="overview"?"overall":S.tab;try{if(location.hash!=="#"+hh)history.replaceState(null,"","#"+hh)}catch(x){}
+  if(keepFocus){var el=document.getElementById(keepFocus);if(el)el.focus()}
+}
+render();
+/* CSP allows no inline styles: re-apply style attributes through the CSSOM */
+function fixStyles(root){(root||document).querySelectorAll("[style]").forEach(function(el){var s=el.getAttribute("style");el.removeAttribute("style");try{el.style.cssText=s}catch(x){}})}
+new MutationObserver(function(){fixStyles(document.getElementById("main"))}).observe(document.getElementById("main"),{childList:true,subtree:true});
+new MutationObserver(function(){fixStyles(document.getElementById("nav"))}).observe(document.getElementById("nav"),{childList:true,subtree:true});
+window.__foremanRender=function(){render()};
+var hs=(location.hash||"").slice(1);if(hs==="overall")hs="overview";if(hs&&TITLE[hs])S.tab=hs;
+
+render();
+
+})();

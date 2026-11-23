@@ -1,0 +1,111 @@
+Final Site version 14; viewport 1280x900; Projects
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/PROJECTS
+Sample data
+EVERY HARNESS INSTANCE
+PROJECTS
+
+One row per project.
+
+New project
+PROJECT	HARNESS	ACCEPTED	RUNNING	READY	BLOCKED	SCORE VS TARGET	SPEND VS CAP
+Koboo	Creative production	7/31	1	6	2	4.0 / 4.5	$6.20 / $10.00
+Oppo	Software feature	12/20	1	2	0	4.6 / 4.5	$1.80 / $3.00
+Compass	Software feature	9/14	1	1	1	4.3 / 4.5	$0.90 / $2.00
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/PROJECTS
+  - generic: Sample data
+- main:
+  - generic: EVERY HARNESS INSTANCE
+  - heading "Projects" [level=1]
+  - paragraph: One row per project.
+  - button "New project"
+  - table:
+    - rowgroup:
+      - row "Project Harness Accepted Running Ready Blocked Score vs target Spend vs cap":
+        - columnheader "Project"
+        - columnheader "Harness"
+        - columnheader "Accepted"
+        - columnheader "Running"
+        - columnheader "Ready"
+        - columnheader "Blocked"
+        - columnheader "Score vs target"
+        - columnheader "Spend vs cap"
+    - rowgroup:
+      - row "Koboo Creative production 7/31 1 6 2 4.0 / 4.5 $6.20 / $10.00":
+        - cell "Koboo":
+          - button "Koboo"
+        - cell "Creative production"
+        - cell "7/31"
+        - cell "1"
+        - cell "6"
+        - cell "2"
+        - cell "4.0 / 4.5"
+        - cell "$6.20 / $10.00"
+      - row "Oppo Software feature 12/20 1 2 0 4.6 / 4.5 $1.80 / $3.00":
+        - cell "Oppo":
+          - button "Oppo"
+        - cell "Software feature"
+        - cell "12/20"
+        - cell "1"
+        - cell "2"
+        - cell "0"
+        - cell "4.6 / 4.5"
+        - cell "$1.80 / $3.00"
+      - row "Compass Software feature 9/14 1 1 1 4.3 / 4.5 $0.90 / $2.00":
+        - cell "Compass":
+          - button "Compass"
+        - cell "Software feature"
+        - cell "9/14"
+        - cell "1"
+        - cell "1"
+        - cell "1"
+        - cell "4.3 / 4.5"
+        - cell "$0.90 / $2.00"

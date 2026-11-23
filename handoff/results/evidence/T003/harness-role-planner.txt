@@ -1,0 +1,191 @@
+Final Site version 14; viewport 1280x900; Planner role selected
+
+VISIBLE TEXT
+FOREMAN
+ROUTE THE WORK. PROVE THE RESULT.
+MISSION CONTROL
+Overview
+Projects
+Harness map
+Loops and checks
+Models and keys
+Usage and cost
+New project
+PROJECTS
+Koboo
+7/31
+Oppo
+12/20
+Compass
+9/14
+LOCAL / PRIVATE
+Working name. Sample data on every screen.
+FOREMAN/HARNESS MAP
+Sample data
+ROLES, GATES AND ROUTING
+HARNESS MAP
+
+How a plan becomes accepted work. Select a role to see its job.
+
+Plan: milestones, specs, rubrics, budgets
+Scheduler core
+Task graph, leases, refill, caps
+Harness instance, one per project
+Planner
+splits work
+Builder
+makes it
+Tester
+runs checks
+Judge
+other family
+Fail at test or judge: Builder retries inside the attempt cap
+Designer
+visual review
+Artist
+Flux 2 or 3
+Integrator
+merges batches
+Ledger
+accepted only
+Model router
+Role, cost, quota, fallback
+Claude
+GPT, Codex
+Gemini
+DeepSeek
+Lamia text
+Flux 2, 3
+Key vault on this PC: console shows status, never key values
+PLANNER
+
+Splits each milestone into tasks that can run in parallel and marks only the real dependencies.
+
+Default model: Claude Opus 5.5
+
+ROLES
+ROLE	JOB	DEFAULT MODEL
+Planner	Splits milestones into tasks	Claude Opus 5.5
+Builder	Writes the deliverable	OpenAI Codex (latest)
+Tester	Runs checks and tests	Claude Sonnet 5.5
+Judge	Scores against the rubric	Claude Fable 5.2
+Designer	Visual and UX review	Gemini Pro (latest)
+Artist	Generates images	Flux 3 (local image)
+Integrator	Merges accepted batches	Claude Sonnet 5.5
+Ledger	Records accepted work	built in
+
+AX SNAPSHOT
+- complementary:
+  - img "Foreman gear mark"
+  - text: Foreman
+  - text: ROUTE THE WORK. PROVE THE RESULT.
+  - generic: MISSION CONTROL
+  - navigation "Sections":
+    - button "Overview"
+    - button "Projects"
+    - button "Harness map"
+    - button "Loops and checks"
+    - button "Models and keys"
+    - button "Usage and cost"
+    - button "New project"
+    - generic: PROJECTS
+    - button "Koboo 7/31":
+      - generic: Koboo
+      - generic: 7/31
+    - button "Oppo 12/20":
+      - generic: Oppo
+      - generic: 12/20
+    - button "Compass 9/14":
+      - generic: Compass
+      - generic: 9/14
+  - text: LOCAL / PRIVATE
+  - text: Working name. Sample data on every screen.
+- banner:
+  - generic: FOREMAN/HARNESS MAP
+  - generic: Sample data
+- main:
+  - generic: ROLES, GATES AND ROUTING
+  - heading "Harness map" [level=1]
+  - paragraph: How a plan becomes accepted work. Select a role to see its job.
+  - img "Foreman harness map A plan feeds the scheduler. The scheduler runs a per-project harness of agent roles. Roles call a model router, which picks among six providers. Keys stay in a local vault.":
+    - generic: "Plan: milestones, specs, rubrics, budgets"
+    - generic: Scheduler core
+    - generic: Task graph, leases, refill, caps
+    - generic: Harness instance, one per project
+    - button "Planner" [active]:
+      - generic: Planner
+      - generic: splits work
+    - button "Builder":
+      - generic: Builder
+      - generic: makes it
+    - button "Tester":
+      - generic: Tester
+      - generic: runs checks
+    - button "Judge":
+      - generic: Judge
+      - generic: other family
+    - generic: "Fail at test or judge: Builder retries inside the attempt cap"
+    - button "Designer":
+      - generic: Designer
+      - generic: visual review
+    - button "Artist":
+      - generic: Artist
+      - generic: Flux 2 or 3
+    - button "Integrator":
+      - generic: Integrator
+      - generic: merges batches
+    - button "Ledger":
+      - generic: Ledger
+      - generic: accepted only
+    - generic: Model router
+    - generic: Role, cost, quota, fallback
+    - generic: Claude
+    - generic: GPT, Codex
+    - generic: Gemini
+    - generic: DeepSeek
+    - generic: Lamia text
+    - generic: Flux 2, 3
+    - generic: "Key vault on this PC: console shows status, never key values"
+  - heading "Planner" [level=3]
+  - paragraph: Splits each milestone into tasks that can run in parallel and marks only the real dependencies.
+  - paragraph: "Default model: Claude Opus 5.5"
+  - heading "Roles" [level=3]
+  - table:
+    - rowgroup:
+      - row "Role Job Default model":
+        - columnheader "Role"
+        - columnheader "Job"
+        - columnheader "Default model"
+    - rowgroup:
+      - row "Planner Splits milestones into tasks Claude Opus 5.5":
+        - cell "Planner"
+        - cell "Splits milestones into tasks"
+        - cell "Claude Opus 5.5"
+      - row "Builder Writes the deliverable OpenAI Codex (latest)":
+        - cell "Builder"
+        - cell "Writes the deliverable"
+        - cell "OpenAI Codex (latest)"
+      - row "Tester Runs checks and tests Claude Sonnet 5.5":
+        - cell "Tester"
+        - cell "Runs checks and tests"
+        - cell "Claude Sonnet 5.5"
+      - row "Judge Scores against the rubric Claude Fable 5.2":
+        - cell "Judge"
+        - cell "Scores against the rubric"
+        - cell "Claude Fable 5.2"
+      - row "Designer Visual and UX review Gemini Pro (latest)":
+        - cell "Designer"
+        - cell "Visual and UX review"
+        - cell "Gemini Pro (latest)"
+      - row "Artist Generates images Flux 3 (local image)":
+        - cell "Artist"
+        - cell "Generates images"
+        - cell "Flux 3 (local image)"
+      - row "Integrator Merges accepted batches Claude Sonnet 5.5":
+        - cell "Integrator"
+        - cell "Merges accepted batches"
+        - cell "Claude Sonnet 5.5"
+      - row "Ledger Records accepted work built in":
+        - cell "Ledger"
+        - cell "Records accepted work"
+        - cell "built in"
